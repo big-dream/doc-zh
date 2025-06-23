@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- EN-Revision: 999da6fe10dff8f37f7b2dcfab1714bf154f24ce Maintainer: mowangjuanzi Status: ready -->
+<!-- EN-Revision: f908fff129bcd8ec1605658e06457cb04e5b2b51 Maintainer: mowangjuanzi Status: ready -->
+<!-- CREDITS: Luffy -->
 <sect1 xml:id="language.types.type-system">
  <title>类型系统</title>
 
@@ -10,14 +11,14 @@
  </para>
 
  <para>
-  PHP 的类型系统支持各种基础类型，可以组合在一起创建更加复杂的类型。其中一些类型可以写成<link
+  PHP 的类型系统支持各种原子类型，可以组合在一起创建更加复杂的类型。其中一些类型可以写成<link
   linkend="language.types.declarations">类型声明</link>。
  </para>
 
- <sect2 xml:id="language.types.type-system.base">
-  <title>基本类型</title>
+ <sect2 xml:id="language.types.type-system.atomic">
+  <title>原子类型</title>
   <para>
-   一些基础类型是内置类型，跟语言紧密集成，不能用用户定义类型重现（reproduced）。
+   一些原子类型是内置类型，跟语言紧密集成，不能用用户定义类型重现（reproduced）。
   </para>
 
   <para>
@@ -26,9 +27,6 @@
     <listitem>
      <simpara>内置类型</simpara>
      <itemizedlist>
-      <listitem>
-       <simpara><type>null</type> 类型</simpara>
-      </listitem>
       <listitem>
        <simpara>
         标量类型：
@@ -69,18 +67,28 @@
         和 <type>static</type>
        </simpara>
       </listitem>
-     </itemizedlist>
-    </listitem>
-    <listitem>
-     <simpara>
-      <link linkend="language.types.literal">字面量类型</link>
-     </simpara>
-     <itemizedlist>
       <listitem>
-       <simpara><type>false</type></simpara>
+       <simpara>
+        <link linkend="language.types.singleton">单例类型</link>
+       </simpara>
+       <itemizedlist>
+        <listitem>
+         <simpara><type>false</type></simpara>
+        </listitem>
+        <listitem>
+         <simpara><type>true</type></simpara>
+        </listitem>
+       </itemizedlist>
       </listitem>
       <listitem>
-       <simpara><type>true</type></simpara>
+       <simpara>
+        单值类型
+       </simpara>
+       <itemizedlist>
+        <listitem>
+         <simpara><type>null</type></simpara>
+        </listitem>
+       </itemizedlist>
       </listitem>
      </itemizedlist>
     </listitem>
@@ -105,12 +113,29 @@
     </listitem>
    </itemizedlist>
   </para>
+
+  <sect3 xml:id="language.types.type-system.atomic.scalar">
+   <title>标量类型</title>
+   <simpara>
+    如果值是 <type>int</type>、<type>float</type>、<type>string</type> 或 <type>bool</type> 类型，则视该值为标量。
+   </simpara>
+  </sect3>
+
+  <sect3 xml:id="language.types.type-system.atomic.user-defined">
+   <title>用户定义类型</title>
+   <simpara>
+    可以使用 <link linkend="language.oop5.interfaces">interface</link>、<link
+    linkend="language.oop5.basic.class">类</link>和<link
+    linkend="language.types.enumerations">枚举</link>定义自定义类型。这些被视为用户定义类型或类类型。例如，可以定义名为
+     <literal>Elephant</literal> 的类，然后可以实例化 <literal>Elephant</literal> 类型的对象，并且函数可以请求 <literal>Elephant</literal> 类型的参数。
+   </simpara>
+  </sect3>
  </sect2>
 
  <sect2 xml:id="language.types.type-system.composite">
   <title>复合类型</title>
   <para>
-   可以将简单类型组合为复合类型。PHP 允许使用以下方式组合类型：
+   可以将多个原子类型组合为复合类型。PHP 允许使用以下方式组合类型：
   </para>
 
   <itemizedlist>

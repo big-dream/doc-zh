@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: f5992156e664c34794804c282a95f6428a2687a7 Maintainer: Luffy Status: ready -->
+<!-- EN-Revision: 802374deda550dfb866348d41a019315cb1f9840 Maintainer: Luffy Status: ready -->
 <chapter xml:id="xml.examples" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
  &reftitle.examples;
  <section xml:id="example.xml-structure">
@@ -12,7 +12,7 @@
     <programlisting role="php">
 <![CDATA[
 <?php
-$file = "data.xml";
+$file = "examples/book.xml";
 $depth = 0;
 
 function startElement($parser, $name, $attrs)
@@ -59,21 +59,21 @@ xml_parser_free($xml_parser);
    <example>
     <title>将 XML 映射为 HTML</title>
     <para>
-     此示例直接地将 XML 标签映射为 HTML 标签。
-     在“map_array”中未找到的元素将被忽略。
-     当然，此示例只针对特定的 XML 文档类型起作用。
+     此示例直接地将 XML 标签映射为 HTML
+     标签。在“map_array”中未找到的元素将被忽略。当然，此示例只针对特定的
+     XML 文档类型起作用。
     </para>
     <programlisting role="php">
 <![CDATA[
 <?php
-$file = "data.xml";
+$file = "examples/book.xml";
 $map_array = array(
     "BOLD"     => "B",
     "EMPHASIS" => "I",
     "LITERAL"  => "TT"
 );
 
-function startElement($parser, $name, $attrs) 
+function startElement($parser, $name, $attrs)
 {
     global $map_array;
     if (isset($map_array[$name])) {
@@ -81,7 +81,7 @@ function startElement($parser, $name, $attrs)
     }
 }
 
-function endElement($parser, $name) 
+function endElement($parser, $name)
 {
     global $map_array;
     if (isset($map_array[$name])) {
@@ -89,7 +89,7 @@ function endElement($parser, $name)
     }
 }
 
-function characterData($parser, $data) 
+function characterData($parser, $data)
 {
     echo $data;
 }
@@ -121,22 +121,21 @@ xml_parser_free($xml_parser);
  <section xml:id="example.xml-external-entity">
   <title>XML 外部实体示例</title>
   <para>
-   此示例用于加亮 XML 代码。举例说明如何使用外部实体引用来包含和解析其他文档，
-   及处理指令是如何被处理的，及判断处理指令所包含代码是否“可信任”的一种方法
+   此示例用于加亮 XML 代码。举例说明如何使用外部实体引用来包含和解析其他文档，及处理指令是如何被处理的，及判断处理指令所包含代码是否“可信任”的一种方法
   </para>
   <para>
-   用于此示例的 XML 文档位于此示例的下方(<filename>xmltest.xml</filename> 和
-   <filename>xmltest2.xml</filename>)。
+   用于此示例的 XML 文档位于此示例的下方（<filename>xmltest.xml</filename> 和
+   <filename>xmltest2.xml</filename>）。
   </para>
   <para>
    <example>
     <title>外部实体示例</title>
-    <programlisting role="php">
+    <programlisting role="php" annotations="non-interactive">
 <![CDATA[
 <?php
 $file = "xmltest.xml";
 
-function trustedFile($file) 
+function trustedFile($file)
 {
     // 仅信任本地文件
     if (!preg_match("@^([a-z][a-z0-9+.-]*)\:\/\/@i", $file)
@@ -146,29 +145,29 @@ function trustedFile($file)
     return false;
 }
 
-function startElement($parser, $name, $attribs) 
+function startElement($parser, $name, $attribs)
 {
     echo "&lt;<font color=\"#0000cc\">$name</font>";
     if (count($attribs)) {
         foreach ($attribs as $k => $v) {
-            echo " <font color=\"#009900\">$k</font>=\"<font 
+            echo " <font color=\"#009900\">$k</font>=\"<font
                    color=\"#990000\">$v</font>\"";
         }
     }
     echo "&gt;";
 }
 
-function endElement($parser, $name) 
+function endElement($parser, $name)
 {
     echo "&lt;/<font color=\"#0000cc\">$name</font>&gt;";
 }
 
-function characterData($parser, $data) 
+function characterData($parser, $data)
 {
     echo "<b>$data</b>";
 }
 
-function PIHandler($parser, $target, $data) 
+function PIHandler($parser, $target, $data)
 {
     switch (strtolower($target)) {
         case "php":
@@ -178,20 +177,20 @@ function PIHandler($parser, $target, $data)
             if (trustedFile($parser_file[$parser])) {
                 eval($data);
             } else {
-                printf("Untrusted PHP code: <i>%s</i>", 
+                printf("Untrusted PHP code: <i>%s</i>",
                         htmlspecialchars($data));
             }
             break;
     }
 }
 
-function defaultHandler($parser, $data) 
+function defaultHandler($parser, $data)
 {
     if (substr($data, 0, 1) == "&" && substr($data, -1, 1) == ";") {
-        printf('<font color="#aa00aa">%s</font>', 
+        printf('<font color="#aa00aa">%s</font>',
                 htmlspecialchars($data));
     } else {
-        printf('<font size="-1">%s</font>', 
+        printf('<font size="-1">%s</font>',
                 htmlspecialchars($data));
     }
 }
@@ -219,7 +218,7 @@ function externalEntityRefHandler($parser, $openEntityNames, $base, $systemId,
     return false;
 }
 
-function new_xml_parser($file) 
+function new_xml_parser($file)
 {
     global $parser_file;
 
@@ -230,7 +229,7 @@ function new_xml_parser($file)
     xml_set_processing_instruction_handler($xml_parser, "PIHandler");
     xml_set_default_handler($xml_parser, "defaultHandler");
     xml_set_external_entity_ref_handler($xml_parser, "externalEntityRefHandler");
-    
+
     if (!($fp = @fopen($file, "r"))) {
         return false;
     }
@@ -299,7 +298,7 @@ xml_parser_free($xml_parser);
    </example>
   </para>
   <para>
-   此文件包含在 <filename>xmltest.xml</filename> 中:
+   此文件包含在 <filename>xmltest.xml</filename> 中：
    <example>
     <title>xmltest2.xml</title>
     <programlisting role="xml">
@@ -318,6 +317,86 @@ xml_parser_free($xml_parser);
    </example>
   </para>
  </section>
+
+ <section xml:id="example.xml-parsing-with-class">
+  <title>XML Parsing With Class</title>
+  <para>
+   This example shows how to use a class with handlers.
+   <example>
+    <title>Show XML Element Structure</title>
+    <programlisting role="php">
+<![CDATA[
+<?php
+$file = "examples/book.xml";
+
+class CustomXMLParser
+{
+    private $fp;
+    private $parser;
+    private $depth = 0;
+
+    function __construct(string $file)
+    {
+        if (!($this->fp = fopen($file, 'r'))) {
+            throw new RunTimeException("could not open XML file '{$file}'");
+        }
+
+        $this->parser = xml_parser_create();
+
+        xml_set_element_handler($this->parser, self::startElement(...), self::endElement(...));
+        xml_set_character_data_handler($this->parser, self::cdata(...));
+    }
+
+    private function startElement($parser, $name, $attrs)
+    {
+        for ($i = 0; $i < $this->depth; $i++) {
+            echo "  ";
+        }
+        echo "$name\n";
+        $this->depth++;
+    }
+
+    private function endElement($parser, $name)
+    {
+        $this->depth--;
+    }
+
+    private function cdata($parse, $cdata)
+    {
+        if (trim($cdata) === '') {
+            return;
+        }
+        for ($i = 0; $i < $this->depth; $i++) {
+            echo "  ";
+        }
+        echo trim($cdata), "\n";
+    }
+
+    public function parse()
+    {
+        while ($data = fread($this->fp, 4096)) {
+            if (!xml_parse($this->parser, $data, feof($this->fp))) {
+                throw new RunTimeException(
+                    sprintf(
+                        "XML error: %s at line %d",
+                        xml_error_string(xml_get_error_code($this->parser)),
+                        xml_get_current_line_number($this->parser)
+                    )
+                );
+            }
+        }
+    }
+}
+
+$xmlParser = new CustomXMLParser($file);
+$xmlParser->parse();
+?>
+]]>
+    </programlisting>
+   </example>
+  </para>
+ </section>
+
 </chapter>
 
 <!-- Keep this comment at the end of the file

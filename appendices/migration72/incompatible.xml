@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 6d29533483657c036e49edb5ea88c7103d126681 Maintainer: avenger Status: partial -->
-<!-- CREDITS: Luffy -->
-
+<!-- EN-Revision: 8859c8b96cd9e80652813f7bcf561432a5e9f934 Maintainer: avenger Status: ready -->
+<!-- CREDITS: Luffy, mowangjuanzi -->
 <sect1 xml:id="migration72.incompatible">
  <title>不向下兼容的变更</title>
 
@@ -43,9 +42,9 @@ var_dump(number_format(-0.01)); // 新版本输出 string(1) "0" 旧版本输出
 <![CDATA[
 <?php
 
-// array to object
+// 数组转为对象
 $arr = [0 => 1];
-$obj = (object)$arr;
+$obj = (object) $arr;
 var_dump(
     $obj,
     $obj->{'0'}, // 新写法
@@ -57,7 +56,7 @@ var_dump(
    <screen>
 <![CDATA[
 object(stdClass)#1 (1) {
-  ["0"]=>    // string key now, rather than integer key
+  ["0"]=>    // 现在是字符串 key，而不是整数 key
   int(1)
 }
 int(1)
@@ -75,14 +74,14 @@ int(1)
 <![CDATA[
 <?php
 
-// object to array
+// 对象转为数组
 $obj = new class {
     public function __construct()
     {
         $this->{0} = 1;
     }
 };
-$arr = (array)$obj;
+$arr = (array) $obj;
 var_dump(
     $arr,
     $arr[0], // 新写法
@@ -94,7 +93,7 @@ var_dump(
    <screen>
 <![CDATA[
 array(1) {
-  [0]=>    // integer key now, rather than string key
+  [0]=>    // 现在是整数 key，而不是字符串 key
   int(1)
 }
 int(1)
@@ -129,11 +128,11 @@ int(1)
 <?php
 
 var_dump(
-    count(null), // NULL is not countable
-    count(1), // integers are not countable
-    count('abc'), // strings are not countable
-    count(new stdClass), // objects not implementing the Countable interface are not countable
-    count([1,2]) // arrays are countable
+    count(null), // NULL 不可数
+    count(1), // 整数不可数
+    count('abc'), // 字符串不可数
+    count(new stdClass), // 没有实现 Countable 接口的对象不可数
+    count([1,2]) // 数组可数
 );
 ]]>
    </programlisting>
@@ -161,11 +160,8 @@ int(2)
   <title>ext/hash 从资源变成对象</title>
 
   <para>
-   As part of the long-term migration away from resources, the <link linkend="book.hash">Hash</link>
-   extension has been updated to use objects instead of resources. The change should be
-   seamless for PHP developers, except for where
-   <function>is_resource</function> checks have been made (which will need
-   updating to <function>is_object</function> instead).
+   作为长期迁移资源的一部分，<link linkend="book.hash">Hash</link> 扩展已更新为使用对象而不是资源。对于 PHP 开发人员来说，该更改应该是无缝整合，除了
+   <function>is_resource</function> 检查的地方（需要更新为 <function>is_object</function>）。
   </para>
  </sect2>
 
@@ -179,7 +175,7 @@ int(2)
   <itemizedlist>
    <listitem>
     <simpara>
-     <literal>tls://</literal> 默认为 TLSv1.0 or TLSv1.1 or TLSv1.2
+     <literal>tls://</literal> 默认为 TLSv1.0、TLSv1.1 或 TLSv1.2
     </simpara>
    </listitem>
    <listitem>
@@ -237,11 +233,10 @@ int(2)
  </sect2>
 
  <sect2 xml:id="migration72.incompatible.trait-properties">
-  <title>Checks on default property values of traits</title>
+  <title>检测 trait 的默认属性值</title>
 
   <para>
-   Compatibility checks upon default trait property values will no longer
-   perform casting.
+   对 trait 默认属性值的兼容性检查将不再执行强制转换。
   </para>
  </sect2>
 
@@ -258,41 +253,34 @@ int(2)
   <title>NetWare 支持</title>
 
   <para>
-   NetWare 已不再被支持。
+   不再支持 NetWare。
   </para>
  </sect2>
 
  <sect2 xml:id="migration72.incompatible.array-unique">
-  <title><function>array_unique</function> with <constant>SORT_STRING</constant></title>
+  <title>带 <constant>SORT_STRING</constant> 的 <function>array_unique</function></title>
 
   <para>
-   While <function>array_unique</function> with <constant>SORT_STRING</constant>
-   formerly copied the array and removed non-unique elements (without packing
-   the array afterwards), now a new array is built by adding the
-   unique elements. This can result in different numeric indexes.
+   带 <constant>SORT_STRING</constant> 的
+   <function>array_unique</function>，之前复制数组并删除唯一元素（之后不会打包元素），但现在通过添加唯一元素来构建新数组。这可能会导致不同的数字索引。
   </para>
  </sect2>
 
  <sect2 xml:id="migration72.incompatible.bcmod-and-floats">
-  <title><function>bcmod</function> changes with floats</title>
+  <title><function>bcmod</function> 的浮点数变更</title>
 
   <para>
-   The <function>bcmod</function> function no longer truncates fractional
-   numbers to integers. As such, its behavior now follows
-   <function>fmod</function>, rather than the <literal>%</literal> operator.
-   For example <literal>bcmod('4', '3.5')</literal> now returns
-   <literal>0.5</literal> instead of <literal>1</literal>.
+   <function>bcmod</function> 函数不再将小数截断为整数。因此，其行为现在遵循 <function>fmod</function>，而不是
+   <literal>%</literal> 运算符。例如 <literal>bcmod('4', '3.5')</literal> 现在返回 <literal>0.5</literal> 而不是 <literal>1</literal>。
   </para>
  </sect2>
 
  <sect2 xml:id="migration72.incompatible.hash-functions">
-  <title>Hashing functions and non-cryptographic hashes</title>
+  <title>散列函数和非加密散列</title>
 
   <para>
-   The <function>hash_hmac</function>, <function>hash_hmac_file</function>,
-   <function>hash_pbkdf2</function>, and <function>hash_init</function> (with
-   <constant>HASH_HMAC</constant>) functions no longer accept non-cryptographic
-   hashes.
+   <function>hash_hmac</function>、<function>hash_hmac_file</function>、<function>hash_pbkdf2</function>
+   和 <function>hash_init</function>（使用 <constant>HASH_HMAC</constant>）函数将不再接受非加密散列。
   </para>
  </sect2>
 
@@ -300,21 +288,17 @@ int(2)
   <title><function>json_decode</function> 函数变更</title>
 
   <para>
-   The <function>json_decode</function> function option,
-   <constant>JSON_OBJECT_AS_ARRAY</constant>, is now used if the second
-   parameter (assoc) is &null;. Previously,
-   <constant>JSON_OBJECT_AS_ARRAY</constant> was always ignored.
+   如果 <function>json_decode</function> 的第二个选项（assoc） 为 &null;，则现在会使用
+   <constant>JSON_OBJECT_AS_ARRAY</constant>，之前始终会忽略 <constant>JSON_OBJECT_AS_ARRAY</constant>。
   </para>
  </sect2>
 
  <sect2 xml:id="migration72.incompatible.rand-mt_rand-output">
-  <title><function>rand</function> and <function>mt_rand</function> output</title>
+  <title><function>rand</function> 和 <function>mt_rand</function> 输出</title>
 
   <para>
-   Sequences generated by <function>rand</function> and
-   <function>mt_rand</function> for a specific seed may differ from PHP 7.1 on
-   64-bit machines (due to the fixing of a modulo bias bug in the
-   implementation).
+   在 64 位机器上，自 PHP 7.1 起，由 <function>rand</function> 和 <function>mt_rand</function>
+   为特定的种子生成的一系列随机数可能与之前版本不同（å在实现中修复了一个模偏置错误）。
   </para>
  </sect2>
 
@@ -327,22 +311,19 @@ int(2)
  </sect2>
 
  <sect2 xml:id="migration72.incompatible.date_parse_from_format">
-  <title>Changes to <function>date_parse</function> and <function>date_parse_from_format</function></title>
+  <title><function>date_parse</function> 和 <function>date_parse_from_format</function> 的变更</title>
 
   <para>
-   The <literal>zone</literal> element of the array returned by <function>date_parse</function> and
-   <function>date_parse_from_format</function> represents seconds instead of
-   minutes now, and its sign is inverted. For instance <literal>-120</literal>
-   is now <literal>7200</literal>.
+   <function>date_parse</function> 和 <function>date_parse_from_format</function> 返回数组的 <literal>zone</literal>
+   元素现在表示秒而不是分钟，并且其符号反转。例如 <literal>-120</literal> 现在是 <literal>7200</literal>。
   </para>
  </sect2>
 
   <sect2 xml:id="migration72.incompatible.cookie-decode">
-  <title>Incoming Cookies</title>
+  <title>传入 Cookies</title>
 
   <para>
-   As of PHP 7.2.34, the <emphasis>names</emphasis> of incoming cookies are no
-   longer url-decoded for security reasons.
+   自 PHP 7.2.34 起，出于安全原因，传入 cookie 的 <emphasis>names</emphasis> 不再进行 url 解码。
   </para>
  </sect2>
  

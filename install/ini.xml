@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 4eeb07225f615fcde68cbefb84df2fc9bf278f1f Maintainer: dallas Status: ready -->
-<!-- Reviewed: yes -->
-<chapter xml:id="configuration" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- EN-Revision: 9ab074d32484672f93e5d822f42fb94ae9088207 Maintainer: dallas Status: ready -->
+<!-- CREDITS: mowangjuanzi -->
+<chapter xml:id="configuration" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude">
  <title>运行时配置</title>
- 
+
  <sect1 xml:id="configuration.file">
   <title>配置文件</title>
-  
+
   <simpara>
    配置文件（&php.ini;）在 PHP 启动时被读取。对于服务器模块版本的 PHP，仅在 web
    服务器启动时读取一次。对于
@@ -84,20 +84,20 @@
     &php.ini;，如果存在的话。
    </para>
   </note>
-  <para>
-    在 &php.ini; 中可以使用环境变量，如下示例：
-  </para>
-  <para>
-   <example>
-    <title>&php.ini; 中的环境变量</title>
-     <programlisting role="ini">
+  <simpara>
+    可以在如下所示的 &php.ini; 配置值中引用环境变量。自 PHP 8.3.0 起，可以指定一个后备值，当引用的变量未定义时使用该值。
+  </simpara>
+  <example>
+   <title>&php.ini; 中的环境变量</title>
+    <programlisting role="ini">
 <![CDATA[
 ; PHP_MEMORY_LIMIT 来自于环境变量的值
 memory_limit = ${PHP_MEMORY_LIMIT}
+; 如果 PHP_MAX_EXECUTION_TIME 未定义，将回退到 30
+max_execution_time = ${PHP_MAX_EXECUTION_TIME:-30}
 ]]>
-     </programlisting>
-    </example>
-  </para>
+   </programlisting>
+  </example>
   <para>
    由扩展库处理的 &php.ini; 指令，其文档分别在各扩展库的页面。<link
    linkend="ini">内核配置选项</link>见附录。不过也许不是所有的 PHP
@@ -107,7 +107,7 @@ memory_limit = ${PHP_MEMORY_LIMIT}
   </para>
   <para>
    <example>
-    <title>&php.ini; 例子</title>
+    <title>&php.ini; 示例</title>
     <programlisting role="ini">
 <![CDATA[
 ; any text on a line after an unquoted semicolon (;) is ignored
@@ -125,13 +125,6 @@ include_path = ".:/usr/local/lib/php"
 include_path = ".;c:\php\lib"
 ]]>
     </programlisting>
-
-
-
-
-
-
-
     <!-- TODO: add more details about values and expressions -->
    </example>
   </para>
@@ -192,17 +185,15 @@ $ PHP_INI_SCAN_DIR=/usr/local/etc/php.d: php
    </informalexample>
   </sect2>
  </sect1>
- 
+
  <sect1 xml:id="configuration.file.per-user">
   <title>.user.ini 文件</title>
-  
+
   <simpara>
    PHP 支持基于每个目录的 INI 文件配置。此类文件
    <emphasis>仅</emphasis>被 CGI／FastCGI SAPI 处理。此功能使得 PECL 的 htscanner
    扩展作废。如果你的 PHP 以模块化运行在 Apache 里，则用 &htaccess; 文件有同样效果。
   </simpara>
-  
-  
 
   <simpara>
    除了主 &php.ini; 之外，PHP 还会在每个目录下扫描 INI
@@ -211,12 +202,10 @@ $ PHP_INI_SCAN_DIR=/usr/local/etc/php.d: php
    所指定的）。如果被执行的 PHP 文件在 web 根目录之外，则只扫描该目录。
   </simpara>
   <simpara>
-   在 .user.ini 风格的 INI 文件中只有具有 <constant>PHP_INI_PERDIR</constant>
-   和 <constant>PHP_INI_USER</constant> 模式的 INI
+   在 .user.ini 风格的 INI 文件中只有具有 <constant>INI_PERDIR</constant>
+   和 <constant>INI_USER</constant> 模式的 INI
    设置可被识别。
   </simpara>
-  
-  
 
   <simpara>
    两个新的 INI 指令，
@@ -224,82 +213,104 @@ $ PHP_INI_SCAN_DIR=/usr/local/etc/php.d: php
    <link linkend="ini.user-ini.cache-ttl">user_ini.cache_ttl</link>
    控制着用户 INI 文件的使用。
   </simpara>
-  
+
   <simpara>
    <link linkend="ini.user-ini.filename">user_ini.filename</link> 设定了 PHP
    会在每个目录下搜寻的文件名；如果设定为空字符串则 PHP
    不会搜寻。默认值是 <literal>.user.ini</literal>。
   </simpara>
-  
+
   <simpara>
    <link linkend="ini.user-ini.cache-ttl">user_ini.cache_ttl</link> 控制着重新读取用户
    INI 文件的间隔时间。默认是 300 秒（5 分钟）。
   </simpara>
  </sect1>
- 
+
  <sect1 xml:id="configuration.changes.modes">
   <title>配置可被设定范围</title>
-  
+
   <para>
    这些模式决定着一个 PHP
    的指令在何时何地，是否能够被设定。手册中的每个指令都有其所属的模式。例如有些指令可以在
    PHP 脚本中用 <function>ini_set</function> 来设定，而有些则只能在
    &php.ini; 或 &httpd.conf; 中。
   </para>
-  
+
   <para>
    例如 
    <link linkend="ini.output-buffering">output_buffering</link>
    指令是属于
-   <literal>PHP_INI_PERDIR</literal>，因而就不能用
+   <constant>INI_PERDIR</constant>，因而就不能用
    <function>ini_set</function> 来设定。但是
    <link linkend="ini.display-errors">display_errors</link>
    指令是属于
-   <literal>PHP_INI_ALL</literal> 因而就可以在任何地方被设定，包括
+   <constant>INI_ALL</constant> 因而就可以在任何地方被设定，包括
    <function>ini_set</function>。
   </para>
-  
+
   <para>
-   <table>
-    <title>PHP_INI_* 模式的定义</title>
-    <tgroup cols="3">
-     <thead>
-      <row>
-       <entry>模式</entry>
-       <entry>含义</entry>
-      </row>
-     </thead>
-     <tbody>
-      <row>
-       <entry><literal>PHP_INI_USER</literal></entry>
-       <entry>
-        可在用户脚本（例如 <function>ini_set</function>）或
-        <link linkend="configuration.changes.windows">Windows 注册表</link>以及 &user-ini; 中设定
-       </entry>
-      </row>
-      <row>
-       <entry><literal>PHP_INI_PERDIR</literal></entry>
-       <entry>可在 &php.ini;，&htaccess; 或 &httpd.conf; 中设定</entry>
-      </row>
-      <row>
-       <entry><literal>PHP_INI_SYSTEM</literal></entry>
-       <entry>可在 &php.ini; 或 &httpd.conf; 中设定</entry>
-      </row>
-      <row>
-       <entry><literal>PHP_INI_ALL</literal></entry>
-       <entry>可在任何地方设定</entry>
-      </row>
-     </tbody>
-    </tgroup>
-   </table>
+   <variablelist>
+<!--
+Replace everything inside the <variablelist> element with an <xi:include>
+once libxml2 gets XInclude 1.1 attribute copying support.
+The below <xi:include> will include the appropriate elements
+but needs all top-level xml:id's removed (see XInclude 1.1 set-xml-id).
+
+    <xi:include xpointer="xmlns(db=http://docbook.org/ns/docbook) xpointer(id('constant.ini-mode')/*)"><xi:fallback/></xi:include>
+-->
+    <title>INI 模式常量</title>
+    <varlistentry>
+     <term>
+      <constant>INI_USER</constant>
+      (<type>int</type>)
+     </term>
+     <listitem>
+      <simpara>
+       可以在用户脚本（如使用 <function xmlns="http://docbook.org/ns/docbook">ini_set</function>）或 <link xmlns="http://docbook.org/ns/docbook" linkend="configuration.changes.windows">Windows
+       注册表</link>中设置条目。可以在 &user-ini; 中设置条目
+      </simpara>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term>
+      <constant>INI_PERDIR</constant>
+      (<type>int</type>)
+     </term>
+     <listitem>
+      <simpara>
+       可以在 &php.ini;、&htaccess;、&httpd.conf; 或 &user-ini; 中设置条目
+      </simpara>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term>
+      <constant>INI_SYSTEM</constant>
+      (<type>int</type>)
+     </term>
+     <listitem>
+      <simpara>
+       可以在 &php.ini; 或 &httpd.conf; 中设置条目
+      </simpara>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term>
+      <constant>INI_ALL</constant>
+      (<type>int</type>)
+     </term>
+     <listitem>
+      <simpara>
+       条目可以设置在任何地方
+      </simpara>
+     </listitem>
+    </varlistentry>
+   </variablelist>
   </para>
  </sect1>
- 
- 
- 
+
  <sect1 xml:id="configuration.changes">
   <title>怎样修改配置设定</title>
-  
+
   <sect2 xml:id="configuration.changes.apache">
    <title>PHP 运行于 Apache 模块方式</title>
    <simpara>
@@ -308,15 +319,15 @@ $ PHP_INI_SCAN_DIR=/usr/local/etc/php.d: php
     文件中的指令来修改 PHP 的配置设定。需要有“AllowOverride
     Options”或“AllowOverride All”权限才可以。
    </simpara>
-   
+
    <para>
     有几个 Apache 指令可以使用户在 Apache
     配置文件内部修改 PHP 的配置。哪些指令属于
-    <constant>PHP_INI_ALL</constant>，<constant>PHP_INI_PERDIR</constant>
-    或 <constant>PHP_INI_SYSTEM</constant> 中的哪一个，请参考附录中的
+    <constant>INI_ALL</constant>、<constant>INI_PERDIR</constant>
+    或 <constant>INI_SYSTEM</constant> 中的哪一个，请参考附录中的
     <link linkend="ini.list">php.ini 配置选项列表</link>。
    </para>
-   
+
    <para>
     <variablelist>
      <varlistentry>
@@ -328,7 +339,7 @@ $ PHP_INI_SCAN_DIR=/usr/local/etc/php.d: php
       <listitem>
        <para>
         设定指定的值。只能用于
-        <constant>PHP_INI_ALL</constant> 或 <constant>PHP_INI_PERDIR</constant>
+        <constant>INI_ALL</constant> 或 <constant>INI_PERDIR</constant>
         类型的指令。要清除先前设定的值，把 value 设为 <literal>none</literal>。
        </para>
        <note>
@@ -348,8 +359,8 @@ $ PHP_INI_SCAN_DIR=/usr/local/etc/php.d: php
       <listitem>
        <para>
         用来设定布尔值的配置指令。仅能用于
-        <constant>PHP_INI_ALL</constant> 和
-        <constant>PHP_INI_PERDIR</constant> 类型的指令。
+        <constant>INI_ALL</constant> 和
+        <constant>INI_PERDIR</constant> 类型的指令。
        </para>
       </listitem>
      </varlistentry>
@@ -414,8 +425,6 @@ $ PHP_INI_SCAN_DIR=/usr/local/etc/php.d: php
     </para>
    </caution>
   </sect2>
-  
-  
 
   <sect2 xml:id="configuration.changes.windows">
    <title>通过 Windows 注册表修改 PHP 配置</title>
@@ -428,16 +437,11 @@ $ PHP_INI_SCAN_DIR=/usr/local/etc/php.d: php
     <literal>HKLM\SOFTWARE\PHP\Per Directory Values\c\inetpub\wwwroot</literal>
     项下面。其中的设定对于任何位于此目录及其任何子目录的脚本都有效。项中的值的名称是
     PHP 配置指令的名字，值的数据是字符串格式的指令值。值中的 PHP
-    常量不被解析。不过只有可修改范围是 <constant>PHP_INI_USER</constant>
-    的配置值可以用此方法设定，<constant>PHP_INI_PERDIR</constant>
+    常量不被解析。不过只有可修改范围是 <constant>INI_USER</constant>
+    的配置值可以用此方法设定，<constant>INI_PERDIR</constant>
     的值就不行。因为这些配置对于每次请求来说是只读的。
    </simpara>
   </sect2>
-  
-  
-
-
-
 
   <sect2 xml:id="configuration.changes.other">
    <title>其它接口下的 PHP</title>
@@ -454,8 +458,6 @@ $ PHP_INI_SCAN_DIR=/usr/local/etc/php.d: php
    </para>
   </sect2>
  </sect1>
- 
-
 
 </chapter>
 

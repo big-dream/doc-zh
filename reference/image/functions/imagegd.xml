@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 593ea510e853ff034e03f78a4be0daa41661c9d4 Maintainer: dallas Status: ready -->
-<!-- CREDITS: mowangjuanzi -->
+<!-- EN-Revision: 55f2d0cda1972031881f6e3464946144dfb900a2 Maintainer: dallas Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
 <refentry xml:id="function.imagegd" xmlns="http://docbook.org/ns/docbook">
  <refnamediv>
   <refname>imagegd</refname>
@@ -15,7 +15,7 @@
    <methodparam choice="opt"><type class="union"><type>string</type><type>null</type></type><parameter>file</parameter><initializer>&null;</initializer></methodparam>
   </methodsynopsis>
   <para>
-   输出 GD 图像到指定 <parameter>file</parameter>。
+   输出或保存 <parameter>image</parameter> 参数指定的 GD 图像。
   </para>
  </refsect1>
  <refsect1 role="parameters">
@@ -79,16 +79,13 @@
     <programlisting role="php">
 <![CDATA[
 <?php
-// Create a blank image and add some text
+// 创建空白图像并添加一些文本
 $im = imagecreatetruecolor(120, 20);
 $text_color = imagecolorallocate($im, 233, 14, 91);
 imagestring($im, 1, 5, 5,  "A Simple Text String", $text_color);
 
-// Output the image
+// 输出图像
 imagegd($im);
-
-// Free up memory
-imagedestroy($im);
 ?>
 ]]>
     </programlisting>
@@ -100,17 +97,14 @@ imagedestroy($im);
     <programlisting role="php">
 <![CDATA[
 <?php
-// Create a blank image and add some text
+// 创建空白图像并添加一些文本
 $im = imagecreatetruecolor(120, 20);
 $text_color = imagecolorallocate($im, 233, 14, 91);
 imagestring($im, 1, 5, 5,  "A Simple Text String", $text_color);
 
-// Save the gd image
-// The file format for GD images is .gd, see http://www.libgd.org/GdFileFormats
+// 保存 gd 图像
+// GD 图像的文件格式为 .gd，参阅 http://www.libgd.org/GdFileFormats
 imagegd($im, 'simple.gd');
-
-// Free up memory
-imagedestroy($im);
 ?>
 ]]>
     </programlisting>

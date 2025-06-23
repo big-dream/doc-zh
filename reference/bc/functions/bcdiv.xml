@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 4754397753fd79f1c846868b66a2448babab1c54 Maintainer: jakquan Status: ready -->
-<refentry xml:id="function.bcdiv" xmlns="http://docbook.org/ns/docbook">
+<!-- EN-Revision: 3295741565f760edd22e305bd10e37f243e9e194 Maintainer: jakquan Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
+<refentry xml:id="function.bcdiv" xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude">
  <refnamediv>
   <refname>bcdiv</refname>
   <refpurpose>两个任意精度的数字除法计算</refpurpose>
@@ -15,9 +16,9 @@
    <methodparam><type>string</type><parameter>num2</parameter></methodparam>
    <methodparam choice="opt"><type class="union"><type>int</type><type>null</type></type><parameter>scale</parameter><initializer>&null;</initializer></methodparam>
   </methodsynopsis>
-  <para>
+  <simpara>
    <parameter>num1</parameter> 除以 <parameter>num2</parameter>。
-  </para>
+  </simpara>
  </refsect1>
 
  <refsect1 role="parameters">
@@ -40,7 +41,7 @@
       </para>
      </listitem>
     </varlistentry>
-    &bc.scale.description;
+    <xi:include xpointer="function.bcadd..parameters.scale" />
    </variablelist>
   </para>
  </refsect1>
@@ -48,8 +49,16 @@
  <refsect1 role="returnvalues">
   &reftitle.returnvalues;
   <para>
-   返回字符串类型的结果。如果 <parameter>num2</parameter> 是 <literal>0</literal> 结果为 &null;。
+   返回字符串类型的除法结果。
   </para>
+ </refsect1>
+
+ <refsect1 role="errors">
+  <!-- Include standard ValueErrors for num1, num2, and scale, this includes the title -->
+  <xi:include xpointer="xmlns(db=http://docbook.org/ns/docbook) xpointer(id('function.bcadd')/db:refsect1[@role='errors']/*)" />
+  <simpara>
+   如果 <parameter>num2</parameter> 为 <literal>0</literal>，此函数会抛出 <exceptionname>DivisionByZeroError</exceptionname> 异常。
+  </simpara>
  </refsect1>
 
  <refsect1 role="changelog">
@@ -69,11 +78,17 @@
        现在 <parameter>scale</parameter> 可以为 null。
       </entry>
      </row>
+     <row>
+      <entry>8.0.0</entry>
+      <entry>
+       现在，除以 <literal>0</literal> 会引发 <exceptionname>DivisionByZeroError</exceptionname> 异常，而不是返回 &null;。
+      </entry>
+     </row>
     </tbody>
    </tgroup>
   </informaltable>
  </refsect1>
- 
+
  <refsect1 role="examples">
   &reftitle.examples;
   <example>
@@ -89,12 +104,15 @@ echo bcdiv('105', '6.55957', 3);  // 16.007
    </programlisting>
   </example>
  </refsect1>
- 
+
  <refsect1 role="seealso">
   &reftitle.seealso;
   <para>
    <simplelist>
+    <member><function>bcdivmod</function></member>
+    <member><function>bcmod</function></member>
     <member><function>bcmul</function></member>
+    <member><methodname>BcMath\Number::div</methodname></member>
    </simplelist>
   </para>
  </refsect1>

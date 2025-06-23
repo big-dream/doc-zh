@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 8d1a5d2d15df15cc5cbc7f96cdc083b8fe49366e Maintainer: avenger Status: ready -->
-<!-- CREDITS: mowangjuanzi -->
+<!-- EN-Revision: e150cc645a17588282e5e6b5e43e600a2f345549 Maintainer: avenger Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
 <sect1 xml:id="migration74.new-features" xmlns:xlink="http://www.w3.org/1999/xlink">
  <title>新特性</title>
 
@@ -34,7 +34,7 @@ class User {
    <title>箭头函数</title>
 
    <para>
-    <link linkend="functions.arrow">箭头函数</link> 提供了一种更简洁的定义函数的方法。
+    <link linkend="functions.arrow">箭头函数</link>提供了一种更简洁的定义函数的方法。
 
     <informalexample>
      <programlisting role="php">
@@ -73,6 +73,33 @@ class ChildProducer extends Producer {
      </programlisting>
     </informalexample>
     只有在使用自动加载的情况下，才会有完整的差异支持。在一个文件内，只有非循环类型引用是可能的，因为在引用之前，所有的类都需要可用。
+    <informalexample>
+     <programlisting role="php">
+<![CDATA[
+<?php
+
+/**
+ * These classes satisfy the LSP requirements, because C is a subtype of A.
+ * However, at the time class B is declared, class C is not yet available
+ */
+class A
+{
+    public function method(): A {}
+}
+
+class B extends A
+{
+    // Fatal error: Could not check compatibility between B::method():C and
+    // A::method(): A, because class С is not available
+    public function method(): С {}
+}
+
+class C extends B {}
+
+?>
+]]>
+     </programlisting>
+    </informalexample>
    </para>
   </sect3>
 
@@ -133,7 +160,7 @@ $fruits = ['banana', 'orange', ...$parts, 'watermelon'];
     </informalexample>
    </para>
   </sect3>
- 
+
   <sect3 xml:id="migration74.new-features.core.weakreference">
    <title>弱引用</title>
 
@@ -147,7 +174,7 @@ $fruits = ['banana', 'orange', ...$parts, 'watermelon'];
 
    <para>
     现在允许从 <link linkend="object.tostring">__toString()</link>
-    抛出异常。之前的版本，将会导致一个致命错误。新版本中，之前发生致命错误的代码，已经被转换为
+    抛出异常。之前的版本，将会导致致命错误。新版本中，之前发生致命错误的代码，已经被转换为
     <classname>Error</classname> 异常。
    </para>
   </sect3>
@@ -156,7 +183,7 @@ $fruits = ['banana', 'orange', ...$parts, 'watermelon'];
 
  <sect2 xml:id="migration74.new-features.curl">
   <title>CURL</title>
-  
+
   <para>
    如果扩展是使用 libcurl &gt;= 7.56.0 构建的，<classname>CURLFile</classname>
    现在除了支持普通文件名之外还支持流封装协议。
@@ -165,7 +192,7 @@ $fruits = ['banana', 'orange', ...$parts, 'watermelon'];
 
  <sect2 xml:id="migration74.new-features.filter">
   <title>Filter</title>
-  
+
   <para>
    <constant>FILTER_VALIDATE_FLOAT</constant> 过滤器现在支持 <literal>min_range</literal>
    和 <literal>max_range</literal> 选项，其含义跟 <constant>FILTER_VALIDATE_INT</constant> 相同。
@@ -192,9 +219,7 @@ $fruits = ['banana', 'orange', ...$parts, 'watermelon'];
   <title>Hash</title>
 
   <para>
-   Added <literal>crc32c</literal> hash using Castagnoli's polynomial.
-   This CRC32 variant is used by storage systems, such as
-   iSCSI, SCTP, Btrfs and ext4.
+   使用循环卷积多项式新增 <literal>crc32c</literal> 散列。此 CRC32 变体用于 iSCSI、SCTP、Btrfs 和 ext4 等存储系统。
   </para>
  </sect2>
 
@@ -203,7 +228,7 @@ $fruits = ['banana', 'orange', ...$parts, 'watermelon'];
 
   <para>
    新增 <function>mb_str_split</function> 函数，提供了跟 <function>str_split</function>
-   相同的行为，但是在代码点上操作，而不是字节。
+   相同的行为，但是在码点上操作，而不是字节。
   </para>
  </sect2>
 
@@ -211,7 +236,7 @@ $fruits = ['banana', 'orange', ...$parts, 'watermelon'];
   <title>OPcache</title>
 
   <para>
-   新增 <link linkend="opcache.preloading">缓存预加载</link> 特性。
+   新增<link linkend="opcache.preloading">缓存预加载</link>特性。
   </para>
  </sect2>
 
@@ -230,8 +255,8 @@ $fruits = ['banana', 'orange', ...$parts, 'watermelon'];
 
   <para>
    现在可以将用户名和密码指定为 mysql、mssql、sybase、dblib、firebird 和 oci 驱动程序的
-   PDO DSN 的一部分。之前仅支持 pgsql 驱动程序。如果在构造函数和 DSN
-   中都指定了，则优先使用构造函数中的用户名/密码。
+   PDO DSN 的一部分。之前仅支持 pgsql 驱动程序。如果在构造方法和 DSN
+   中都指定了，则优先使用构造方法中的用户名/密码。
   </para>
   <para>
    现在可以在 SQL 查询中转义问号，以避免解释为参数占位符。编写 <literal>??</literal>
@@ -253,7 +278,7 @@ $fruits = ['banana', 'orange', ...$parts, 'watermelon'];
 
   <para>
    <literal>PDOStatement::getAttribute(PDO::SQLITE_ATTR_READONLY_STATEMENT)</literal>
-   允许检查语句是否只读，例如，它是否修改数据库。
+   允许检查语句是否只读，例如它是否修改数据库。
   </para>
   <para>
    <literal>PDO::setAttribute(PDO::SQLITE_ATTR_EXTENDED_RESULT_CODES, true)</literal>
@@ -266,13 +291,10 @@ $fruits = ['banana', 'orange', ...$parts, 'watermelon'];
   <title>SQLite3</title>
 
   <para>
-   Added <methodname>SQLite3::lastExtendedErrorCode</methodname>
-   to fetch the last extended result code.
+   新增 <methodname>SQLite3::lastExtendedErrorCode</methodname> 用于获取最后的扩展结果代码（extended result code）。
   </para>
   <para>
-   Added <literal>SQLite3::enableExtendedResultCodes($enable = true)</literal>,
-   which will make <methodname>SQLite3::lastErrorCode</methodname>
-   return extended result codes.
+   新增 <literal>SQLite3::enableExtendedResultCodes($enable = true)</literal>，用于 <methodname>SQLite3::lastErrorCode</methodname> 返回扩展结果代码。
   </para>
  </sect2>
 
@@ -298,10 +320,14 @@ $fruits = ['banana', 'orange', ...$parts, 'watermelon'];
 <![CDATA[
 <?php
 // 返回数组，包含对象所有必要的状态。
-public function __serialize(): array;
+public function __serialize(): array
+{
+}
 
 // 从指定的数据数组中回复对象状态。
-public function __unserialize(array $data): void;
+public function __unserialize(array $data): void
+{
+}
 ?>
 ]]>
      </programlisting>
@@ -341,9 +367,9 @@ proc_open(['php', '-r', 'echo "Hello World\n";'], $descriptors, $pipes);
      <programlisting role="php">
 <![CDATA[
 <?php
-// Like 2>&1 on the shell
+// 就像 shell 上 2>&1
 proc_open($cmd, [1 => ['pipe', 'w'], 2 => ['redirect', 1]], $pipes);
-// Like 2>/dev/null or 2>nul on the shell
+// 就像 shell 上的 2>/dev/null 或 2>nul
 proc_open($cmd, [1 => ['pipe', 'w'], 2 => ['null']], $pipes);
 ?>
 ]]>
@@ -353,10 +379,9 @@ proc_open($cmd, [1 => ['pipe', 'w'], 2 => ['null']], $pipes);
   </sect3>
 
   <sect3 xml:id="migration74.new-features.standard.sodium-argon-hash">
-   <title>argon2i(d) without libargon</title>
+   <title>不带 libargon 的 argon2i(d)</title>
    <para>
-    <function>password_hash</function> now has the argon2i and argon2id implementations
-    from the sodium extension when PHP is built without libargon.
+    在不使用 libargon 的情况下编译 PHP 时，<function>password_hash</function> 现在由 sodium 扩展实现了 argon2i 和 argon2id 。
    </para>
   </sect3>
 

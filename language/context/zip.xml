@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 851a8dd81259e1bc2a8db18a68d35c0edabae02e Maintainer: avenger Status: ready -->
-<!-- Reviewed: no -->
-
-<refentry xml:id="context.zip" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" role="noversion">
+<!-- EN-Revision: 0545e305cf06937b14b3f0694d6e716c9881ffd7 Maintainer: avenger Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
+<refentry xml:id="context.zip" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" annotations="verify_info:false" role="stream_context_option">
  <refnamediv>
   <refname>Zip 上下文选项</refname>
   <refpurpose>Zip 上下文选项列表</refpurpose>
  </refnamediv>
- 
+
  <refsect1 role="description"><!-- {{{ -->
   &reftitle.description;
   <para>
    Zip 上下文选项可用于 <literal>zip</literal> 包装器。
   </para>
  </refsect1><!-- }}} -->
- 
+
  <refsect1 role="options"><!-- {{{ -->
   &reftitle.options;
   <para>
@@ -31,7 +30,7 @@
    </variablelist>
   </para>
  </refsect1><!-- }}} -->
- 
+
  <refsect1 role="changelog"><!-- {{{ -->
   &reftitle.changelog;
   <para>
@@ -45,7 +44,7 @@
      </thead>
      <tbody>
       <row>
-       <entry>PHP 7.2.0, PECL zip 1.14.0</entry>
+       <entry>7.2.0，PECL zip 1.14.0</entry>
        <entry>
         添加 <parameter>password</parameter>。
        </entry>
@@ -55,7 +54,7 @@
    </informaltable>
   </para>
  </refsect1><!-- }}} -->
- 
+
  <refsect1 role="examples"><!-- {{{ -->
   &reftitle.examples;
   <para>
@@ -82,9 +81,9 @@ echo file_get_contents('zip://test.zip#test.txt', false, $context);
    </example><!-- }}} -->
   </para>
  </refsect1><!-- }}} -->
- 
+
 </refentry>
- 
+
 <!-- Keep this comment at the end of the file
 Local variables:
 mode: sgml

@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- EN-Revision: 22583751fbfdaa3eaa41aeb6470d1343f5cb2c78 Maintainer: mowangjuanzi Status: ready -->
+<!-- CREDITS: Luffy -->
+<sect1 xml:id="migration84.new-features">
+ <title>新功能</title>
+
+ <!-- TODO: Core features for 8.4 -->
+ <sect2 xml:id="migration84.new-features.core">
+  <title>PHP 核心</title>
+
+  <!-- RFC: https://wiki.php.net/rfc/property-hooks -->
+  <sect3 xml:id="migration84.new-features.core.property-hooks">
+   <title>属性挂钩</title>
+
+   <simpara>
+    对象属性现在可以其 <literal>get</literal> 和 <literal>set</literal>
+    操作中关联相关的附加逻辑。根据用法，这可能会也可能不会使属性变为虚拟属性，即该属性根本没有实际的存储值。
+   </simpara>
+
+   <informalexample>
+    <programlisting role="php">
+<![CDATA[
+<?php
+class Person
+{
+    // “虚拟”属性，可能无法明确设置。
+    public string $fullName {
+        get => $this->firstName . ' ' . $this->lastName;
+    }
+
+    // 所有的写入操作都会经过这个挂钩，结果就是写入的内容。
+    // 读取访问正常。
+    public string $firstName {
+        set => ucfirst(strtolower($value));
+    }
+
+    // 所有的写入操作都会经过这个挂钩，它必须写入支持值本身。
+    // 读取访问正常。
+    public string $lastName {
+        set {
+            if (strlen($value) < 2) {
+                throw new \InvalidArgumentException('Too short');
+            }
+            $this->lastName = $value;
+        }
+    }
+}
+
+$p = new Person();
+
+$p->firstName = 'peter';
+print $p->firstName; // 打印“Peter”
+$p->lastName = 'Peterson';
+print $p->fullName; // 打印“Peter Peterson”
+]]>
+    </programlisting>
+   </informalexample>
+  </sect3>
+
+  <!-- RFC: https://wiki.php.net/rfc/asymmetric-visibility-v2 -->
+  <sect3 xml:id="migration84.new-features.core.asymmetric-property-visibility">
+   <title>不对称属性可见性</title>
+
+   <simpara>
+    现在可以将对象属性的 <literal>set</literal> 可见性和 <literal>get</literal>
+    可见性分开控制。 
+   </simpara>
+   <informalexample>
+    <programlisting role="php">
+<![CDATA[
+<?php
+class Example
+{
+    // 第一个可见性修饰符控制 get 可见性，第二个修饰符控制 set 可见性。
+    // The get-visibility must not be narrower than set-visibility.
+    public protected(set) string $name;
+
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+}
+]]>
+    </programlisting>
+   </informalexample>
+  </sect3>
+
+  <!-- RFC: https://wiki.php.net/rfc/lazy-objects -->
+  <sect3 xml:id="migration84.new-features.core.lazy-objects">
+   <title>惰性对象</title>
+   <simpara>
+    现在可以创建对象，将初始化延迟到访问时。库和框架可以利用这些惰性对象来延迟获取初始化所需的数据或依赖项。
+   </simpara>
+   <informalexample>
+    <programlisting role="php">
+<![CDATA[
+<?php
+class Example
+{
+    public function __construct(private int $data)
+    {
+    }
+
+    // ...
+}
+
+$initializer = static function (Example $ghost): void {
+    // 获取数据或者依赖项
+    $data = getData();
+    // 初始化
+    $ghost->__construct($data);
+};
+
+$reflector = new ReflectionClass(Example::class);
+$object = $reflector->newLazyGhost($initializer);
+]]>
+    </programlisting>
+   </informalexample>
+  </sect3>
+
+  <!-- RFC: https://wiki.php.net/rfc/deprecated_attribute -->
+  <sect3 xml:id="migration84.new-features.core.deprecated-attribute">
+   <title><code>#[\Deprecated]</code> 注解</title>
+
+   <simpara>
+    新的 <classname>Deprecated</classname> 属性可用于将函数、方法和类常量标记为已弃用。此弃用属性的行为与 PHP
+    本身提供的现有弃用机制的行为一致。唯一的例外是发出的错误代码是 <constant>E_USER_DEPRECATED</constant>，而不是
+    <constant>E_DEPRECATED</constant>。
+   </simpara>
+
+   <simpara>
+    PHP 本身提供的现有弃用已更新为使用该属性，通过包含简短的解释来改进发出的错误消息。
+   </simpara>
+  </sect3>
+
+  <!-- RFC: https://wiki.php.net/rfc/rfc1867-non-post -->
+  <sect3 xml:id="migration84.new-features.core.rfc1867">
+   <title>在非 POST HTTP 请求中解析 RFC1867（multipart）请求</title>
+
+   <!-- TODO: expand? -->
+   <simpara>
+    添加 <function>request_parse_body</function> 函数允许在非 POST HTTP 请求中解析 RFC1867（multipart）请求。
+   </simpara>
+  </sect3>
+
+  <!-- RFC: https://wiki.php.net/rfc/new_without_parentheses -->
+  <sect3 xml:id="migration84.new-features.core.new-chaining">
+   <title>链接 &new; 表达式不再需要括号</title>
+
+   <!-- TODO: expand and examples? -->
+   <simpara>
+    具有构造函数参数的新表达式现在可解除引用（dereferencable），这意味着无需将表达式括在括号中，可以直接链接方法调用、属性访问等。
+   </simpara>
+  </sect3>
+
+  <sect3 xml:id="migration84.new-features.core.debug-weakref">
+   <title>改进了 <classname>WeakReference</classname> 的调试信息</title>
+
+   <!-- TODO: expand and examples? -->
+   <simpara>
+    获取 <classname>WeakReference</classname> 的调试信息现在还会输出其引用的对象，如果引用不再有效，则输出 &null;。
+   </simpara>
+  </sect3>
+
+  <sect3 xml:id="migration84.new-features.core.debug-closure">
+   <title>改进了 <classname>Closure</classname> 的调试信息</title>
+
+   <!-- TODO: expand and examples? -->
+   <simpara>
+    <methodname>Closure::__debugInfo</methodname> 的输出现在包含
+    <classname>Closure</classname> 的名称、文件名、和行数。
+   </simpara>
+  </sect3>
+
+  <!-- Is this really a feature? Should this be moved to other changes? -->
+  <sect3 xml:id="migration84.new-features.core.multiple-namespaces-symbols">
+   <title>Defining Identical Symbols in Different Namespace Blocks</title>
+
+   <!-- TODO: expand and examples? -->
+   <simpara>
+    Exiting a namespace now clears seen symbols.
+    This allows using a symbol in a namespace block, even if a previous
+    namespace block declared a symbol with the same name.
+    <!-- See Zend/tests/use_function/ns_end_resets_seen_symbols_1.phpt. -->
+   </simpara>
+  </sect3>
+
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.curl">
+  <title>cURL</title>
+
+  <simpara>
+   <function>curl_version</function> 返回额外的 <literal>feature_list</literal>
+   值，是所有已知 CURL 功能的滚脸上数组，值是支持（&true;）或者不支持（&false;）。 
+  </simpara>
+
+  <simpara>
+   新增 <constant>CURL_HTTP_VERSION_3</constant> 和 <constant>CURL_HTTP_VERSION_3ONLY</constant>
+   常量（自 libcurl 7.66 和 7.88 起可用）作为 <constant>CURLOPT_HTTP_VERSION</constant> 的可用选项。
+  </simpara>
+
+  <simpara>
+   新增 <constant>CURLOPT_PREREQFUNCTION</constant> 作为 cURL 选项，该选项接受在建立连接后但在发送请求之前调用的
+   <type>callable</type>。此 callable 必须返回 <constant>CURL_PREREQFUNC_OK</constant> 或
+   <constant>CURL_PREREQFUNC_ABORT</constant> 以允许或中止请求。
+  </simpara>
+
+  <simpara>
+   新增 CURLOPT_SERVER_RESPONSE_TIMEOUT，以前称为 <constant>CURLOPT_FTP_RESPONSE_TIMEOUT</constant>。两个常量都具有相同的值。
+  </simpara>
+
+  <para>
+   新增 <constant>CURLOPT_DEBUGFUNCTION</constant> 作为 cURL 选项，该选项接受在请求生命周期内使用
+   <classname>CurlHandle</classname> 对象调用的 <type>callable</type>、包含调试消息类型的整数以及包含调试消息的字符串。调试消息类型是以下常量之一：
+   <simplelist>
+    <member><constant>CURLINFO_TEXT</constant></member>
+    <member><constant>CURLINFO_HEADER_IN</constant></member>
+    <member><constant>CURLINFO_HEADER_OUT</constant></member>
+    <member><constant>CURLINFO_DATA_IN</constant></member>
+    <member><constant>CURLINFO_DATA_OUT</constant></member>
+    <member><constant>CURLINFO_SSL_DATA_IN</constant></member>
+    <member><constant>CURLINFO_SSL_DATA_OUT</constant></member>
+   </simplelist>
+   一旦设置了此选项，就不能设置 <constant>CURLINFO_HEADER_OUT</constant>，因为它使用相同的 libcurl 功能。
+  </para>
+
+  <simpara>
+   <function>curl_getinfo</function> 现在返回一个额外的 <literal>posttransfer_time_us</literal>
+   key，其中包含从开始到发送最后一个字节的微秒数。当重定向之后，每个请求的时间都会加在一起。也可以通过将
+   <constant>CURLINFO_POSTTRANSFER_TIME_T</constant> 传递给 <function>curl_getinfo</function>
+   <parameter>option</parameter> 参数来检索此值。这需要 libcurl 8.10.0 或更高版本。
+  </simpara>
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.dom">
+  <title>DOM</title>
+
+  <!-- RFC: https://wiki.php.net/rfc/domdocument_html5_parser -->
+  <!-- RFC: https://wiki.php.net/rfc/opt_in_dom_spec_compliance -->
+  <simpara>
+   添加了 <package>Dom</package> 命名空间，其中包含与现有 DOM 类对应的新类（例如，<classname>Dom\Node</classname> 是新的
+   <classname>DOMNode</classname>）。这些类与 HTML 5 兼容，并且符合 WHATWG 规范；解决了 DOM 扩展中长期存在的错误。旧的 DOM
+   类仍然可用，以实现向后兼容。
+  </simpara>
+
+  <para>
+   新增 <methodname>DOMNode::compareDocumentPosition</methodname> 及其相关常量：
+   <simplelist>
+    <member><constant>DOMNode::DOCUMENT_POSITION_DISCONNECTED</constant></member>
+    <member><constant>DOMNode::DOCUMENT_POSITION_PRECEDING</constant></member>
+    <member><constant>DOMNode::DOCUMENT_POSITION_FOLLOWING</constant></member>
+    <member><constant>DOMNode::DOCUMENT_POSITION_CONTAINS</constant></member>
+    <member><constant>DOMNode::DOCUMENT_POSITION_CONTAINED_BY</constant></member>
+    <member><constant>DOMNode::DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</constant></member>
+   </simplelist>
+  </para>
+
+  <!-- RFC: https://wiki.php.net/rfc/improve_callbacks_dom_and_xsl -->
+  <simpara>
+   现在可以将任何 callable 传递给
+   <methodname>DOMXPath::registerPhpFunctions</methodname>。
+
+   此外，现在使用 <methodname>DOMXPath::registerPhpFunctionNs</methodname> 可以注册使用原生函数调用语法，而不是使用
+   <code>php:function('name')</code>。
+  </simpara>
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.intl">
+  <title>Intl</title>
+
+  <simpara>
+   新增 <constant>NumberFormatter::ROUND_HALFODD</constant> 来补充现有的 <constant>NumberFormatter::ROUND_HALFEVEN</constant> 功能。
+  </simpara>
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.openssl">
+  <title>OpenSSL</title>
+
+  <simpara>
+   添加了对基于 Curve25519 + Curve448 密钥的支持。具体来说
+   <function>openssl_pkey_new</function>、<function>openssl_pkey_get_details</function>、<function>openssl_sign</function> 和
+   <function>openssl_verify</function> 中支持 x25519、ed25519、x448 和 ed448 字段，并进行了扩展以支持这些密钥。
+  </simpara>
+
+  <simpara>
+   实现 PASSWORD_ARGON2 密码哈希处理。需要 OpenSSL 3.2 和 NTS 版本。
+  </simpara>
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.pcre">
+  <title>PCRE</title>
+
+  <simpara>
+   捆绑的 pcre2lib 已更新至 10.44 版本。因此，添加了 LoongArch JIT 支持，现在允许在与 Perl 兼容项目中的花括号之间使用空格，并且现在支持可变长度的后向断言。
+  </simpara>
+
+  <simpara>
+   随着 pcre2lib 版本 10.44 的推出，命名捕获组的最大长度已从 <literal>32</literal> 更改为 <literal>128</literal>。
+  </simpara>
+
+  <simpara>
+   添加了对 <literal>r</literal>（PCRE2_EXTRA_CASELESS_RESTRICT）修饰符以及 <literal>(?r)</literal>
+   模式修饰符的支持。当与不区分大小写的修饰符 (<literal>i</literal>) 一起启用时，表达式会阻止 ASCII 和非 ASCII 字符的混合。
+  </simpara>
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.pdo">
+  <title>PDO</title>
+
+  <!-- RFC: https://wiki.php.net/rfc/pdo_driver_specific_subclasses -->
+  <simpara>
+   新增对特定驱动程序子类的支持，以便更好地支持特定于数据库的功能。新的类可通过调用 <methodname>PDO::connect</methodname>
+   方法或直接实例化特定驱动程序子类来实例化。
+  </simpara>
+
+  <!-- RFC: https://wiki.php.net/rfc/pdo_driver_specific_parsers -->
+  <para>
+   新增对特定驱动程序的 SQL 解析器的支持。当特定驱动程序解析器不可用时，使用默认解析器。默认解析器支持：
+   <simplelist>
+    <member>
+     单引号和双引号文字，使用双引号作为转义机制
+    </member>
+    <member>
+     双破折号和非嵌套的 C 风格注释
+    </member>
+   </simplelist>
+  </para>
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.pdo-mysql">
+  <title>PDO_MYSQL</title>
+
+  <!-- RFC: https://wiki.php.net/rfc/pdo_driver_specific_parsers -->
+  <para>
+   新增自定义解析器支持：
+   <simplelist>
+    <member>
+     单引号和双引号文字，使用双引号作为转义机制
+    </member>
+    <member>
+     反引号文字标识符并且双写反引号作为转义机制
+    </member>
+    <member>
+     两个破折号后跟至少 1 个空格、非嵌套的 C 风格注释和哈希注释（以 # 开头的注释）
+    </member>
+   </simplelist>
+  </para>
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.pdo-pgsql">
+  <title>PDO_PGSQL</title>
+
+  <!-- RFC: https://wiki.php.net/rfc/pdo_driver_specific_parsers -->
+  <para>
+   新增自定义解析器支持：
+   <simplelist>
+    <member>
+     单引号和双引号文字，使用双引号作为转义机制
+    </member>
+    <member>
+     C 风格“转义”字符串文字（<literal>E'string'</literal>）
+    </member>
+    <member>
+     dollar-quoted string literals
+    </member>
+    <member>
+     双破折号和 C 风格注释（非嵌套）
+    </member>
+    <member>
+     支持 <literal>??</literal> 作为 <literal>?</literal> 运算符的转义序列
+    </member>
+   </simplelist>
+  </para>
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.pdo-sqlite">
+  <title>PDO_SQLITE</title>
+
+  <!-- RFC: https://wiki.php.net/rfc/pdo_driver_specific_parsers -->
+  <para>
+   新增自定义解析器支持：
+   <simplelist>
+    <member>
+     单引号、双引号和反引号文字，并带有转义机制
+    </member>
+    <member>
+     方括号引用标识符
+    </member>
+    <member>
+     双破折号和 C 风格注释（非嵌套）
+    </member>
+   </simplelist>
+  </para>
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.phar">
+  <title>Phar</title>
+
+  <simpara>
+   Zip 档案新增对 Unix 时间戳扩展的支持。
+  </simpara>
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.readline">
+  <title>Readline</title>
+
+  <simpara>
+   新增通过 <envar>PHP_HISTFILE</envar> 环境变量更改 <literal>.php_history</literal> 路径的功能。
+  </simpara>
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.reflection">
+  <title>Reflection</title>
+
+  <simpara>
+   <classname>ReflectionAttribute</classname> 现在包含 <property>name</property> 属性，以改善调试体验。
+  </simpara>
+
+  <simpara>
+   <methodname>ReflectionClassConstant::__toString</methodname> 和
+   <methodname>ReflectionProperty::__toString</methodname> 现在返回附加的文档注释。
+  </simpara>
+
+  <!-- RFC: https://wiki.php.net/rfc/lazy-objects -->
+  <para>
+   添加了与惰性对象功能相关的多个新方法和常量：
+   <simplelist>
+    <member>
+     <methodname>ReflectionClass::newLazyGhost</methodname>
+    </member>
+    <member>
+     <methodname>ReflectionClass::newLazyProxy</methodname>
+    </member>
+    <member>
+     <methodname>ReflectionClass::resetAsLazyGhost</methodname>
+    </member>
+    <member>
+     <methodname>ReflectionClass::resetAsLazyProxy</methodname>
+    </member>
+    <member>
+     <methodname>ReflectionClass::isUninitializedLazyObject</methodname>
+    </member>
+    <member>
+     <methodname>ReflectionClass::initializeLazyObject</methodname>
+    </member>
+    <member>
+     <methodname>ReflectionClass::markLazyObjectAsInitialized</methodname>
+    </member>
+    <member>
+     <methodname>ReflectionClass::getLazyInitializer</methodname>
+    </member>
+    <member>
+     <methodname>ReflectionProperty::skipLazyInitialization</methodname>
+    </member>
+    <member>
+     <methodname>ReflectionProperty::setRawValueWithoutLazyInitialization</methodname>
+    </member>
+    <member>
+     <constant>ReflectionClass::SKIP_INITIALIZATION_ON_SERIALIZE</constant>
+    </member>
+    <member>
+     <constant>ReflectionClass::SKIP_DESTRUCTOR</constant>
+    </member>
+   </simplelist>
+  </para>
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.soap">
+  <title>SOAP</title>
+
+  <simpara>
+   Added support for clark notation for namespaces in class map.
+   It is now possible to specify entries in a class map with clark notation
+   to resolve a type with a specific namespace to a specific class.
+   For example: <code>'{http://example.com}foo' => 'FooClass'</code>.
+  </simpara>
+
+  <simpara>
+   Instances of <interfacename>DateTimeInterface</interfacename> that are
+   passed to <literal>xsd:datetime</literal> or similar elements are now
+   serialized as such instead of being serialized as an empty string.
+  </simpara>
+
+  <simpara>
+   持久会话现在可与共享会话模块一起使用。
+  </simpara>
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.standard">
+  <title>标准</title>
+
+  <!-- RFC: https://wiki.php.net/rfc/correctly_name_the_rounding_mode_and_make_it_an_enum -->
+  <simpara>
+   <!-- Should this use <enumname> -->
+   新增 <classname>RoundingMode</classname> 枚举，与 <constant>PHP_ROUND_<replaceable>*</replaceable></constant>
+   常量相比，其命名更清晰，可发现性更高。此外，还添加了四种新的舍入模式，这些模式仅可通过新的 <classname>RoundingMode</classname> 枚举使用。
+  </simpara>
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.xsl">
+  <title>XSL</title>
+
+  <simpara>
+   现在可以使用包含单引号和双引号的参数。
+  </simpara>
+
+  <!-- RFC: https://wiki.php.net/rfc/improve_callbacks_dom_and_xsl -->
+  <simpara>
+   现在可以将任何 callable 传递给 <methodname>XSLTProcessor::registerPhpFunctions</methodname>。
+   <!-- TODO Mention XSLTProcessor::registerPHPFunctionNS ? -->
+  </simpara>
+
+  <simpara>
+   添加了 <property>XSLTProcessor::$maxTemplateDepth</property> 和 <property>XSLTProcessor::$maxTemplateVars</property>
+   来控制 XSL 模板计算的递归深度。
+  </simpara>
+ </sect2>
+
+ <sect2 xml:id="migration84.new-features.zip">
+  <title>Zip</title>
+
+  <simpara>
+   新增 <constant>ZipArchive::ER_TRUNCATED_ZIP</constant> 常量，libzip 1.11 中添加。
+  </simpara>
+ </sect2>
+
+</sect1>
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:1
+sgml-indent-data:t
+indent-tabs-mode:nil
+sgml-parent-document:nil
+sgml-default-dtd-file:"~/.phpdoc/manual.ced"
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+vim600: syn=xml fen fdm=syntax fdl=2 si
+vim: et tw=78 syn=sgml
+vi: ts=1 sw=1
+-->

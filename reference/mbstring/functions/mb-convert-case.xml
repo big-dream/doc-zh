@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: b4afab59db15ea4b7c5dc2132d85932b4859bcf2 Maintainer: daijie Status: ready -->
-<!-- CREDITS: mowangjuanzi -->
+<!-- EN-Revision: d6f54016d62904cfd8200604aadd5e3f0d9bad97 Maintainer: daijie Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
 <refentry xml:id="function.mb-convert-case" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
  <refnamediv>
   <refname>mb_convert_case</refname>
@@ -73,6 +73,14 @@
      </thead>
      <tbody>
       <row>
+       <entry>8.3.0</entry>
+       <entry>
+        为希腊字母 Sigma 实现了条件性大小写规则，
+        仅适用于 <constant>MB_CASE_LOWER</constant> 和 <constant>MB_CASE_TITLE</constant> 模式，
+        不适用于 <constant>MB_CASE_LOWER_SIMPLE</constant> 和 <constant>MB_CASE_TITLE_SIMPLE</constant>。
+       </entry>
+      </row>
+      <row>
        <entry>7.3.0</entry>
        <entry>
         添加对 <constant>MB_CASE_FOLD</constant>、<constant>MB_CASE_UPPER_SIMPLE</constant>、<constant>MB_CASE_LOWER_SIMPLE</constant>、<constant>MB_CASE_TITLE_SIMPLE</constant> 和
@@ -95,9 +103,9 @@
 <?php
 $str = "mary had a Little lamb and she loved it so";
 $str = mb_convert_case($str, MB_CASE_UPPER, "UTF-8");
-echo $str; // 输出 MARY HAD A LITTLE LAMB AND SHE LOVED IT SO
+echo $str, PHP_EOL;
 $str = mb_convert_case($str, MB_CASE_TITLE, "UTF-8");
-echo $str; // 输出 Mary Had A Little Lamb And She Loved It So
+echo $str, PHP_EOL;
 ?>
 ]]>
     </programlisting>
@@ -112,9 +120,9 @@ echo $str; // 输出 Mary Had A Little Lamb And She Loved It So
 <?php
 $str = "Τάχιστη αλώπηξ βαφής ψημένη γη, δρασκελίζει υπέρ νωθρού κυνός";
 $str = mb_convert_case($str, MB_CASE_UPPER, "UTF-8");
-echo $str; // 输出 ΤΆΧΙΣΤΗ ΑΛΏΠΗΞ ΒΑΦΉΣ ΨΗΜΈΝΗ ΓΗ, ΔΡΑΣΚΕΛΊΖΕΙ ΥΠΈΡ ΝΩΘΡΟΎ ΚΥΝΌΣ
+echo $str, PHP_EOL;
 $str = mb_convert_case($str, MB_CASE_TITLE, "UTF-8");
-echo $str; // 输出 Τάχιστη Αλώπηξ Βαφήσ Ψημένη Γη, Δρασκελίζει Υπέρ Νωθρού Κυνόσ
+echo $str, PHP_EOL;
 ?>
 ]]>
     </programlisting>

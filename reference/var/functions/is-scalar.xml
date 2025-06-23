@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- $Author$ -->
-<!-- EN-Revision: f3534a2ab0af4ed69c9a474e26210ef661324d39 Maintainer: nio Status: ready -->
-<!-- CREDITS: Luffy -->
+<!-- EN-Revision: d816a0fad6c458d9515f697cc89e26ca9d8069f5 Maintainer: nio Status: ready -->
+<!-- CREDITS: Luffy, mowangjuanzi -->
 <refentry xml:id="function.is-scalar" xmlns="http://docbook.org/ns/docbook">
  <refnamediv>
   <refname>is_scalar</refname>
   <refpurpose>
-     检测变量是否是一个标量
+   查找变量是否是标量
   </refpurpose>
  </refnamediv>
 
@@ -18,11 +17,10 @@
    <methodparam><type>mixed</type><parameter>value</parameter></methodparam>
   </methodsynopsis>
   <para>
-   检测变量是否为标量
+   查找<link linkend="language.expressions">表达式</link>是否作为标量值进行计算。
   </para>
   <para>
-   标量变量是指 <type>int</type>、<type>float</type>、<type>string</type> 或 <type>bool</type> 类型的变量。
-   <type>array</type>、<type>object</type> 、 <type>resource</type> 和 <type>null</type> 类型不是标量。
+   请参阅<link linkend="language.types.type-system.atomic.scalar">标量类型</link>以了解更多信息。
   </para>
   <note>
    <para>
@@ -74,11 +72,12 @@
 function show_var($var)
 {
     if (is_scalar($var)) {
-        echo $var;
+        echo $var, PHP_EOL;
     } else {
         var_dump($var);
     }
 }
+
 $pi = 3.1416;
 $proteins = array("hemoglobin", "cytochrome c oxidase", "ferredoxin");
 

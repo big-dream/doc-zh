@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: aaabaa98a82308ed1e135730982210ba8e024fe6 Maintainer: HonestQiao Status: ready -->
+<!-- EN-Revision: 7f1b75ed358430c1db0e37c832d2926735d5f5c2 Maintainer: HonestQiao Status: ready -->
 <!-- CREDITS: Luffy -->
 <section xml:id="session.configuration" xmlns="http://docbook.org/ns/docbook">
  &reftitle.runtime;
@@ -21,217 +21,217 @@
     <row>
      <entry><link linkend="ini.session.save-path">session.save_path</link></entry>
      <entry>""</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.name">session.name</link></entry>
      <entry>"PHPSESSID"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.save-handler">session.save_handler</link></entry>
      <entry>"files"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.auto-start">session.auto_start</link></entry>
      <entry>"0"</entry>
-     <entry>PHP_INI_PERDIR</entry>
+     <entry><constant>INI_PERDIR</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.gc-probability">session.gc_probability</link></entry>
      <entry>"1"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.gc-divisor">session.gc_divisor</link></entry>
      <entry>"100"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.gc-maxlifetime">session.gc_maxlifetime</link></entry>
      <entry>"1440"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.serialize-handler">session.serialize_handler</link></entry>
      <entry>"php"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.cookie-lifetime">session.cookie_lifetime</link></entry>
      <entry>"0"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.cookie-path">session.cookie_path</link></entry>
      <entry>"/"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.cookie-domain">session.cookie_domain</link></entry>
      <entry>""</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.cookie-secure">session.cookie_secure</link></entry>
      <entry>"0"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry>在 PHP 7.2.0 之前，默认值是 <literal>""</literal>。</entry>
     </row>
     <row>
      <entry><link linkend="ini.session.cookie-httponly">session.cookie_httponly</link></entry>
      <entry>"0"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry>在 PHP 7.2.0 之前，默认值是 <literal>""</literal>。</entry>
     </row>
     <row>
      <entry><link linkend="ini.session.cookie-samesite">session.cookie_samesite</link></entry>
      <entry>""</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry>自 PHP 7.3.0 起有效</entry>
     </row>
     <row>
      <entry><link linkend="ini.session.use-strict-mode">session.use_strict_mode</link></entry>
      <entry>"0"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry>自 PHP 5.5.2 起有效</entry>
     </row>
     <row>
      <entry><link linkend="ini.session.use-cookies">session.use_cookies</link></entry>
      <entry>"1"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.use-only-cookies">session.use_only_cookies</link></entry>
      <entry>"1"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.referer-check">session.referer_check</link></entry>
      <entry>""</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.cache-limiter">session.cache_limiter</link></entry>
      <entry>"nocache"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.cache-expire">session.cache_expire</link></entry>
      <entry>"180"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.use-trans-sid">session.use_trans_sid</link></entry>
      <entry>"0"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.trans-sid-tags">session.trans_sid_tags</link></entry>
      <entry>"a=href,area=href,frame=src,form="</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry>自 PHP 7.1.0 起有效。</entry>
     </row>
     <row>
      <entry><link linkend="ini.session.trans-sid-hosts">session.trans_sid_hosts</link></entry>
      <entry><literal>$_SERVER['HTTP_HOST']</literal></entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry>自 PHP 7.1.0 起有效。</entry>
     </row>
     <row>
      <entry><link linkend="ini.session.sid-length">session.sid_length</link></entry>
      <entry>"32"</entry>
-     <entry>PHP_INI_ALL</entry>
-     <entry>自 PHP 7.1.0 起有效。</entry>
+     <entry><constant>INI_ALL</constant></entry>
+     <entry>自 PHP 7.1.0 起有效。自 PHP 8.4.0 起已废弃。</entry>
     </row>
     <row>
      <entry><link linkend="ini.session.sid-bits-per-character">session.sid_bits_per_character</link></entry>
      <entry>"4"</entry>
-     <entry>PHP_INI_ALL</entry>
-     <entry>自 PHP 7.1.0 起有效。</entry>
+     <entry><constant>INI_ALL</constant></entry>
+     <entry>自 PHP 7.1.0 起有效。自 PHP 8.4.0 起已废弃。</entry>
     </row>
     <row>
      <entry><link linkend="ini.session.upload-progress.enabled">session.upload_progress.enabled</link></entry>
      <entry>"1"</entry>
-     <entry>PHP_INI_PERDIR</entry>
+     <entry><constant>INI_PERDIR</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.upload-progress.cleanup">session.upload_progress.cleanup</link></entry>
      <entry>"1"</entry>
-     <entry>PHP_INI_PERDIR</entry>
+     <entry><constant>INI_PERDIR</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.upload-progress.prefix">session.upload_progress.prefix</link></entry>
      <entry>"upload_progress_"</entry>
-     <entry>PHP_INI_PERDIR</entry>
+     <entry><constant>INI_PERDIR</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.upload-progress.name">session.upload_progress.name</link></entry>
      <entry>"PHP_SESSION_UPLOAD_PROGRESS"</entry>
-     <entry>PHP_INI_PERDIR</entry>
+     <entry><constant>INI_PERDIR</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.upload-progress.freq">session.upload_progress.freq</link></entry>
      <entry>"1%"</entry>
-     <entry>PHP_INI_PERDIR</entry>
+     <entry><constant>INI_PERDIR</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.upload-progress.min-freq">session.upload_progress.min_freq</link></entry>
      <entry>"1"</entry>
-     <entry>PHP_INI_PERDIR</entry>
+     <entry><constant>INI_PERDIR</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.lazy-write">session.lazy_write</link></entry>
      <entry>"1"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry></entry>
     </row>
     <row>
      <entry><link linkend="ini.session.hash-function">session.hash_function</link></entry>
      <entry>"0"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry>自 PHP 7.1.0 起移除。</entry>
     </row>
     <row>
      <entry><link linkend="ini.session.hash-bits-per-character">session.hash_bits_per_character</link></entry>
      <entry>"4"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry>自 PHP 7.1.0 起移除。</entry>
     </row>
     <row>
      <entry><link linkend="ini.session.entropy-file">session.entropy_file</link></entry>
      <entry>""</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry>自 PHP 7.1.0 起移除。</entry>
     </row>
     <row>
      <entry><link linkend="ini.session.entropy-length">session.entropy_length</link></entry>
      <entry>"0"</entry>
-     <entry>PHP_INI_ALL</entry>
+     <entry><constant>INI_ALL</constant></entry>
      <entry>自 PHP 7.1.0 起移除。</entry>
     </row>
    </tbody>
@@ -373,8 +373,9 @@
     <simpara>
      <literal>session.gc_probability</literal> 与
      <literal>session.gc_divisor</literal> 合起来用来管理 gc（garbage collection
-     垃圾回收）进程启动的概率。默认为 <literal>1</literal>。详见 <link
-     linkend="ini.session.gc-divisor">session.gc_divisor</link>。
+     垃圾回收）进程启动的概率。默认为 <literal>1</literal>。
+     必须大于或等于 <literal>0</literal>。
+     详见 <link linkend="ini.session.gc-divisor">session.gc_divisor</link>。
     </simpara>
    </listitem>
   </varlistentry>
@@ -391,7 +392,7 @@
      gc（garbage collection 垃圾回收）进程的概率。此概率用
      gc_probability/gc_divisor 计算得来。例如 1/100
      意味着在每个请求中有 1% 的概率启动 gc 进程。<literal>session.gc_divisor</literal>
-     默认为 <literal>100</literal>。
+     默认为 <literal>100</literal>。必须大于 <literal>0</literal>。
     </simpara>
    </listitem>
   </varlistentry>
@@ -533,8 +534,8 @@
    <listitem>
     <simpara>
      <literal>session.use_only_cookies</literal> 指定是否在客户端<emphasis
-     role="strong">仅仅</emphasis>使用 cookie 来存放会话 ID。。启用此设定可以防止有关通过
-     URL 传递会话 ID 的攻击。默认值为<literal>1</literal>（启用）
+     role="strong">仅仅</emphasis>使用 cookie 来存放会话 ID。启用此设定可以防止有关通过
+     URL 传递会话 ID 的攻击。默认值为<literal>1</literal>（启用）。
     </simpara>
    </listitem>
   </varlistentry>
@@ -637,7 +638,7 @@
      An empty value means that no SameSite cookie attribute will be set.
      <literal>Lax</literal> and <literal>Strict</literal> mean that the cookie
      will not be sent cross-domain for POST requests; <literal>Lax</literal>
-     will sent the cookie for cross-domain GET requests, while <literal>Strict</literal>
+     will send the cookie for cross-domain GET requests, while <literal>Strict</literal>
      will not.
     </simpara>
    </listitem>

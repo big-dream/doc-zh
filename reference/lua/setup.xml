@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: a56dfabfa41c678c02017a2f69369b1543accb1c Maintainer: 邹松 Status: ready -->
-<!-- Reviewed: no -->
-
+<!-- EN-Revision: 307e7d78baacfcd228eef8f384e96659b67d9adb Maintainer: 邹松 Status: ready -->
+<!-- CREDITS: Luffy -->
 <chapter xml:id="lua.setup" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
  &reftitle.setup;
 
@@ -21,21 +20,6 @@
   <para>
    &pecl.info;
    <link xlink:href="&url.pecl.package;lua">&url.pecl.package;lua</link>.
-  </para>
-  <para>
-   &pecl.windows.download;
-  </para>
- </section>
-
- <section xml:id="lua.configuration">
-  &reftitle.runtime;
-  &no.config;
- </section>
-
- <section xml:id="lua.resources">
-  &reftitle.resources;
-  &no.resource;
-  <para>
   </para>
  </section>
 

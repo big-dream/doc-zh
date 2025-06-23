@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 437bbf134e015c678f9d4b8a5b8da53429a9a12d Maintainer: yincheng Status: ready -->
-<!-- Reviewed: avenger Maintainer: avenger -->
+<!-- EN-Revision: a6621a4baf56fd78a842dfd684f5c981991bddcd Maintainer: yincheng Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
 <!-- Part titles used mostly in manual.xml itself -->
 <!ENTITY PHPManual           "PHP 手册">
 <!ENTITY Seealso             "参见">
@@ -45,7 +45,7 @@
 <!ENTITY UIExtensions                             "图形用户界面(GUI) 扩展">
 <!ENTITY Appendices                         "附录">
 <!ENTITY PEAR                               "PEAR：PHP 扩展与应用资源库">
-<!ENTITY FAQ                                "FAQ：常见问题">
+<!ENTITY FAQ                                "常见问题">
 <!ENTITY FAQabbrev                          "FAQ">
 <!ENTITY Internals                          "PHP 和 Zend 引擎内部资料">
 <!ENTITY Internals2                         "PHP 核心：骇客指南">
@@ -79,6 +79,7 @@
 <!ENTITY Properties          "属性">
 <!ENTITY InheritedConstants  "继承的常量">
 <!ENTITY Constants           "常量">
+<!ENTITY Constructor         "构造函数">
 <!ENTITY NotAvailable        "不适用">
 
 <!-- These are used in reference/$extname/reference.xml and other
@@ -86,6 +87,7 @@ supplemental files to mark section titles -->
 <!ENTITY reftitle.changelog    '<title xmlns="http://docbook.org/ns/docbook">&Changelog;</title>'>
 <!ENTITY reftitle.classes      '<title xmlns="http://docbook.org/ns/docbook">预定义类</title>'>
 <!ENTITY reftitle.classsynopsis '<title xmlns="http://docbook.org/ns/docbook">类摘要</title>'>
+<!ENTITY reftitle.enumsynopsis '<title xmlns="http://docbook.org/ns/docbook">注解摘要</title>'>
 <!ENTITY reftitle.constants    '<title xmlns="http://docbook.org/ns/docbook">预定义常量</title>'>
 <!ENTITY reftitle.constructor  '<title xmlns="http://docbook.org/ns/docbook">构造函数</title>'>
 <!ENTITY reftitle.description  '<title xmlns="http://docbook.org/ns/docbook">说明</title>'>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 91da56315cff97da3020dd2934040e5035a6d1c6 Maintainer: yuanyuqiang Status: ready -->
-<!-- CREDITS: mowangjuanzi -->
+<!-- EN-Revision: 9a157412627e3f6dbadd76daaf20fb4011393a10 Maintainer: yuanyuqiang Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
 <chapter xml:id="pthreads.setup" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
  &reftitle.setup;
 
@@ -28,18 +28,13 @@
    使用标准的 PECL 包安装方式就可以完成安装：<link xlink:href="&url.pecl.package;pthreads">&url.pecl.package;pthreads</link>。
   </para>
   <para>
-   Windows 用户可以从 <link xlink:href="&url.pecl.windows.releases;pthreads">PECL</link> 下载已经构建的二进制发行包。
+   Windows 用户可以从 <link xlink:href="&url.pecl.package;pthreads">PECL</link> 下载已经构建的二进制发行包。
   </para>
   <caution>
    <para>
     Windows 用户需要将 pthreadVC2.dll （包含在 Windows 版二进制发行包中）所在路径加入到 <envar>PATH</envar> 环境变量中。
    </para>
   </caution>
- </section>
-
- <section xml:id="pthreads.configuration">
-  &reftitle.runtime;
-  &no.config;
  </section>
 
 </chapter>

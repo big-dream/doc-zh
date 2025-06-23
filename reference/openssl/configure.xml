@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: d73b9709de6633d289d11d3ae4696a9d78187b53 Maintainer: duanxiaoqiang Status: ready -->
-<!-- CREDITS: Luffy -->
+<!-- EN-Revision: badd30777a8ce1e6ad58265e36dfa76452e90119 Maintainer: duanxiaoqiang Status: ready -->
+<!-- CREDITS: Luffy, mowangjuanzi -->
 <section xml:id="openssl.installation" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
  &reftitle.install;
  <para>
-  要使用 PHP 的 OpenSSL 支持，你应该使用 <option role="configure">--with-openssl[=DIR]</option> 参数来编译 PHP。
+  要使用 PHP 的 OpenSSL 支持，你应该使用 <option role="configure">--with-openssl</option> 参数来编译 PHP。
  </para>
  <para>
   OpenSSL 库还在运行时对正常操作有额外的要求。最明显的是，OpenSSL 需要访问随机或伪随机数生成器； 在大多数 Unix 和类 Unix 平台上(包括linux)，意味着它必须要访问
@@ -15,7 +15,7 @@
   <option role="configure">--with-system-ciphers</option> 配置选项可用于设置 PHP 使用系统密码列表，而不是硬编码。
  </para>
  <note>
-  <title> Win32 平台的用户请注意</title>
+  <title>Win32 平台的用户请注意</title>
   <para>
    &ext.windows.path.dll;
    <filename>libeay32.dll</filename>，
@@ -53,6 +53,12 @@
     确保无权限的用户无法修改 <filename>openssl.cnf</filename> 文件。
    </simpara>
   </caution>
+  <simpara>
+   自 OpenSSL 3.0.0 起，Windows 上默认使用的 OpenSSL 版本为 PHP 8.2.0，已经将几种算法视为遗留算法。
+   这些算法通常已经不再使用，被密码学社区视为不安全，或者类似的原因。
+   这些算法仍然可以通过遗留提供者(<filename>extras/ssl/legacy.dll</filename>)使用；其使用方法在 OpenSSL 手册的
+   <link xlink:href="&url.openssl.config;#Provider-Configuration">提供者配置</link>部分中有描述。
+  </simpara>
  </note>
 
  <simplesect role="changelog">
@@ -67,6 +73,13 @@
       </row>
      </thead>
      <tbody>
+      <row>
+       <entry>7.4.0</entry>
+       <entry>
+        <option role="configure">--with-openssl[=DIR]</option> 不再接受目录参数，有利于将 pkg-config 变量 <envar>PKG_CONFIG_PATH</envar>
+        设置为 OpenSSL 位置，或者通过指定 <envar>OPENSSL_LIBS</envar> 和 <envar>OPENSSL_CFLAGS</envar> 变量来指向位置。
+       </entry>
+      </row>
       <row>
        <entry>7.4.0</entry>
        <entry>

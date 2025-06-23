@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 68dfe9740823ed1d229e5e79b7018fe71237c665 Maintainer: Avenger Status: partial -->
+<!-- EN-Revision: c308ed37a98decb1959ed47dc149a43d6c71ec60 Maintainer: Avenger Status: ready -->
 <!-- CREDITS: mowangjuanzi -->
 <sect1 xml:id="migration74.incompatible" xmlns:xlink="http://www.w3.org/1999/xlink">
  <title>不向后兼容的变更</title>
@@ -40,25 +40,20 @@
 
    <para>
     文件尾部的 <literal>&lt;?php</literal>
-    标签（不包含空行）将会被解释成一个 PHP 头标签。Previously it was interpreted
-    either as a short opening tag followed by literal <literal>php</literal> and
-    resulted in a syntax error (with <literal>short_open_tag=1</literal>)
-    or was interpreted as a literal <literal>&lt;?php</literal> string
-    (with <literal>short_open_tag=0</literal>).
+    标签（不包含空行）将会被解释成 PHP 起始标记。之前，不是解释为短开始标记，后跟文字 <literal>php</literal>
+    并导致语法错误（<literal>short_open_tag=1</literal>），就是解释为文字 <literal>&lt;?php</literal>
+    字符串（<literal>short_open_tag=0</literal>）。
    </para>
   </sect3>
 
   
   <sect3 xml:id="migration74.incompatible.core.stream-wrappers">
-   <title>Stream wrappers</title>
+   <title>Stream 封装协议</title>
 
    <para>
-    When using include/require on a stream,
-    <methodname>streamWrapper::stream_set_option</methodname>
-    will be invoked with the <constant>STREAM_OPTION_READ_BUFFER</constant> option.
-    Custom stream wrapper implementations may need to implement the
-    <methodname>streamWrapper::stream_set_option</methodname> method to
-    avoid a warning (always returning &false; is a sufficient implementation).
+    在 stream 上使用 include/require 时，将使用 <constant>STREAM_OPTION_READ_BUFFER</constant> 选项调用
+    <methodname>streamWrapper::stream_set_option</methodname>。编写的自定义 stream 封装协议可能需要实现
+    <methodname>streamWrapper::stream_set_option</methodname> 方法以避免警告（始终返回 &false; 就足够了）。
    </para>
   </sect3>
 
@@ -114,10 +109,8 @@
    <title><function>htmlentities</function> 函数</title>
 
    <para>
-    <function>htmlentities</function> will now raise a notice
-    (instead of a strict standards warning) if it is used with
-    an encoding for which only basic entity substitution is supported,
-    in which case it is equivalent to <function>htmlspecialchars</function>.
+    <function>htmlentities</function> 如果与仅支持基本实体替换（basic entity substitution）的编码一起使用，现在将发出
+    notice（而不是严格标准的 warning），在这种情况下，相当于 <function>htmlspecialchars</function>。
    </para>
   </sect3>
 
@@ -162,9 +155,8 @@
   <title>日期和时间</title>
 
   <para>
-   Calling <function>var_dump</function> or similar on a
-   <classname>DateTime</classname> or <classname>DateTimeImmutable</classname>
-   instance will no longer leave behind accessible properties on the object.
+   在 <classname>DateTime</classname> 或 <classname>DateTimeImmutable</classname> 实例上调用
+   <function>var_dump</function> 或类似方法将不会忘记对象上的可访问属性。
   </para>
   <para>
    <classname>DateInterval</classname> 对象的比较（使用
@@ -177,9 +169,8 @@
   <title>Intl</title>
 
   <para>
-   The default parameter value of <function>idn_to_ascii</function> and
-   <function>idn_to_utf8</function> is now <constant>INTL_IDNA_VARIANT_UTS46</constant>
-   instead of the deprecated <constant>INTL_IDNA_VARIANT_2003</constant>.
+   <function>idn_to_ascii</function> 和 <function>idn_to_utf8</function> 的默认参数的值现在为
+   <constant>INTL_IDNA_VARIANT_UTS46</constant>，而不是已弃用的 <constant>INTL_IDNA_VARIANT_2003</constant>。
   </para>
  </sect2>
 
@@ -187,12 +178,10 @@
   <title>MySQLi</title>
 
   <para>
-   The embedded server functionality has been removed. It was broken since
-   at least PHP 7.0.
+   内嵌服务器功能已移除。自 PHP 7.0 起就已破坏了。
   </para>
   <para>
-   The undocumented <literal>mysqli::$stat</literal> property has been removed
-   in favor of <methodname>mysqli::stat</methodname>.
+   未记录的 <literal>mysqli::$stat</literal> 属性已移除，以支持 mysqli::stat()。
   </para>
  </sect2>
 
@@ -200,35 +189,26 @@
   <title>OpenSSL</title>
 
   <para>
-   The <function>openssl_random_pseudo_bytes</function> function will now
-   throw an exception in error situations, similar to <function>random_bytes</function>.
-   In particular, an <classname>Error</classname> is thrown if the number of
-   requested bytes is less than or equal to zero, and an <classname>Exception</classname>
-   is thrown if sufficient randomness cannot be gathered.
-   The <literal>$crypto_strong output</literal> argument is guaranteed to always
-   be &true; if the function does not throw, so explicitly checking it is not necessary.
+   <function>openssl_random_pseudo_bytes</function> 函数现在将在错误情况下抛出异常，类似于 <function>random_bytes</function>。特别是，如果请求的字节数小于或等于零，则会引发
+   <classname>Error</classname>；如果无法收集到足够的随机性，则会引发 <classname>Exception</classname>。如果函数不抛出异常，则 <literal>$crypto_strong</literal>
+   输出参数保证始终为 &true;，因此不需要手动检查它。
   </para>
  </sect2>
 
  <sect2 xml:id="migration74.incompatible.pcre">
-  <title>Regular Expressions (Perl-Compatible)</title>
+  <title>正则表达式（Perl 兼容）</title>
 
   <para>
-   When <constant>PREG_UNMATCHED_AS_NULL</constant> mode is used, trailing
-   unmatched capturing groups will now also be set to &null; (or
-   <literal>[null, -1]</literal> if offset capture is enabled).
-   This means that the size of the <literal>$matches</literal> will always be the same.
+   当使用 <constant>PREG_UNMATCHED_AS_NULL</constant> 模式时，后跟不匹配的捕获组现在也将设置为 &null;（如果启用了偏移捕获，则为 <literal>[null, -1]</literal>）。这意味着 <literal>$matches</literal> 的大小将始终相同。
   </para>
  </sect2>
 
  <sect2 xml:id="migration74.incompatible.pdo">
-  <title>PHP Data Objects</title>
+  <title>PHP 数据对象</title>
 
   <para>
-   Attempting to serialize a <classname>PDO</classname> or
-   <classname>PDOStatement</classname> instance will now generate
-   an <classname>Exception</classname> rather than a <classname>PDOException</classname>,
-   consistent with other internal classes which do not support serialization.
+   尝试序列化 <classname>PDO</classname> 或 <classname>PDOStatement</classname> 实例现在将生成
+   <classname>Exception</classname> 而不是 <classname>PDOException</classname>，这与其它不支持序列化的内部类一致。
   </para>
  </sect2>
 
@@ -250,10 +230,8 @@
 
   <para>
    现在对 <classname>ArrayObject</classname> 实例调用 <function>get_object_vars</function>
-   将始终返回 <classname>ArrayObject</classname> 本身（或子类）的属性。
-   Previously it returned the values of the wrapped
-   array/object unless the <constant>ArrayObject::STD_PROP_LIST</constant>
-   flag was specified.
+   将始终返回 <classname>ArrayObject</classname> 本身（或子类）的属性。之前，除非指定了
+   <constant>ArrayObject::STD_PROP_LIST</constant> flag，否则将返回包装后的 array/object。
   </para>
   <para>
    其它受到影响的操作有：
@@ -277,23 +255,17 @@
    </listitem>
   </itemizedlist>
   <para>
-   <literal>(array)</literal> casts are not affected. They will continue to
-   return either the wrapped array, or the <classname>ArrayObject</classname>
-   properties, depending on whether the <constant>ArrayObject::STD_PROP_LIST</constant>
-   flag is used.
+   <literal>(array)</literal> 转换不受影响。它们将继续返回包装数组或 <classname>ArrayObject</classname>
+   属性，具体取决于是否使用 <constant>ArrayObject::STD_PROP_LIST</constant> flag。
   </para>
   <para>
-   <methodname>SplPriorityQueue::setExtractFlags</methodname> will throw
-   an exception if zero is passed. Previously this would generate a recoverable
-   fatal error on the next extraction operation.
+   如果传递零，<methodname>SplPriorityQueue::setExtractFlags</methodname>
+   将引发异常。以前，这会在执行下个提取操作时生成可恢复的致命错误。
   </para>
   <para>
-   <classname>ArrayObject</classname>, <classname>ArrayIterator</classname>,
-   <classname>SplDoublyLinkedList</classname> and <classname>SplObjectStorage</classname>
-   now support the <literal>__serialize()</literal> and <literal>__unserialize()</literal>
-   mechanism in addition to the <interfacename>Serializable</interfacename> interface.
-   This means that serialization payloads created on older PHP versions can still be
-   unserialized, but new payloads created by PHP 7.4 will not be understood by older versions.
+   除了 <interfacename>Serializable</interfacename> 接口之外，<classname>ArrayObject</classname>、<classname>ArrayIterator</classname>、<classname>SplDoublyLinkedList</classname>
+   和 <classname>SplObjectStorage</classname> 现在还支持 <literal>__serialize()</literal> 和 <literal>__unserialize()</literal>
+   机制。这意味着在旧版本上创建的序列化负荷仍然可以反序列化，但旧版本将无法理解 PHP 7.4 创建的新负荷（payloads）。
   </para>
  </sect2>
 
@@ -301,9 +273,7 @@
   <title>Tokenizer</title>
 
   <para>
-   <function>token_get_all</function> will now emit a
-   <constant>T_BAD_CHARACTER</constant> token for unexpected
-   characters instead of leaving behind holes in the token stream.
+   <function>token_get_all</function> 现在将为非法字符发出 <constant>T_BAD_CHARACTER</constant> token，而不是在 token stream 中留下漏洞。
   </para>
  </sect2>
 

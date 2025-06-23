@@ -1,0 +1,820 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- EN-Revision: fab7349d08516e730f5c7a82f35cc64c1e797e1a Maintainer: mowangjuanzi Status: ready -->
+<variablelist xml:id="constant.curl-error.constants" role="constant_list">
+ <title>cURL 错误常量</title>
+ <varlistentry xml:id="constant.curle-aborted-by-callback">
+  <term>
+   <constant>CURLE_ABORTED_BY_CALLBACK</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    回调已中止。回调向 libcurl 返回“abort”。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-bad-calling-order">
+  <term>
+   <constant>CURLE_BAD_CALLING_ORDER</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-bad-content-encoding">
+  <term>
+   <constant>CURLE_BAD_CONTENT_ENCODING</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    无法识别传输编码。
+   </simpara>
+  </listitem>
+ </varlistentry>
+  <varlistentry xml:id="constant.curle-bad-download-resume">
+  <term>
+   <constant>CURLE_BAD_DOWNLOAD_RESUME</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    由于指定的偏移量超出了文件边界，因此无法恢复下载。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-bad-function-argument">
+  <term>
+   <constant>CURLE_BAD_FUNCTION_ARGUMENT</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    调用的函数带有错误的参数。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-bad-password-entered">
+  <term>
+   <constant>CURLE_BAD_PASSWORD_ENTERED</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-couldnt-connect">
+  <term>
+   <constant>CURLE_COULDNT_CONNECT</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    无法连接到主机或代理。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-couldnt-resolve-host">
+  <term>
+   <constant>CURLE_COULDNT_RESOLVE_HOST</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    无法解析主机。指定的远程主机无法解析。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-couldnt-resolve-proxy">
+  <term>
+   <constant>CURLE_COULDNT_RESOLVE_PROXY</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    无法解析代理。无法解析给定的代理主机。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-failed-init">
+  <term>
+   <constant>CURLE_FAILED_INIT</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    初始化代码失败。这可能是内部错误或程序，或者是资源问题，导致在初始化时无法完成一些基本操作。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-filesize-exceeded">
+  <term>
+   <constant>CURLE_FILESIZE_EXCEEDED</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    超出最大文件大小。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-file-couldnt-read-file">
+  <term>
+   <constant>CURLE_FILE_COULDNT_READ_FILE</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    无法打开 FILE:// 指定的文件。很可能是因为文件路径未识别现有文件或由于缺乏适当的文件权限。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-access-denied">
+  <term>
+   <constant>CURLE_FTP_ACCESS_DENIED</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-bad-download-resume">
+  <term>
+   <constant>CURLE_FTP_BAD_DOWNLOAD_RESUME</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-cant-get-host">
+  <term>
+   <constant>CURLE_FTP_CANT_GET_HOST</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    用于查找新连接的主机发生内部故障。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-cant-reconnect">
+  <term>
+   <constant>CURLE_FTP_CANT_RECONNECT</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-couldnt-get-size">
+  <term>
+   <constant>CURLE_FTP_COULDNT_GET_SIZE</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-couldnt-retr-file">
+  <term>
+   <constant>CURLE_FTP_COULDNT_RETR_FILE</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    这要么是对“RETR”命令的意外回复，要么是零字节传输完成。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-couldnt-set-ascii">
+  <term>
+   <constant>CURLE_FTP_COULDNT_SET_ASCII</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-couldnt-set-binary">
+  <term>
+   <constant>CURLE_FTP_COULDNT_SET_BINARY</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-couldnt-stor-file">
+  <term>
+   <constant>CURLE_FTP_COULDNT_STOR_FILE</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-couldnt-use-rest">
+  <term>
+   <constant>CURLE_FTP_COULDNT_USE_REST</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    FTP REST 命令返回错误。如果服务器正常，这种情况绝不会发生。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-partial-file">
+  <term>
+   <constant>CURLE_FTP_PARTIAL_FILE</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-port-failed">
+  <term>
+   <constant>CURLE_FTP_PORT_FAILED</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    FTP PORT 命令返回错误。这种情况大多发生在为 libcurl 指定的地址没有足够好。参阅 <constant>CURLOPT_FTPPORT</constant>。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-quote-error">
+  <term>
+   <constant>CURLE_FTP_QUOTE_ERROR</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-ssl-failed">
+  <term>
+   <constant>CURLE_FTP_SSL_FAILED</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-user-password-incorrect">
+  <term>
+   <constant>CURLE_FTP_USER_PASSWORD_INCORRECT</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-weird-227-format">
+  <term>
+   <constant>CURLE_FTP_WEIRD_227_FORMAT</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    FTP 服务器返回 227-line 作为对 PASV 命令的响应。如果 libcurl 无法解析该行，则会传回此返回代码。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-weird-pass-reply">
+  <term>
+   <constant>CURLE_FTP_WEIRD_PASS_REPLY</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    将 FTP 密码发送到服务器后，libcurl 需要收到正确的回复。此错误代码表示返回了意外代码。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-weird-pasv-reply">
+  <term>
+   <constant>CURLE_FTP_WEIRD_PASV_REPLY</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    libcurl 无法从服务器获取合理的结果作为对 PASV 或 EPSV 命令的响应。服务器存在缺陷。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-weird-server-reply">
+  <term>
+   <constant>CURLE_FTP_WEIRD_SERVER_REPLY</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    服务器发送了 libcurl 无法解析的数据。自 cURL 7.51.0 起，此错误代码为 <constant>CURLE_WEIRD_SERVER_REPLY</constant>。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-weird-user-reply">
+  <term>
+   <constant>CURLE_FTP_WEIRD_USER_REPLY</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ftp-write-error">
+  <term>
+   <constant>CURLE_FTP_WRITE_ERROR</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-function-not-found">
+  <term>
+   <constant>CURLE_FUNCTION_NOT_FOUND</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    未找到函数。未找到所需的 zlib 函数。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-got-nothing">
+  <term>
+   <constant>CURLE_GOT_NOTHING</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    服务器没有返回任何内容，在这种情况下，没有得到任何内容视为错误。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-http-not-found">
+  <term>
+   <constant>CURLE_HTTP_NOT_FOUND</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-http-port-failed">
+  <term>
+   <constant>CURLE_HTTP_PORT_FAILED</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-http-post-error">
+  <term>
+   <constant>CURLE_HTTP_POST_ERROR</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    这是一个奇怪的错误，主要由于内部混乱而发生。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-http-range-error">
+  <term>
+   <constant>CURLE_HTTP_RANGE_ERROR</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-http-returned-error">
+  <term>
+   <constant>CURLE_HTTP_RETURNED_ERROR</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    如果 <constant>CURLOPT_FAILONERROR</constant> 设置为 &true; 并且 HTTP 服务器返回大于或等于 400 的错误代码，则返回此值。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ldap-cannot-bind">
+  <term>
+   <constant>CURLE_LDAP_CANNOT_BIND</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    LDAP 无法绑定。LDAP 绑定操作失败。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ldap-invalid-url">
+  <term>
+   <constant>CURLE_LDAP_INVALID_URL</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ldap-search-failed">
+  <term>
+   <constant>CURLE_LDAP_SEARCH_FAILED</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    LDAP 搜索失败。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-library-not-found">
+  <term>
+   <constant>CURLE_LIBRARY_NOT_FOUND</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-malformat-user">
+  <term>
+   <constant>CURLE_MALFORMAT_USER</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-obsolete">
+  <term>
+   <constant>CURLE_OBSOLETE</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ok">
+  <term>
+   <constant>CURLE_OK</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    一切顺利。一切照常进行。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-operation-timedout">
+  <term>
+   <constant>CURLE_OPERATION_TIMEDOUT</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    操作超时。根据条件已达到指定的超时时限。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-operation-timeouted">
+  <term>
+   <constant>CURLE_OPERATION_TIMEOUTED</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-out-of-memory">
+  <term>
+   <constant>CURLE_OUT_OF_MEMORY</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    内存分配请求失败。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-partial-file">
+  <term>
+   <constant>CURLE_PARTIAL_FILE</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    文件传输的大小跟预期的不一致。当服务器首先报告预期的传输大小，然后提供与先前指定的大小不匹配的数据时，就会发生这种情况。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-proxy">
+  <term>
+   <constant>CURLE_PROXY</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    代理握手错误。<constant>CURLINFO_PROXY_ERROR</constant> 提供有关特定问题的额外详细信息。自 PHP 8.2.0 和 cURL 7.73.0 起可用
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-read-error">
+  <term>
+   <constant>CURLE_READ_ERROR</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    读取本地文件时出现问题，或者读取回调返回错误。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-recv-error">
+  <term>
+   <constant>CURLE_RECV_ERROR</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    接收网络数据失败。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-send-error">
+  <term>
+   <constant>CURLE_SEND_ERROR</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    发送网络数据失败。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-share-in-use">
+  <term>
+   <constant>CURLE_SHARE_IN_USE</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ssh">
+  <term>
+   <constant>CURLE_SSH</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    SSH 会话期间发生未指定的错误。自 cURL 7.16.1 起可用。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ssl-cacert">
+  <term>
+   <constant>CURLE_SSL_CACERT</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ssl-cacert-badfile">
+  <term>
+   <constant>CURLE_SSL_CACERT_BADFILE</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    读取 SSL CA 证书时出现问题。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ssl-certproblem">
+  <term>
+   <constant>CURLE_SSL_CERTPROBLEM</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    本地客户端证书有问题。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ssl-cipher">
+  <term>
+   <constant>CURLE_SSL_CIPHER</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    无法使用指定的密码。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ssl-connect-error">
+  <term>
+   <constant>CURLE_SSL_CONNECT_ERROR</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    SSL/TLS 握手中某处出现问题。读取错误缓冲区中的消息可提供有关该问题的更多详细信息。可能是证书（文件格式、路径、权限）、密码等。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ssl-engine-notfound">
+  <term>
+   <constant>CURLE_SSL_ENGINE_NOTFOUND</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    未找到指定的加密引擎。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ssl-engine-setfailed">
+  <term>
+   <constant>CURLE_SSL_ENGINE_SETFAILED</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    无法将选定的 SSL 加密引擎设置为默认值。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ssl-peer-certificate">
+  <term>
+   <constant>CURLE_SSL_PEER_CERTIFICATE</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-ssl-pinnedpubkeynotmatch">
+  <term>
+   <constant>CURLE_SSL_PINNEDPUBKEYNOTMATCH</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    无法匹配使用 <constant>CURLOPT_PINNEDPUBLICKEY</constant> 指定的固定密钥。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-telnet-option-syntax">
+  <term>
+   <constant>CURLE_TELNET_OPTION_SYNTAX</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-too-many-redirects">
+  <term>
+   <constant>CURLE_TOO_MANY_REDIRECTS</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    重定向次数过多。在进行重定向时，libcurl 达到最大数量。可以使用 <constant>CURLOPT_MAXREDIRS</constant> 设置最大值。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-unknown-telnet-option">
+  <term>
+   <constant>CURLE_UNKNOWN_TELNET_OPTION</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-unsupported-protocol">
+  <term>
+   <constant>CURLE_UNSUPPORTED_PROTOCOL</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    传递给 libcurl 的 URL 使用了 libcurl 不支持的协议。问题可能是未使用的编译时选项、拼写错误的协议字符串或 libcurl 没有编码的协议。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-url-malformat">
+  <term>
+   <constant>CURLE_URL_MALFORMAT</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    URL 格式不正确。
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-url-malformat-user">
+  <term>
+   <constant>CURLE_URL_MALFORMAT_USER</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-weird-server-reply">
+  <term>
+   <constant>CURLE_WEIRD_SERVER_REPLY</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    服务器发送的数据 libcurl 无法解析。在 cURL 7.51.0 之前，此错误代码称为
+    <constant>CURLE_FTP_WEIRD_SERVER_REPLY</constant>。自 PHP 7.3.0 和 cURL 7.51.0 起可用
+   </simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry xml:id="constant.curle-write-error">
+  <term>
+   <constant>CURLE_WRITE_ERROR</constant>
+   (<type>int</type>)
+  </term>
+  <listitem>
+   <simpara>
+    将接收的数据写入本地文件时发生错误，或者从写入回调向 libcurl 返回错误。
+   </simpara>
+  </listitem>
+ </varlistentry>
+</variablelist>

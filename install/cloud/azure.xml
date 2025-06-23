@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 5d591c30aeef70c8cd325ab914c102333cc9bd8f Maintainer: mowangjuanzi Status: ready -->
-
- <sect1 xml:id="install.cloud.azure" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- EN-Revision: e8ac70bf549a723cb36465667a6109d9933b8619 Maintainer: mowangjuanzi Status: ready -->
+<!-- CREDITS: Luffy -->
+<sect1 xml:id="install.cloud.azure" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
   <title>Azure 应用服务</title>
   <para>
     PHP 经常用于 Azure 应用服务（又称 Microsoft Azure、Windows Azure、Azure Web 应用）。
@@ -15,18 +15,21 @@
 
   <para>因此，PHP 和扩展将跟在其他 Windows 服务器一样在 Azure 应用服务上运行。
 
-  大部分的知识库也适用，因此也可以参阅 <link linkend="install.windows.troubleshooting">Windows 疑难解答页面</link>。
-
   然而，Azure 应用管理的管理界面是不同的：
   </para>
 
   <itemizedlist spacing="compact">
     <listitem>
-      <para>Azure 门户：创建，编辑设置和删除 web 站点。 <link xlink:href="https://portal.azure.com/">Azure 门户</link>
+      <para>Azure 门户：创建，编辑设置和删除 web 站点。 <link xlink:href="&url.azure.portal;">Azure 门户</link>
       </para>
     </listitem>
     <listitem>
-      <para>Kudu 仪表盘：[web 站点名称].azurewebsites.net，然后 Kudu 仪表盘是 <link xlink:href="https://your_web_site_name.scm.azurewebsites.net/">https://[web 站点名称].scm.azurewebsites.net/</link>。仪表盘允许你访问一些调试功能，文件管理和站点扩展。站点扩展是 Azure 机制，用于添加像是 PHP 预览版本到扩展程序。
+      <para>
+       Kudu 仪表板：如果网站的 URL 是
+       <literal><replaceable>site_name</replaceable>.azurewebsites.net</literal>，那么 Kudu 仪表板是
+       <literal>https://<replaceable>site_name</replaceable>.scm.azurewebsites.net/</literal>。
+       仪表板提供了调试功能，文件管理和站点扩展。
+       站点扩展是 Azure 机制，用于向网站添加额外的程序，如 PHP 预览版本。
       </para>
     </listitem>
     <listitem>
@@ -34,10 +37,10 @@
     </listitem>
   </itemizedlist>
 
-  <para>还有 PHP SDK，支持用 PHP 代码调用许多 Azure 服务。参阅 <link xlink:href="https://github.com/Azure/azure-sdk-for-php">Azure SDK for PHP</link>。
+  <para>还有 PHP SDK，支持用 PHP 代码调用许多 Azure 服务。参阅 <link xlink:href="&url.azure.php.sdk;">Azure SDK for PHP</link>。
   </para>
   
-  <para>更多信息，参阅 <link xlink:href="https://azure.microsoft.com/en-us/develop/php/">Azure PHP 开发人员中心</link>
+  <para>更多信息，参阅 <link xlink:href="&url.azure.php;">Azure PHP 开发人员中心</link>
   </para>
 
   <sect2>
@@ -54,7 +57,7 @@
   </para>
   </sect2>
 
- </sect1>
+</sect1>
 
 <!-- Keep this comment at the end of the file
 Local variables:

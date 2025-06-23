@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 9c74079f12d67cabb52c124d761f48275417d7eb Maintainer: mowangjuanzi Status: ready -->
-<!-- CREDITS: mowangjuanzi -->
+<!-- EN-Revision: 80720e59fc88b2522fe2e119b0148caaaa214b0b Maintainer: mowangjuanzi Status: ready -->
+<!-- CREDITS: Luffy -->
 <refentry xml:id="closure.bindto" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
  <refnamediv>
   <refname>Closure::bindTo</refname>
@@ -35,7 +35,7 @@
   </para>
 
   <para>
-   此函数确保对于非静态闭包，拥有绑定实例也意味着被限定作用域，反之亦然。
+   此方法确保对于非静态闭包，拥有绑定实例也意味着被限定作用域，反之亦然。
    为此，非静态闭包给定一个 &null; 实例的作用域可以使其变为静态，
    非静态无作用域的闭包给定一个非 null 的实例作用在一个非指定类。
   </para>
@@ -91,14 +91,21 @@
 <![CDATA[
 <?php
 
-class A {
+class A
+{
     private $val;
-    function __construct($val) {
+
+    public function __construct($val)
+    {
         $this->val = $val;
     }
-    function getClosure() {
+
+    public function getClosure()
+    {
         // 返回绑定到此对象和作用域的闭包
-        return function() { return $this->val; };
+        return function() {
+            return $this->val;
+        };
     }
 }
 
@@ -107,8 +114,10 @@ $ob2 = new A(2);
 
 $cl = $ob1->getClosure();
 echo $cl(), "\n";
+
 $cl = $cl->bindTo($ob2);
 echo $cl(), "\n";
+
 ?>
 ]]>
    </programlisting>

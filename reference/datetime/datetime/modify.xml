@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 02ff7fef5b34cf8f5395180d9d39fb64d9398d00 Maintainer: yuanyuqiang Status: ready -->
-<!-- CREDITS: mowangjuanzi -->
+<!-- EN-Revision: c8ba91f7e546462dc66c2a11a7eab6f55c93915b Maintainer: yuanyuqiang Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
 <refentry xml:id="datetime.modify" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
  <refnamediv>
   <refname>DateTime::modify</refname>
@@ -13,7 +13,7 @@
   &reftitle.description;
   <para>&style.oop;</para>
   <methodsynopsis role="DateTime">
-   <modifier>public</modifier> <type class="union"><type>DateTime</type><type>false</type></type><methodname>DateTime::modify</methodname>
+   <modifier>public</modifier> <type>DateTime</type><methodname>DateTime::modify</methodname>
    <methodparam><type>string</type><parameter>modifier</parameter></methodparam>
   </methodsynopsis>
   <para>&style.procedural;</para>
@@ -43,8 +43,40 @@
  <refsect1 role="returnvalues">
   &reftitle.returnvalues;
   <para>
-   &date.datetime.return.modifiedobjectorfalseforfailure;
+   成功时返回 <classname>DateTime</classname>。&return.falseforfailure.style.procedural;
   </para>
+ </refsect1>
+
+ <refsect1 role="errors">
+  &reftitle.errors;
+  <para>
+   仅限于面向对象的 API：如果传递了无效的日期/时间字符串，将抛出 <exceptionname>DateMalformedStringException</exceptionname>。
+  </para>
+ </refsect1>
+
+ <refsect1 role="changelog">
+  &reftitle.changelog;
+  <informaltable>
+   <tgroup cols="2">
+    <thead>
+     <row>
+      <entry>&Version;</entry>
+      <entry>&Description;</entry>
+     </row>
+    </thead>
+    <tbody>
+     <row>
+      <entry>8.3.0</entry>
+      <entry>
+       如果传递了无效的字符串，<methodname>DateTime::modify</methodname> 现在将抛出
+       <exceptionname>DateMalformedStringException</exceptionname> 。之前返回
+       <literal>false</literal> 并且发出警告。<function>date_modify</function>
+       尚未更改。
+      </entry>
+     </row>
+    </tbody>
+   </tgroup>
+  </informaltable>
  </refsect1>
 
  <refsect1 role="examples">
@@ -98,6 +130,33 @@ echo $date->format('Y-m-d') . "\n";
 <![CDATA[
 2001-01-31
 2001-03-03
+]]>
+   </screen>
+  </example>
+  <example>
+   <title>支持所有日期和时间格式</title>
+   <programlisting role="php">
+<![CDATA[
+<?php
+$date = new DateTime('2020-12-31');
+
+$date->modify('July 1st, 2023');
+echo $date->format('Y-m-d H:i') . "\n";
+
+$date->modify('Monday next week');
+echo $date->format('Y-m-d H:i') . "\n";
+
+$date->modify('17:30');
+echo $date->format('Y-m-d H:i') . "\n";
+?>
+]]>
+   </programlisting>
+   &example.outputs;
+   <screen>
+<![CDATA[
+2023-07-01 00:00
+2023-07-03 00:00
+2023-07-03 17:30
 ]]>
    </screen>
   </example>

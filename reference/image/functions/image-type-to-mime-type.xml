@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 0c9c2dd669fe9395eaa73d487fbd160f9057429a Maintainer: dallas Status: ready -->
-<!-- CREDITS: mowangjuanzi -->
+<!-- EN-Revision: 89ae180a851621c308f0ea4604ff2e919aa57a7f Maintainer: dallas Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
 <refentry xml:id="function.image-type-to-mime-type" xmlns="http://docbook.org/ns/docbook">
  <refnamediv>
   <refname>image_type_to_mime_type</refname>
@@ -25,7 +25,7 @@
      <term><parameter>image_type</parameter></term>
      <listitem>
       <para>
-       <literal>IMAGETYPE_XXX</literal> 常量之一。
+       <constant>IMAGETYPE_<replaceable>*</replaceable></constant> 常量之一。
       </para>
      </listitem>
     </varlistentry>
@@ -117,9 +117,13 @@
        <entry><constant>IMAGETYPE_ICO</constant></entry>
        <entry><literal>image/vnd.microsoft.icon</literal></entry>
       </row>
-       <row>
+      <row>
        <entry><constant>IMAGETYPE_WEBP</constant></entry>
        <entry><literal>image/webp</literal></entry>
+      </row>
+      <row>
+       <entry><constant>IMAGETYPE_AVIF</constant></entry>
+       <entry><literal>image/avif</literal></entry>
       </row>
      </tbody>
     </tgroup>

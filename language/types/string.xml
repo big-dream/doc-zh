@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 48e35e9d0d985710d8f04ac998eb357b40bff9af Maintainer: dallas Status: ready -->
+<!-- EN-Revision: e587d0655e426f97b3fcb431453da5030e743b23 Maintainer: dallas Status: ready -->
 <!-- CREDITS: mowangjuanzi, Luffy -->
 <sect1 xml:id="language.types.string">
  <title>String 字符串</title>
@@ -68,35 +68,36 @@
     </simpara>
    </note>
 
-   <informalexample>
+   <example>
+    <title>Syntax Variants</title>
     <programlisting role="php">
 <![CDATA[
 <?php
-echo 'this is a simple string';
+echo 'this is a simple string', PHP_EOL;
 
 // 可以录入多行
 echo 'You can also have embedded newlines in
 strings this way as it is
-okay to do';
+okay to do', PHP_EOL;
 
 // 输出： Arnold once said: "I'll be back"
-echo 'Arnold once said: "I\'ll be back"';
+echo 'Arnold once said: "I\'ll be back"', PHP_EOL;
 
 // 输出： You deleted C:\*.*?
-echo 'You deleted C:\\*.*?';
+echo 'You deleted C:\\*.*?', PHP_EOL;
 
 // 输出： You deleted C:\*.*?
-echo 'You deleted C:\*.*?';
+echo 'You deleted C:\*.*?', PHP_EOL;
 
 // 输出： This will not expand: \n a newline
-echo 'This will not expand: \n a newline';
+echo 'This will not expand: \n a newline', PHP_EOL;
 
 // 输出： Variables do not $expand $either
-echo 'Variables do not $expand $either';
+echo 'Variables do not $expand $either', PHP_EOL;
 ?>
 ]]>
     </programlisting>
-   </informalexample>
+   </example>
 
   </sect3>
 
@@ -104,7 +105,7 @@ echo 'Variables do not $expand $either';
    <title>双引号</title>
 
    <para>
-    如果字符串是包围在双引号（"）中， PHP 将对以下特殊的字符进行解析：
+    如果字符串是包围在双引号（<literal>"</literal>)）中， PHP 将对以下特殊的字符进行解析：
    </para>
 
    <table>
@@ -158,21 +159,22 @@ echo 'Variables do not $expand $either';
       <row>
        <entry><literal>\[0-7]{1,3}</literal></entry>
        <entry>
-        符合该正则表达式序列的是一个以八进制方式来表达的字符，which silently overflows to fit in a byte
-        (e.g. "\400" === "\000")
+        八进制：匹配正则表达式序列 <literal>[0-7]{1,3}</literal> 的是八进制表示法的字符序列（比如
+        <literal>"\101" === "A"</literal>），会静默溢出以适应一个字节（例如 <literal>"\400" === "\000"</literal>）
        </entry>
       </row>
       <row>
        <entry><literal>\x[0-9A-Fa-f]{1,2}</literal></entry>
        <entry>
-        符合该正则表达式序列的是一个以十六进制方式来表达的字符
+        十六进制：匹配正则表达式序列 <literal>[0-9A-Fa-f]{1,2}</literal> 的是十六进制表示法的一个字符（比如
+        <literal>"\x41" === "A"</literal>）
        </entry>
       </row>
       <row>
        <entry><literal>\u{[0-9A-Fa-f]+}</literal></entry>
        <entry>
-        匹配正则表达式的字符序列是 unicode 码位，
-        该码位能作为 UTF-8 的表达方式输出字符串
+        Unicode：匹配正则表达式 <literal>[0-9A-Fa-f]+</literal> 的字符序列是 unicode 码位，该码位能作为
+        UTF-8 的表达方式输出字符串。序列中必须包含大括号。例如 <literal>"\u{41}" === "A"</literal>
        </entry>
       </row>
      </tbody>
@@ -185,7 +187,7 @@ echo 'Variables do not $expand $either';
 
    <para>
     用双引号定义的字符串最重要的特征是变量会被解析，详见<link 
-    linkend="language.types.string.parsing">变量解析</link>。
+    linkend="language.types.string.parsing">变量插值</link>。
    </para>
   </sect3>
   
@@ -259,7 +261,7 @@ c
     &example.outputs.73;
     <screen>
 <![CDATA[
-PHP Parse error:  Invalid body indentation level (expecting an indentation level of at least 3) in example.php on line 4
+Parse error: Invalid body indentation level (expecting an indentation level of at least 3) in example.php on line 4
 ]]>
     </screen>
    </example>
@@ -274,7 +276,7 @@ PHP Parse error:  Invalid body indentation level (expecting an indentation level
 
    <example>
     <title>内容（空白）和结束标识符的不同缩进</title>
-    <programlisting role="php">
+    <programlisting role="php" annotations="non-interactive">
 <![CDATA[
 <?php
 // 以下所有代码都不起作用。
@@ -301,7 +303,7 @@ PHP Parse error:  Invalid body indentation level (expecting an indentation level
     &example.outputs.73;
     <screen>
 <![CDATA[
-PHP Parse error:  Invalid indentation - tabs and spaces cannot be mixed in example.php line 8
+Parse error: Invalid indentation - tabs and spaces cannot be mixed in example.php line 8
 ]]>
     </screen>
    </example>
@@ -360,7 +362,7 @@ END, 'd e f'];
      &example.outputs.73;
     <screen>
 <![CDATA[
-PHP Parse error:  syntax error, unexpected identifier "ING", expecting "]" in example.php on line 6
+Parse error: syntax error, unexpected identifier "ING", expecting "]" in example.php on line 5
 ]]>
      </screen>
     </example>
@@ -403,7 +405,7 @@ bar
      </programlisting>
     </example>
     <example>
-     <title>即使在 PHP 7.3.0 之前也合法的示例</title>
+     <title>在 PHP 7.3.0 之前有效示例</title>
      <programlisting role="php">
       <!-- This is a VALID example -->
 <![CDATA[
@@ -497,7 +499,7 @@ EOD
 
    <example>
     <title>使用 Heredoc 结构来初始化静态值</title>
-    <programlisting role="php">
+    <programlisting role="php" annotations="non-interactive">
 <![CDATA[
 <?php
 // 静态变量
@@ -549,7 +551,7 @@ FOOBAR;
    <para>
     就象 heredoc 结构类似于双引号字符串，Nowdoc 结构是类似于单引号字符串的。Nowdoc
     结构很象 heredoc 结构，但是 nowdoc
-    中<emphasis>不进行解析操作</emphasis>。这种结构很适合用于嵌入 PHP
+    中<emphasis>不进行字符串插值</emphasis>。这种结构很适合用于嵌入 PHP
     代码或其它大段文本而无需对其中的特殊字符进行转义。与 SGML 的
     <literal>&lt;![CDATA[ ]]&gt;</literal> 结构是用来声明大段的不用解析的文本类似，nowdoc 结构也有相同的特征。
    </para>
@@ -624,7 +626,7 @@ This should not print a capital 'A': \x41]]>
 
     <example>
      <title>静态数据的示例</title>
-     <programlisting role="php">
+     <programlisting role="php" annotations="non-interactive">
 <![CDATA[
 <?php
 class foo {
@@ -646,42 +648,34 @@ EOT;
   </sect3>
 
   <sect3 xml:id="language.types.string.parsing">
-   <title>变量解析</title>
+   <title>字符串插值</title>
 
    <simpara>
     当<type>字符串</type>用双引号或 heredoc 结构定义时，其中的<link
-    linkend="language.variables">变量</link>将会被解析。
+    linkend="language.variables">变量</link>可以进行替换。
    </simpara>
 
    <simpara>
     这里共有两种语法规则：一种<link
-    linkend="language.types.string.parsing.simple">简单</link>规则，一种<link
-    linkend="language.types.string.parsing.complex">复杂</link>规则。简单的语法规则是最常用和最方便的，它可以用最少的代码在一个
+    linkend="language.types.string.parsing.basic">基本</link>规则，一种<link
+    linkend="language.types.string.parsing.advanced">高级</link>规则。基本的语法规则是最常用和最方便的，它可以用最少的代码在一个
     <type>string</type> 中嵌入一个变量，一个 <type>array</type> 的值，或一个 <type>object</type> 的属性。
    </simpara>
 
-   <simpara>
-    复杂规则语法的显著标记是用花括号包围的表达式。
-   </simpara>
-
-   <sect4 xml:id="language.types.string.parsing.simple">
-    <title>简单语法</title>
-
+   <sect4 xml:id="language.types.string.parsing.basic">
+    <title>基本语法</title>
     <simpara>
-     当 PHP 解析器遇到一个美元符号（<literal>$</literal>）时，它会和其它很多解析器一样，去组合尽量多的标识以形成一个合法的变量名。可以用花括号来明确变量名的界线。
+     如果遇到一个美元符号（<literal>$</literal>），后面的字符会被解释为变量名，然后替换为变量的值。
     </simpara>
-
-    <informalexample>
+    <example>
+     <title>String Interpolation</title>
      <programlisting role="php">
 <![CDATA[
 <?php
 $juice = "apple";
 
-echo "He drank some $juice juice.".PHP_EOL;
-// Unintended. "s" is a valid character for a variable name, so this refers to $juices, not $juice.
-echo "He drank some juice made of $juices.";
-// Explicitly specify the end of the variable name by enclosing the reference in braces.
-echo "He drank some juice made of {$juice}s.";
+echo "He drank some $juice juice." . PHP_EOL;
+
 ?>
 ]]>
      </programlisting>
@@ -689,42 +683,127 @@ echo "He drank some juice made of {$juice}s.";
      <screen>
 <![CDATA[
 He drank some apple juice.
-He drank some juice made of .
-He drank some juice made of apples.
 ]]>
      </screen>
-    </informalexample>
+    </example>
 
     <simpara>
-     类似的，一个 <type>array</type> 索引或一个 <type>object</type>
-     属性也可被解析。数组索引要用方括号（<literal>]</literal>）来表示索引结束的边际，对象属性则是和上述的变量规则相同。
+     从形式上讲，基本变量替换语法的结构如下：
     </simpara>
+    <informalexample>
+     <programlisting>
+<![CDATA[
+string-variable::
+     variable-name   (offset-or-property)?
+   | ${   expression   }
 
-    <example>
-     <title>简单语法示例</title>
-     <programlisting role="php">
+offset-or-property::
+     offset-in-string
+   | property-in-string
+
+offset-in-string::
+     [   name   ]
+   | [   variable-name   ]
+   | [   integer-literal   ]
+
+property-in-string::
+     ->  name
+
+variable-name::
+     $   name
+
+name::
+     [a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*
+
+]]>
+     </programlisting>
+    </informalexample>
+
+    <warning>
+     <para>
+      <literal>${ expression }</literal> 语法从 PHP 8.2.0 开始被弃用，因为它可能被解释为
+      <link linkend="language.variables.variable">可变变量</link>：
+      <informalexample>
+       <programlisting role="php">
 <![CDATA[
 <?php
-$juices = array("apple", "orange", "koolaid1" => "purple");
+const foo = 'bar';
+$foo = 'foo';
+$bar = 'bar';
+var_dump("${foo}");
+var_dump("${(foo)}");
+?>
+]]>
+       </programlisting>
+       &example.outputs.82;
+       <screen>
+<![CDATA[
+Deprecated: Using ${var} in strings is deprecated, use {$var} instead in file on line 6
 
-echo "He drank some $juices[0] juice.".PHP_EOL;
-echo "He drank some $juices[1] juice.".PHP_EOL;
-echo "He drank some $juices[koolaid1] juice.".PHP_EOL;
+Deprecated: Using ${expr} (variable variables) in strings is deprecated, use {${expr}} instead in file on line 9
+string(3) "foo"
+string(3) "bar"
+]]>
+       </screen>
+       &example.outputs;
+       <screen>
+<![CDATA[
+string(3) "foo"
+string(3) "bar"
+]]>
+       </screen>
+      </informalexample>
+      <link linkend="language.types.string.parsing.advanced">高级</link> 字符串插值语法应该被使用。
+     </para>
+    </warning>
 
-class people {
-    public $john = "John Smith";
-    public $jane = "Jane Smith";
-    public $robert = "Robert Paulsen";
+    <note>
+     <simpara>
+      如果无法形成有效的变量名，美元符号会保持原样。
+     </simpara>
+     <informalexample>
+      <programlisting role="php">
+<![CDATA[
+<?php
+echo "No interpolation $  has happened\n";
+echo "No interpolation $\n has happened\n";
+echo "No interpolation $2 has happened\n";
+?>
+]]>
+      </programlisting>
+      &example.outputs;
+      <screen>
+<![CDATA[
+No interpolation $  has happened
+No interpolation $
+ has happened
+No interpolation $2 has happened
+]]>
+      </screen>
+     </informalexample>
+    </note>
 
-    public $smith = "Smith";
+    <example>
+     <title>插值数组或属性的第一个维度值</title>
+     <programlisting role="php">
+      <![CDATA[
+<?php
+$juices = array("apple", "orange", "string_key" => "purple");
+
+echo "He drank some $juices[0] juice.";
+echo PHP_EOL;
+echo "He drank some $juices[1] juice.";
+echo PHP_EOL;
+echo "He drank some $juices[string_key] juice.";
+echo PHP_EOL;
+
+class A {
+    public $s = "string";
 }
 
-$people = new people();
+$o = new A();
 
-echo "$people->john drank some $juices[0] juice.".PHP_EOL;
-echo "$people->john then said hello to $people->jane.".PHP_EOL;
-echo "$people->john's wife greeted $people->robert.".PHP_EOL;
-echo "$people->robert greeted the two $people->smiths."; // Won't work
+echo "Object value: $o->s.";
 ?>
 ]]>
      </programlisting>
@@ -734,13 +813,18 @@ echo "$people->robert greeted the two $people->smiths."; // Won't work
 He drank some apple juice.
 He drank some orange juice.
 He drank some purple juice.
-John Smith drank some apple juice.
-John Smith then said hello to Jane Smith.
-John Smith's wife greeted Robert Paulsen.
-Robert Paulsen greeted the two .
+Object value: string.
 ]]>
      </screen>
     </example>
+
+    <note>
+     <simpara>
+      数组键必须是无引号的，因此不能用基本语法将常量作为键来引用。使用
+      <link linkend="language.types.string.parsing.advanced">高级</link>
+      语法代替。
+     </simpara>
+    </note>
 
     <simpara>
      从 PHP 7.1.0 起，还支持<emphasis>负</emphasis>数字索引。
@@ -748,7 +832,7 @@ Robert Paulsen greeted the two .
 
     <example><title>负数索引</title>
      <programlisting role="php">
-      <![CDATA[
+<![CDATA[
 <?php
 $string = 'string';
 echo "The character at index -2 is $string[-2].", PHP_EOL;
@@ -759,7 +843,7 @@ echo "Changing the character at index -3 to o gives $string.", PHP_EOL;
      </programlisting>
      &example.outputs;
      <screen>
-      <![CDATA[
+<![CDATA[
 The character at index -2 is n.
 Changing the character at index -3 to o gives strong.
 ]]>
@@ -767,148 +851,95 @@ Changing the character at index -3 to o gives strong.
     </example>
 
     <simpara>
-     如果想要表达更复杂的结构，请用复杂语法。
+     对于更复杂的情况，可以使用 <link linkend="language.types.string.parsing.advanced">高级</link>
+     语法。
     </simpara>
    </sect4>
 
-   <sect4 xml:id="language.types.string.parsing.complex">
-    <title>复杂（花括号）语法</title>
+
+   <sect4 xml:id="language.types.string.parsing.advanced">
+    <title>高级（大括号）语法</title>
 
     <simpara>
-     复杂语法不是因为其语法复杂而得名，而是因为它可以使用复杂的表达式。
+     高级语法允许使用任意访问器对<emphasis>变量</emphasis>进行插值。
     </simpara>
 
     <simpara>
-     任何具有 <type>string</type>
-     表达的标量变量，数组单元或对象属性都可使用此语法。
-     表达式的书写方式与在 <type>string</type> 以外的方式相同，
-     然后用花括号 <literal>{</literal> 和 <literal>}</literal> 把它括起来即可。由于
-     <literal>{</literal> 无法被转义，只有 <literal>$</literal>
-     紧挨着 <literal>{</literal> 时才会被识别。可以用
-     <literal>{\$</literal> 来表达 <literal>{$</literal>。下面的示例可以更好的解释：
+     任何标量变量、数组元素或对象属性（<modifier>static</modifier> 或非
+     <modifier>static</modifier>）都可以通过这种语法进行插值。表达式的写法和
+     在<type>string</type>之外的写法一样，然后用大括号<literal>{</literal>和
+     <literal>}</literal>包围。由于<literal>{</literal>不能被转义，所以这种语法只有在
+     紧跟在<literal>{</literal>后面的<literal>$</literal>才会被识别。要得到一个字面的
+     <literal>{$</literal>，需要用<literal>{\$</literal>。以下是一些例子：
     </simpara>
 
-    <informalexample>
+    <example>
+     <title>Curly Syntax</title>
      <programlisting role="php">
 <![CDATA[
 <?php
-// 显示所有错误
-error_reporting(E_ALL);
-
+const DATA_KEY = 'const-key';
 $great = 'fantastic';
+$arr = [
+    '1',
+    '2',
+    '3',
+    [41, 42, 43],
+    'key' => 'Indexed value',
+    'const-key' => 'Key with minus sign',
+    'foo' => ['foo1', 'foo2', 'foo3']
+];
 
-// 无效，输出: This is { fantastic}
+// 无效，输出 This is { fantastic}
 echo "This is { $great}";
 
-// 有效，输出： This is fantastic
+// 有效，输出 This is fantastic
 echo "This is {$great}";
 
-// 有效
-echo "This square is {$square->width}00 centimeters broad.";
+class Square {
+    public $width;
 
-// 有效，只有通过花括号语法才能正确解析带引号的键名
+    public function __construct(int $width) { $this->width = $width; }
+}
+
+$square = new Square(5);
+
+// 有效
+echo "This square is {$square->width}00 centimeters wide.";
+
+
+// 有效，引用 key 仅使用花括号语法时有效
 echo "This works: {$arr['key']}";
 
-// 有效
-echo "This works: {$arr[4][3]}";
-
-// 这是错误的表达式，因为就象 $foo[bar] 的格式在字符串以外也是错的一样。
-// 换句话说，只有在 PHP 能找到常量 foo 的前提下才会正常工作；这里会产生一个
-// E_NOTICE (undefined constant) 级别的错误。
-echo "This is wrong: {$arr[foo][3]}";
-
-// 有效，当在字符串中使用多重数组时，一定要用括号将它括起来
-echo "This works: {$arr['foo'][3]}";
 
 // 有效
-echo "This works: " . $arr['foo'][3];
+echo "This works: {$arr[3][2]}";
 
-echo "This works too: {$obj->values[3]->name}";
+echo "This works: {$arr[DATA_KEY]}";
 
-echo "This is the value of the var named $name: {${$name}}";
+// 使用多维数组时，在字符串内部时，始终使用括号括住数组
+echo "This works: {$arr['foo'][2]}";
 
-echo "This is the value of the var named by the return value of getName(): {${getName()}}";
+echo "This works: {$obj->values[3]->name}";
 
-echo "This is the value of the var named by the return value of \$object->getName(): {${$object->getName()}}";
+echo "This works: {$obj->$staticProp}";
 
-// 无效，输出： This is the return value of getName(): {getName()}
-echo "This is the return value of getName(): {getName()}";
+// 无效，输出 C:\directory\{fantastic}.txt
+echo "C:\directory\{$great}.txt";
 
-// 无效, 输出： C:\folder\{fantastic}.txt
-echo "C:\folder\{$great}.txt"
-// 有效, 输出： C:\folder\fantastic.txt
-echo "C:\\folder\\{$great}.txt"
+// 有效，输出 C:\directory\fantastic.txt
+echo "C:\\directory\\{$great}.txt";
 ?>
 ]]>
-<!-- maybe it's better to leave this out??
-// this works, but i disencourage its use, since this is NOT
-// involving functions, rather than mere variables, arrays and objects.
-$beer = 'Heineken';
-echo "I'd like to have another {${ strrev('reeb') }}, hips";
- -->
      </programlisting>
-    </informalexample>
-
-    <para>
-     也可以在字符串中用此语法通过变量来调用类的属性。
-    </para>
-
-   <informalexample>
-    <programlisting role="php">
-<![CDATA[
-<?php
-class foo {
-    var $bar = 'I am bar.';
-}
-
-$foo = new foo();
-$bar = 'bar';
-$baz = array('foo', 'bar', 'baz', 'quux');
-echo "{$foo->$bar}\n";
-echo "{$foo->{$baz[1]}}\n";
-?>
-]]>
-    </programlisting>
-   &example.outputs;
-   <screen>
-I am bar.
-I am bar.
-   </screen>
-   </informalexample>
+    </example>
 
     <note>
-     <para>
-      函数、方法、静态类变量和类常量可使用 <literal>{$}</literal>
-      ，在该字符串被定义的命名空间中将其值作为变量名来访问。只单一使用花括号
-      (<literal>{}</literal>) 无法处理从函数或方法的返回值或者类常量以及类静态变量的值。
-     </para>
+     <simpara>
+      由于该语法允许任意表达式，因此可以在高级语法中使用
+      <link linkend="language.variables.variable">可变变量</link>。
+     </simpara>
     </note>
-
-    <informalexample>
-     <programlisting role="php">
-<![CDATA[
-<?php
-// 显示所有错误
-error_reporting(E_ALL);
-
-class beers {
-    const softdrink = 'rootbeer';
-    public static $ale = 'ipa';
-}
-
-$rootbeer = 'A & W';
-$ipa = 'Alexander Keith\'s';
-
-// 有效，输出： I'd like an A & W
-echo "I'd like an {${beers::softdrink}}\n";
-
-// 也有效，输出： I'd like an Alexander Keith's
-echo "I'd like an {${beers::$ale}}\n";
-?>
-]]>
-     </programlisting>
-    </informalexample>
-
    </sect4>
   </sect3>
   
@@ -970,18 +1001,21 @@ echo "I'd like an {${beers::$ale}}\n";
 // 取得字符串的第一个字符
 $str = 'This is a test.';
 $first = $str[0];
+var_dump($first);
 
 // 取得字符串的第三个字符
 $third = $str[2];
+var_dump($third);
 
 // 取得字符串的最后一个字符
 $str = 'This is still a test.';
 $last = $str[strlen($str)-1];
+var_dump($last);
 
 // 修改字符串的最后一个字符
 $str = 'Look at the sea';
 $str[strlen($str)-1] = 'e';
-
+var_dump($str);
 ?>
 ]]>
     </programlisting>
@@ -993,42 +1027,44 @@ $str[strlen($str)-1] = 'e';
    </para>
 
    <example>
-    <!-- TODO Update for PHP 8.0 -->
     <title>字符串无效下标的例子</title>
     <programlisting role="php">
 <![CDATA[
 <?php
 $str = 'abc';
 
-var_dump($str['1']);
-var_dump(isset($str['1']));
+$keys = [ '1', '1.0', 'x', '1x' ];
 
-var_dump($str['1.0']);
-var_dump(isset($str['1.0']));
+foreach ($keys as $keyToTry) {
+    var_dump(isset($str[$keyToTry]));
 
-var_dump($str['x']);
-var_dump(isset($str['x']));
+    try {
+        var_dump($str[$keyToTry]);
+    } catch (TypeError $e) {
+        echo $e->getMessage(), PHP_EOL;
+    }
 
-var_dump($str['1x']);
-var_dump(isset($str['1x']));
+    echo PHP_EOL;
+}
 ?>
 ]]>
     </programlisting>
     &example.outputs;
     <screen>
 <![CDATA[
-string(1) "b"
 bool(true)
-
-Warning: Illegal string offset '1.0' in /tmp/t.php on line 7
 string(1) "b"
+
+bool(false)
+Cannot access offset of type string on string
+
+bool(false)
+Cannot access offset of type string on string
+
 bool(false)
 
-Warning: Illegal string offset 'x' in /tmp/t.php on line 9
-string(1) "a"
-bool(false)
+Warning: Illegal string offset "1x" in Standard input code on line 10
 string(1) "b"
-bool(false)
 ]]>
     </screen>
    </example>

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: fc174e8d6162091550edde46159917ee7e5a2e73 Maintainer: avenger Status: ready -->
+<!-- EN-Revision: e587d0655e426f97b3fcb431453da5030e743b23 Maintainer: avenger Status: ready -->
 <!-- CREDITS: mowangjuanzi, Luffy -->
 <sect1 xml:id="language.types.declarations">
  <title>类型声明</title>
 
  <para>
-  类型声明可以用于函数的参数、返回值，PHP 7.4.0
-  起还可以用于类的属性，来显性的指定需要的类型，如果预期类型在调用时不匹配，则会抛出一个
-  <classname>TypeError</classname> 异常。
+  类型声明可以用于函数的参数、返回值，
+  PHP 7.4.0 起还可以用于类的属性，
+  PHP 8.3.0 起还可以用于类的常量。
+  如果预期类型在调用时不匹配，则会抛出一个 <classname>TypeError</classname> 异常。
  </para>
 
  <para>
@@ -33,6 +34,12 @@
      </row>
     </thead>
     <tbody>
+     <row>
+      <entry>8.3.0</entry>
+      <entry>
+       新增了对类、接口、trait 和枚举常量类型的支持。
+      </entry>
+     </row>
      <row>
       <entry>8.2.0</entry>
       <entry>
@@ -123,11 +130,10 @@
  </sect2>
 
  <sect2 xml:id="language.types.declarations.base">
-  <title>基本类型使用说明</title>
+  <title>原子类型使用说明</title>
 
   <simpara>
-   Base types have straight forward behaviour with some minor caveats which
-   are described in this section.
+   原子类型具有直接明了的行为，但存在一些细微注意事项，本节对此进行了描述。
   </simpara>
 
   <sect3 xml:id="language.types.declarations.base.scalar">
@@ -139,7 +145,7 @@
      <literal>boolean</literal>，而不是类型
      <type>bool</type>。
     </para>
-    <example>
+    <informalexample>
      <programlisting role="php">
 <![CDATA[
 <?php
@@ -160,7 +166,7 @@ Stack trace:
   thrown in - on line 2
 ]]>
      </screen>
-    </example>
+    </informalexample>
    </warning>
   </sect3>
 
@@ -251,7 +257,7 @@ Stack trace:
    <title>联合类型</title>
    <warning>
     <simpara>
-     在一个联合类型中不能同时用两个 literal 类型 <type>false</type> 和
+     在一个联合类型中不能同时用两个单例类型 <type>false</type> 和
      <type>true</type>。而是使用 <type>bool</type> 替代。
     </simpara>
    </warning>
@@ -283,6 +289,7 @@ Stack trace:
       也可以通过设置参数的参数的默认值为 <literal>null</literal> 来实现允许为
       null。但并不建议这么做，因为如果在子类中更改了默认值，会引发类型兼容冲突，需要将
       <type>null</type> 类型添加到类型声明中。
+      此行为在 PHP 8.4 中也被弃用。
      </para>
      <example>
       <title>使参数可以为 null 的旧方法</title>
@@ -372,7 +379,7 @@ NULL
       <itemizedlist>
        <listitem>
         <simpara>
-         If a more generic type is used, the more restrictive one is redundant.
+         如果使用了更通用的类型，则更加严格的那个类型就是多余的。
         </simpara>
        </listitem>
        <listitem>
@@ -571,7 +578,7 @@ NULL
 
   <example>
    <title>可为 null 返回类型声明</title>
-   <programlisting role="php">
+   <programlisting role="php" annotations="non-interactive">
     <![CDATA[
 <?php
 function get_item(): ?string {
@@ -588,7 +595,7 @@ function get_item(): ?string {
 
   <example>
    <title>类属性类型化声明</title>
-   <programlisting role="php">
+   <programlisting role="php" annotations="non-interactive">
 <![CDATA[
 <?php
 class User {
@@ -653,7 +660,7 @@ class User {
 
   <example>
    <title>参数值的严格类型</title>
-   <programlisting role="php">
+   <programlisting role="php" annotations="non-interactive">
 <![CDATA[
 <?php
 declare(strict_types=1);
@@ -708,7 +715,7 @@ int(3)
 
   <example>
    <title>返回值的严格类型</title>
-   <programlisting role="php">
+   <programlisting role="php" annotations="non-interactive">
 <![CDATA[
 <?php
 declare(strict_types=1);

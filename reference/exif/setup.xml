@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 762fd781b63e37a13eb616602f715898dd237955 Maintainer: yuanyuqiang Status: ready -->
-<!-- Reviewed: no -->
+<!-- EN-Revision: c0af8c90a6b83faaadaebdfd22970bcb8b9c4057 Maintainer: yuanyuqiang Status: ready -->
+<!-- CREDITS: Luffy -->
 
 <chapter xml:id="exif.setup" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
  &reftitle.setup;
@@ -16,12 +16,6 @@
    <link linkend="ref.mbstring">mbstring</link> 扩展。
    exif 不需要其他额外的 PHP 库就可以直接使用。
   </para>
-  <para>
-   Windows 平台：必须启用
-   <link linkend="ref.mbstring"> mbstring</link> 扩展。
-   并且，在 <filename>php.ini</filename> 文件中，
-   <link linkend="ref.mbstring">mbstring</link> 必须先于 EXIF 加载。
-  </para>
  </section>
  <!-- }}} -->
 
@@ -31,13 +25,6 @@
 
  <!-- {{{ Configuration -->
  &reference.exif.ini;
- <!-- }}} -->
-
- <!-- {{{ Resources -->
- <section xml:id="exif.resources">
-  &reftitle.resources;
-  &no.resource;
- </section>
  <!-- }}} -->
 
 </chapter>

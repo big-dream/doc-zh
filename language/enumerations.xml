@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- EN-Revision: 16b11ae4604f3c38f9011c46137ddcbf9238154b Maintainer: daijie Status: ready -->
+<!-- EN-Revision: 06e4d8f936c5b102e60b59c02a048601e9beaf82 Maintainer: daijie Status: ready -->
 <!-- CREDITS: Luffy, mowangjuanzi -->
 <chapter xml:id="language.enumerations" xmlns="http://docbook.org/ns/docbook">
  <title>枚举</title>
@@ -36,8 +36,9 @@
 
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 enum Suit
 {
     case Hearts;
@@ -58,16 +59,22 @@ enum Suit
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
-function pick_a_card(Suit $suit) { ... }
+
+function pick_a_card(Suit $suit)
+{
+    /* ... */
+}
 
 $val = Suit::Diamonds;
 
 // OK
 pick_a_card($val);
+
 // OK
 pick_a_card(Suit::Clubs);
+
 // TypeError: pick_a_card(): Argument #1 ($suit) must be of type Suit, string given
 pick_a_card('Spades');
 ?>
@@ -90,8 +97,9 @@ pick_a_card('Spades');
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 $a = Suit::Spades;
 $b = Suit::Spades;
 
@@ -123,8 +131,9 @@ $a instanceof Suit;  // true
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 print Suit::Spades->name;
 // 输出 "Spades"
 ?>
@@ -153,8 +162,9 @@ print Suit::Spades->name;
   <para>按以下语法，定义标量形式的枚举：</para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 enum Suit: string
 {
     case Hearts = 'H';
@@ -184,10 +194,9 @@ enum Suit: string
   </para>
 
   <para>
-   条目等同的值，必须是个字面量或它的表达式。
-   不能是常量和常量表达式。
-   换言之，允许 <literal>1 + 1</literal>，
-   不允许 <literal>1 + SOME_CONST</literal>。
+   等值可以是常量标量表达式。PHP 8.2.0
+   之前，必须是文字或文字表达式。这意味着不支持常量和常量表达式。也就是说，允许
+   <code>1 + 1</code>，但不允许 <code>1 + SOME_CONST</code>。
   </para>
 
   <para>
@@ -196,8 +205,9 @@ enum Suit: string
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 print Suit::Clubs->value;
 // 输出 "C"
 ?>
@@ -211,8 +221,9 @@ print Suit::Clubs->value;
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 $suit = Suit::Clubs;
 $ref = &$suit->value;
 // Error: Cannot acquire reference to property Suit::$value
@@ -248,8 +259,9 @@ $ref = &$suit->value;
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 $record = get_stuff_from_database($id);
 print $record['suit'];
 
@@ -278,8 +290,9 @@ print $suit->value;
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 interface Colorful
 {
     public function color(): string;
@@ -308,7 +321,10 @@ enum Suit implements Colorful
     }
 }
 
-function paint(Colorful $c) { ... }
+function paint(Colorful $c)
+{
+   /* ... */
+}
 
 paint(Suit::Clubs);  // 正常
 
@@ -328,8 +344,9 @@ print Suit::Diamonds->shape(); // 输出 "Rectangle"
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 interface Colorful
 {
     public function color(): string;
@@ -375,8 +392,9 @@ enum Suit: string implements Colorful
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 interface Colorful
 {
     public function color(): string;
@@ -430,8 +448,9 @@ final class Suit implements UnitEnum, Colorful
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 enum Size
 {
     case Small;
@@ -452,7 +471,7 @@ enum Size
   </programlisting>
 
   <para>
-   仅管 enum 可以包括 public、private、protected 的静态方法，
+   虽然 enum 可以包括 public、private、protected 的静态方法，
    但由于它不支持继承，因此在实践中 private 和 protected 效果是相同的。
   </para>
 
@@ -462,15 +481,16 @@ enum Size
   <title>枚举常量</title>
 
   <para>
-   仅管 enum 可以包括 public、private、protected 的常量，
+   虽然 enum 可以包括 public、private、protected 的常量，
    但由于它不支持继承，因此在实践中 private 和 protected 效果是相同的。
   </para>
 
   <para>枚举常量可以引用枚举条目：</para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 enum Size
 {
     case Small;
@@ -489,13 +509,13 @@ enum Size
 
   <para>枚举也能使用 trait，行为和 class 一样。
    留意在枚举中 <literal>use</literal> trait 不允许包含属性。
-   只能包含方法、静态方法。
-   包含属性的 trait 会导致 fatal 错误。
+   只能包含方法、静态方法和常量。包含属性的 trait 会导致 fatal 错误。
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 interface Colorful
 {
     public function color(): string;
@@ -546,32 +566,51 @@ enum Suit implements Colorful
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 // 这是完全合法的 Enum 定义
 enum Direction implements ArrayAccess
 {
     case Up;
     case Down;
 
-    public function offsetGet($val) { ... }
-    public function offsetExists($val) { ... }
-    public function offsetSet($val) { throw new Exception(); }
-    public function offsetUnset($val) { throw new Exception(); }
+    public function offsetExists($offset): bool
+    {
+        return false;
+    }
+
+    public function offsetGet($offset): mixed
+    {
+        return null;
+    }
+
+    public function offsetSet($offset, $value): void
+    {
+        throw new Exception();
+    }
+
+    public function offsetUnset($offset): void
+    {
+        throw new Exception();
+    }
 }
 
 class Foo
 {
     // 可以这样写。
-    const Bar = Direction::Down;
+    const DOWN = Direction::Down;
 
     // 由于它是不确定的，所以不能这么写。
-    const Bar = Direction::Up['short'];
+    const UP = Direction::Up['short'];
     // Fatal error: Cannot use [] on enums in constant expression
 }
 
 // 由于它不是一个常量表达式，所以是完全合法的
 $x = Direction::Up['short'];
+var_dump("\$x is " . var_export($x, true));
+
+$foo = new Foo();
 ?>
 ]]>
   </programlisting>
@@ -627,10 +666,12 @@ $x = Direction::Up['short'];
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 $clovers = new Suit();
 // Error: Cannot instantiate enum Suit
+
 $horseshoes = (new ReflectionClass(Suit::class))->newInstanceWithoutConstructor()
 // Error: Cannot instantiate enum Suit
 ?>
@@ -649,8 +690,9 @@ $horseshoes = (new ReflectionClass(Suit::class))->newInstanceWithoutConstructor(
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 Suit::cases();
 // 产生： [Suit::Hearts, Suit::Diamonds, Suit::Clubs, Suit::Spades]
 ?>
@@ -672,8 +714,9 @@ Suit::cases();
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 Suit::Hearts === unserialize(serialize(Suit::Hearts));
 
 print serialize(Suit::Hearts);
@@ -698,8 +741,9 @@ print serialize(Suit::Hearts);
   </para>
 
   <programlisting role="php">
-   <![CDATA[
+<![CDATA[
 <?php
+
 enum Foo {
     case Bar;
 }
@@ -736,6 +780,7 @@ Baz Enum:int {
 
   <programlisting role="php">
 <![CDATA[
+
 <?php
 
 class A {}
@@ -761,13 +806,14 @@ function bar(B $b) {
   <programlisting role="php">
 <![CDATA[
 <?php
+
 enum ErrorCode {
     case SOMETHING_BROKE;
 }
 
 function quux(ErrorCode $errorCode)
 {
-    // When written, this code appears to cover all cases
+    // 编写时，此代码似乎涵盖了所有情况
     match ($errorCode) {
         ErrorCode::SOMETHING_BROKE => true,
     }
@@ -789,8 +835,9 @@ function quux(ErrorCode $errorCode)
   <programlisting role="php">
 <![CDATA[
 <?php
-// Thought experiment code where enums are not final.
-// Note, this won't actually work in PHP.
+
+// 当枚举不是 final 时考虑做的实验代码。
+// 注意在 PHP 中实际不起作用。
 enum MoreErrorCode extends ErrorCode {
     case PEBKAC;
 }
@@ -825,15 +872,19 @@ fot(MoreErrorCode::PEBKAC);
    <example>
     <title>值受限的基本用法</title>
     <programlisting role="php">
-     <![CDATA[
+<![CDATA[
 <?php
+
 enum SortOrder
 {
     case Asc;
     case Desc;
 }
 
-function query($fields, $filter, SortOrder $order = SortOrder::Asc) { ... }
+function query($fields, $filter, SortOrder $order = SortOrder::Asc)
+{
+     /* ... */
+}
 ?>
 ]]>
     </programlisting>
@@ -852,8 +903,9 @@ function query($fields, $filter, SortOrder $order = SortOrder::Asc) { ... }
     <title>值排他的高级用法</title>
 
     <programlisting role="php">
-     <![CDATA[
+<![CDATA[
 <?php
+
 enum UserStatus: string
 {
     case Pending = 'P';
@@ -889,8 +941,9 @@ enum UserStatus: string
     </para>
 
     <programlisting role="php">
-     <![CDATA[
+<![CDATA[
 <?php
+
 foreach (UserStatus::cases() as $case) {
     printf('<option value="%s">%s</option>\n', $case->value, $case->label());
 }

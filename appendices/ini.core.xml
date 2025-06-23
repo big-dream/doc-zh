@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: fccc7eb7010120c17732c57f93df1f321245376c Maintainer: Avenger Status: ready -->
+<!-- EN-Revision: a1ab750f296de54d79fe3749d5c9164b0593d803 Maintainer: Avenger Status: ready -->
 <!-- CREDITS: mowangjuanzi, Luffy -->
 <section xml:id="ini.core" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
   <title>&php.ini; 核心指令说明</title>
@@ -31,19 +31,19 @@
        <row>
         <entry><link linkend="ini.short-open-tag">short_open_tag</link></entry>
         <entry>"1"</entry>
-        <entry>PHP_INI_PERDIR</entry>
+        <entry><constant>INI_PERDIR</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.precision">precision</link></entry>
         <entry>"14"</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.serialize-precision">serialize_precision</link></entry>
         <entry>"-1"</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry>
         在 PHP 7.1.0 以前，默认值为 17。
         </entry>
@@ -51,7 +51,7 @@
        <row>
         <entry><link linkend="ini.disable-functions">disable_functions</link></entry>
         <entry>""</entry>
-        <entry>仅为 PHP_INI_SYSTEM</entry>
+        <entry>仅为 <constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
@@ -63,7 +63,7 @@
        <row>
         <entry><link linkend="ini.exit-on-timeout">exit_on_timeout</link></entry>
         <entry>""</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
        <row>
@@ -75,49 +75,49 @@
        <row>
         <entry><link linkend="ini.hard-timeout">hard_timeout</link></entry>
         <entry>"2"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry>从 PHP 7.1.0 起可用</entry>
        </row>
        <row>
         <entry><link linkend="ini.zend.exception-ignore-args">zend.exception_ignore_args</link></entry>
         <entry>"0"</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry>从 PHP 7.4.0 起可用</entry>
        </row>
        <row>
         <entry><link linkend="ini.zend.multibyte">zend.multibyte</link></entry>
         <entry>"0"</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.zend.script-encoding">zend.script_encoding</link></entry>
         <entry>NULL</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.zend.detect-unicode">zend.detect_unicode</link></entry>
         <entry>NULL</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.zend.signal-check">zend.signal_check</link></entry>
         <entry>"0"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.zend.assertions">zend.assertions</link></entry>
         <entry>"1"</entry>
-        <entry>有限制的 PHP_INI_ALL</entry>
+        <entry>有限制的 <constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.zend.exception-string-param-max-len">zend.exception_string_param_max_len</link></entry>
         <entry>"15"</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry>自 PHP 8.0.0 起可用。</entry>
        </row>
       </tbody>
@@ -184,36 +184,42 @@
       </listitem>
      </varlistentry>
 
-    <varlistentry xml:id="ini.disable-functions">
-     <term>
-      <parameter>disable_functions</parameter>
-      <type>string</type>
-     </term>
-     <listitem>
-      <para>
-       本指令可用于禁止某些函数。接受逗号分隔的函数名列表作为参数。
-      </para>
-       <para>
-        此指令仅能禁用 <link linkend="functions.internal">内置函数</link>。
-        不能影响<link linkend="functions.user-defined">用户自定义函数</link>。
-      </para>
-      <para>
-       本指令只能设置在 &php.ini; 中。例如不能将其设置在 &httpd.conf; 中。
-       </para>
+     <varlistentry xml:id="ini.disable-functions">
+      <term>
+       <parameter>disable_functions</parameter>
+       <type>string</type>
+      </term>
+      <listitem>
+       <simpara>
+        此指令允许禁用某些函数。它接受逗号分隔的函数名列表作为参数。
+        从 PHP 8.0.0 开始，禁用函数会删除其定义，允许用户重新定义它。
+        在 PHP 8.0.0 之前，禁用函数只是阻止函数被调用。
+       </simpara>
+       <simpara>
+        此指令仅能禁用 <link linkend="functions.internal">内置函数</link>。不能影响<link
+        linkend="functions.user-defined">用户自定义函数</link>。
+       </simpara>
+       <simpara>
+        本指令必须在 &php.ini; 中设置。不能在 &httpd.conf; 中设置。
+       </simpara>
       </listitem>
      </varlistentry>
-     
+
      <varlistentry xml:id="ini.disable-classes">
       <term>
        <parameter>disable_classes</parameter>
        <type>string</type>
       </term>
       <listitem>
+       <para>
+        此指令允许禁用某些类。它接受逗号分隔的类名列表作为参数。
+        禁用类只是阻止类的实例化。
+       </para>
+       <para>
+        使用此指令只能禁用内部类。用户定义的类不受影响。
+       </para>
        <simpara>
-        本指令允许禁用某些类。接受逗号分隔的类名列表作为参数。
-       </simpara>
-       <simpara>
-        本指令必须设置在 &php.ini; 中。例如不能将其设置在 &httpd.conf; 中。
+        本指令必须在 &php.ini; 中设置。不能在 &httpd.conf; 中设置。
        </simpara>
       </listitem>
      </varlistentry>
@@ -378,7 +384,7 @@ Fatal error: Maximum execution time of 30+2 seconds exceeded (terminated) in Unk
        <row>
         <entry><link linkend="ini.memory-limit">memory_limit</link></entry>
         <entry>"128M"</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
       </tbody>
@@ -430,13 +436,13 @@ Fatal error: Maximum execution time of 30+2 seconds exceeded (terminated) in Unk
        <row>
         <entry><link linkend="ini.realpath-cache-size">realpath_cache_size</link></entry>
         <entry>"4M"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry>PPHP 7.0.16 和 7.1.2 之前，默认值为 <literal>"16K"</literal></entry>
        </row>
        <row>
         <entry><link linkend="ini.realpath-cache-ttl">realpath_cache_ttl</link></entry>
         <entry>"120"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
       </tbody>
@@ -503,91 +509,91 @@ Fatal error: Maximum execution time of 30+2 seconds exceeded (terminated) in Unk
        <row>
         <entry><link linkend="ini.arg-separator.output">arg_separator.output</link></entry>
         <entry>"&amp;"</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.arg-separator.input">arg_separator.input</link></entry>
         <entry>"&amp;"</entry>
-        <entry>PHP_INI_PERDIR</entry>
+        <entry><constant>INI_PERDIR</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.variables-order">variables_order</link></entry>
         <entry>"EGPCS"</entry>
-        <entry>PHP_INI_PERDIR</entry>
+        <entry><constant>INI_PERDIR</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.request-order">request_order</link></entry>
         <entry>""</entry>
-        <entry>PHP_INI_PERDIR</entry>
+        <entry><constant>INI_PERDIR</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.auto-globals-jit">auto_globals_jit</link></entry>
         <entry>"1"</entry>
-        <entry>PHP_INI_PERDIR</entry>
+        <entry><constant>INI_PERDIR</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.register-argc-argv">register_argc_argv</link></entry>
         <entry>"1"</entry>
-        <entry>PHP_INI_PERDIR</entry>
+        <entry><constant>INI_PERDIR</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.enable-post-data-reading">enable_post_data_reading</link></entry>
         <entry>"1"</entry>
-        <entry>PHP_INI_PERDIR</entry>
+        <entry><constant>INI_PERDIR</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.post-max-size">post_max_size</link></entry>
         <entry>"8M"</entry>
-        <entry>PHP_INI_PERDIR</entry>
+        <entry><constant>INI_PERDIR</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.auto-prepend-file">auto_prepend_file</link></entry>
         <entry>NULL</entry>
-        <entry>PHP_INI_PERDIR</entry>
+        <entry><constant>INI_PERDIR</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.auto-append-file">auto_append_file</link></entry>
         <entry>NULL</entry>
-        <entry>PHP_INI_PERDIR</entry>
+        <entry><constant>INI_PERDIR</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.default-mimetype">default_mimetype</link></entry>
         <entry>"text/html"</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.default-charset">default_charset</link></entry>
         <entry>"UTF-8"</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.input-encoding">input_encoding</link></entry>
         <entry>""</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.output-encoding">output_encoding</link></entry>
         <entry>""</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.internal-encoding">internal_encoding</link></entry>
         <entry>""</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
       </tbody>
@@ -906,43 +912,43 @@ Fatal error: Maximum execution time of 30+2 seconds exceeded (terminated) in Unk
        <row>
         <entry><link linkend="ini.include-path">include_path</link></entry>
         <entry>".;/path/to/php/pear"</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.open-basedir">open_basedir</link></entry>
         <entry>NULL</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.doc-root">doc_root</link></entry>
         <entry>NULL</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.user-dir">user_dir</link></entry>
         <entry>NULL</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.user-ini.cache-ttl">user_ini.cache_ttl</link></entry>
         <entry>"300"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.user-ini.filename">user_ini.filename</link></entry>
         <entry>".user.ini"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.extension-dir">extension_dir</link></entry>
         <entry>"/path/to/php"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
@@ -960,55 +966,55 @@ Fatal error: Maximum execution time of 30+2 seconds exceeded (terminated) in Unk
        <row>
         <entry><link linkend="ini.cgi.check-shebang-line">cgi.check_shebang_line</link></entry>
         <entry>"1"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.cgi.discard-path">cgi.discard_path</link></entry>
         <entry>"0"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.cgi.fix-pathinfo">cgi.fix_pathinfo</link></entry>
         <entry>"1"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.cgi.force-redirect">cgi.force_redirect</link></entry>
         <entry>"1"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.cgi.nph">cgi.nph</link></entry>
         <entry>"0"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.cgi.redirect-status-env">cgi.redirect_status_env</link></entry>
         <entry>NULL</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.cgi.rfc2616-headers">cgi.rfc2616_headers</link></entry>
         <entry>"0"</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.fastcgi.impersonate">fastcgi.impersonate</link></entry>
         <entry>"0"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.fastcgi.logging">fastcgi.logging</link></entry>
         <entry>"1"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
       </tbody>
@@ -1115,11 +1121,14 @@ include_path = ".:${USER}/pear/php"
         默认设置是允许打开所有文件。
        </para>
        <note>
-        <para>
+        <simpara>
          open_basedir 可以在运行时限制更多。这意味着如果在 &php.ini; 中将 open_basedir 设置为 <literal>/www/</literal>，则脚本可以在运行时使用
          <function>ini_set</function> 将配置限制到 <literal>/www/tmp/</literal>。当列出多个目录时，无论操作系统如何，都可以使用
          <constant>PATH_SEPARATOR</constant> 常量作为分隔符。
-        </para>
+        </simpara>
+        <simpara>
+         自 PHP 8.3.0 起，当在运行时使用 <function>ini_set</function> 设置时，<option>open_basedir</option> 不再接受包含父级目录（<literal>..</literal>）的路径
+        </simpara>
        </note>
        <note>
         <para>
@@ -1306,37 +1315,37 @@ include_path = ".:${USER}/pear/php"
        </note>
       </listitem>
      </varlistentry>
-     
+
      <varlistentry xml:id="ini.cgi.rfc2616-headers">
       <term>
        <parameter>cgi.rfc2616_headers</parameter>
-       <type>int</type>
+       <type>bool</type>
       </term>
       <listitem>
       <para>
-        告诉 PHP 在发送 HTTP 响应代码时使用什么样的标头类型。如果设置为 0，PHP 将发送 Apache 和其他 Web 服务器支持的
-        <link xlink:href="&url.rfc;3875">RFC 3875</link> "Status:" 标头。当此选项设置为 1 时，PHP 将发送
-        <link xlink:href="&url.rfc;2616">RFC 2616</link> 兼容标头。
+        告诉 PHP 在发送 HTTP 响应 code 时使用什么样的 header 类型。如果禁用，PHP 将发送 Apache 和其他 Web 服务器支持的
+        <link xlink:href="&url.rfc;3875">RFC 3875</link> "Status:" header。当启用时，PHP 将发送
+        <link xlink:href="&url.rfc;2616">RFC 2616</link> 兼容 header。
        </para>
        <para>
         如果启用此选项，并且在 CGI 环境（例如 PHP-FPM）中运行 PHP，则不应使用标准的 RFC 2616 样式的 HTTP 状态响应标头，而应使用其等效的
         RFC 3875，例如不该使用 header("HTTP/1.0 404 Not found"); 应该使用 header("Status: 404 Not Found");
        </para>
        <para>
-        除非知道自己在做什么，否则请将其设置为 0。
+        除非知道自己在做什么，否则请将其禁用。
        </para>
       </listitem>
      </varlistentry>
-     
+
      <varlistentry xml:id="ini.fastcgi.impersonate">
       <term>
        <parameter>fastcgi.impersonate</parameter>
-       <type>string</type>
+       <type>bool</type>
       </term>
       <listitem>
        <para>
         IIS 下的 FastCGI（在基于 WINNT 的操作系统上）支持模拟调用客户端的安全令牌的能力。这允许 IIS 定义请求在其下运行的安全上下文。Apache
-        下的 mod_fastcgi 目前不支持此功能（2002-03-17）。如果在 IIS 下运行，则设置为 1。默认为 0。
+        下的 mod_fastcgi 目前不支持此功能（2002-03-17）。如果在 IIS 下运行，则启用。默认禁用。
        </para>
       </listitem>
      </varlistentry>
@@ -1375,37 +1384,37 @@ include_path = ".:${USER}/pear/php"
        <row>
         <entry><link linkend="ini.file-uploads">file_uploads</link></entry>
         <entry>"1"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.upload-tmp-dir">upload_tmp_dir</link></entry>
         <entry>NULL</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.max-input-nesting-level">max_input_nesting_level</link></entry>
         <entry>64</entry>
-        <entry>PHP_INI_PERDIR</entry>
+        <entry><constant>INI_PERDIR</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.max-input-vars">max_input_vars</link></entry>
         <entry>1000</entry>
-        <entry>PHP_INI_PERDIR</entry>
+        <entry><constant>INI_PERDIR</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.upload-max-filesize">upload_max_filesize</link></entry>
         <entry>"2M"</entry>
-        <entry>PHP_INI_PERDIR</entry>
+        <entry><constant>INI_PERDIR</constant></entry>
         <entry></entry>
        </row>
        <row>
         <entry><link linkend="ini.max-file-uploads">max_file_uploads</link></entry>
         <entry>20</entry>
-        <entry>PHP_INI_PERDIR</entry>
+        <entry><constant>INI_PERDIR</constant></entry>
         <entry></entry>
        </row>
       </tbody>
@@ -1498,7 +1507,7 @@ include_path = ".:${USER}/pear/php"
        <row>
         <entry><link linkend="ini.sql.safe-mode">sql.safe_mode</link></entry>
         <entry>"0"</entry>
-        <entry>PHP_INI_SYSTEM</entry>
+        <entry><constant>INI_SYSTEM</constant></entry>
         <entry>自 PHP 7.2.0 起移除</entry>
        </row>
       </tbody>
@@ -1551,7 +1560,7 @@ include_path = ".:${USER}/pear/php"
        <row>
         <entry><link linkend="ini.windows-show-crt-warning">windows.show_crt_warning</link></entry>
         <entry>"0"</entry>
-        <entry>PHP_INI_ALL</entry>
+        <entry><constant>INI_ALL</constant></entry>
         <entry></entry>
        </row>
       </tbody>

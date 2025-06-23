@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 593ea510e853ff034e03f78a4be0daa41661c9d4 Maintainer: dallas Status: ready -->
-<!-- CREDITS: mowangjuanzi -->
+<!-- EN-Revision: 9960a09a5705102bf4dd0ce63e03d9ec716d0015 Maintainer: dallas Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
 <refentry xml:id="function.imagepng" xmlns="http://docbook.org/ns/docbook">
  <refnamediv>
   <refname>imagepng</refname>
@@ -50,7 +50,7 @@
      <term><parameter>filters</parameter></term>
      <listitem>
       <para>
-       允许减小 PNG 文件的大小。它是位掩码字段，可以设置为任意 <literal>PNG_FILTER_XXX</literal> 常量的组合。<constant>PNG_NO_FILTER</constant>
+       允许减小 PNG 文件的大小。它是位掩码字段，可以设置为任意 <constant>PNG_FILTER_<replaceable>*</replaceable></constant> 常量的组合。<constant>PNG_NO_FILTER</constant>
        或 <constant>PNG_ALL_FILTERS</constant> 也可分别用于禁用或激活所有过滤器。
        默认值（<literal>-1</literal>）禁用过滤。
       </para>
@@ -72,6 +72,13 @@
   &gd.return.trueonerror;
  </refsect1>
 
+ <refsect1 role="errors">
+  &reftitle.errors;
+  <simpara>
+   如果 <parameter>quality</parameter> 无效，抛出 <classname>ValueError</classname>。
+  </simpara>
+ </refsect1>
+
  <refsect1 role="changelog">
   &reftitle.changelog;
   <informaltable>
@@ -83,6 +90,12 @@
      </row>
     </thead>
     <tbody>
+     <row>
+      <entry>8.4.0</entry>
+      <entry>
+       现在如果 <parameter>quality</parameter> 无效，抛出 <classname>ValueError</classname>。
+      </entry>
+     </row>
      &gd.changelog.image-param;
     </tbody>
    </tgroup>
@@ -101,7 +114,6 @@ $im = imagecreatefrompng("test.png");
 header('Content-Type: image/png');
 
 imagepng($im);
-imagedestroy($im);
 ?>
 ]]>
     </programlisting>

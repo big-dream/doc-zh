@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: a0a0165e07a83d74a66c316d52b04c1f4bf52aeb Maintainer: daijie Status: ready -->
+<!-- EN-Revision: 78d17c25eeecc78cb7098b1a01d42391e36af2c1 Maintainer: daijie Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
 <refentry xml:id="function.eval" xmlns="http://docbook.org/ns/docbook">
  <refnamediv>
   <refname>eval</refname>
@@ -14,17 +15,17 @@
    <methodparam><type>string</type><parameter>code</parameter></methodparam>
   </methodsynopsis>
   <para>
-   把字符串 <parameter>code</parameter> 作为PHP代码执行。
+   把指定 <parameter>code</parameter> 作为 PHP 代码执行。
   </para>
-  
-  <caution>
   <para>
-   
-   函数<function>eval</function>语言结构是 <emphasis>非常危险</emphasis>的，
-    因为它允许执行任意 PHP 代码。 <emphasis>它这样用是很危险的。</emphasis> 
-   如果您仔细的确认过，除了使用此结构以外
-    别无方法, 请多加注意，<emphasis>不要允许传入任何由用户
-    提供的、未经完整验证过的数据</emphasis> 。
+   正在执行的代码继承调用 <function>eval</function> 所在行的<link
+   linkend="language.variables.scope">变量作用域</link>。该行中任何有效变量都可在执行的代码中读取和修改。但定义的所有函数和类都将在全局命名空间中定义。换句话说，编译器将执行的代码视为单独
+   <link linkend="function.include">included</link> 后的文件。
+  </para>
+  <caution>
+   <para>
+    <function>eval</function> 语言构造<emphasis>非常危险</emphasis>，因为它允许执行任意 PHP
+    代码。<emphasis>因此不鼓励使用它。</emphasis>如果已经仔细验证过除了使用此构造以外别无他法, 请多加注意不要在未事先正确验证的情况下<emphasis>将任何用户提供的数据传递到</emphasis>其中。
   </para>
   </caution>
  </refsect1>
@@ -66,7 +67,7 @@
  <refsect1 role="returnvalues">
   &reftitle.returnvalues;
   <para>
-   <function>eval</function> 返回 &null;，除非在执行的代码中 <literal>return</literal> 了一个值，函数返回传递给 <literal>return</literal> 的值。 PHP 7 开始，执行的代码里如果有一个 parse error，<function>eval</function> 会抛出 ParseError 异常。在 PHP 7 之前，
+   <function>eval</function> 返回 &null;，除非在执行的代码中 <literal>return</literal> 了一个值，函数返回传递给 <literal>return</literal> 的值。 PHP 7 开始，执行的代码里如果有一个 parse error，<function>eval</function> 会抛出 <classname>ParseError</classname> 异常。在 PHP 7 之前，
    如果在执行的代码中有 parse error，<function>eval</function> 返回
    &false;，之后的代码将正常执行。无法使用 <function>set_error_handler</function> 捕获 <function>eval</function> 中的解析错误。
   </para>

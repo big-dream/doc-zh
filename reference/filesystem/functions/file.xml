@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 2957432ebc5ba2770805c08d5c867543ced8dd85 Maintainer: HonestQiao Status: ready -->
-<!-- CREDITS: Luffy -->
+<!-- EN-Revision: 89b506b5b654f9eac45d9fc65bfe78ad89254c2b Maintainer: HonestQiao Status: ready -->
+<!-- CREDITS: Luffy, mowangjuanzi -->
 <refentry xmlns="http://docbook.org/ns/docbook" xml:id="function.file">
  <refnamediv>
   <refname>file</refname>
@@ -62,7 +62,7 @@
          </term>
          <listitem>
           <simpara>
-           省略数组中每个元素末尾的换行符
+           省略数组中每个元素末尾的换行符。
           </simpara>
          </listitem>
         </varlistentry>
@@ -72,7 +72,7 @@
          </term>
          <listitem>
           <simpara>
-           跳过空行
+           跳过空行。
           </simpara>
          </listitem>
         </varlistentry>
@@ -82,7 +82,7 @@
          </term>
          <listitem>
           <simpara>
-           不使用默认的上下文
+           不使用默认的上下文。
           </simpara>
          </listitem>
         </varlistentry>
@@ -116,16 +116,42 @@
 
  <refsect1 role="errors">
   &reftitle.errors;
+  <simpara>
+   自 PHP 8.3.0 起，如果 <parameter>flags</parameter> 包含任意无效值（例如
+   <constant>FILE_APPEND</constant>），则会抛出 <exceptionname>ValueError</exceptionname>。
+  </simpara>
   <para>
    如果文件不存在，则发出 <constant>E_WARNING</constant> 级错误。
   </para>
+ </refsect1>
+
+ <refsect1 role="changelog">
+  &reftitle.changelog;
+  <informaltable>
+   <tgroup cols="2">
+    <thead>
+     <row>
+      <entry>&Version;</entry>
+      <entry>&Description;</entry>
+     </row>
+    </thead>
+    <tbody>
+     <row>
+      <entry>8.3.0</entry>
+      <entry>
+       <parameter>flags</parameter> 包含任意无效值会抛出 <exceptionname>ValueError</exceptionname>。
+      </entry>
+     </row>
+    </tbody>
+   </tgroup>
+  </informaltable>
  </refsect1>
 
  <refsect1 role="examples">
   &reftitle.examples;
   <para>
    <example>
-    <title><function>file</function> 例子</title>
+    <title><function>file</function> 示例</title>
     <programlisting role="php">
 <![CDATA[
 <?php

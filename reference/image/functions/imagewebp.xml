@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 593ea510e853ff034e03f78a4be0daa41661c9d4 Maintainer: yuanyuqiang Status: ready -->
-<!-- CREDITS: mowangjuanzi -->
+<!-- EN-Revision: 8f76f001f7ab39f2ecf0766b9158f05111d6c99d Maintainer: yuanyuqiang Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
 <refentry xml:id="function.imagewebp" xmlns="http://docbook.org/ns/docbook">
  <refnamediv>
   <refname>imagewebp</refname>
@@ -37,6 +37,7 @@
      <listitem>
       <para>
        <parameter>quality</parameter> 范围从 0（最低质量，最小文件体积）到 100（最好质量, 最大文件体积）。
+       如果设置为 <literal>-1</literal>，则使用默认值 <literal>80</literal>。
       </para>
      </listitem>
     </varlistentry>
@@ -52,6 +53,13 @@
   &gd.return.trueonerror;
  </refsect1>
 
+ <refsect1 role="errors">
+  &reftitle.errors;
+  <simpara>
+   如果 <parameter>quality</parameter> 无效，抛出 <classname>ValueError</classname>。
+  </simpara>
+ </refsect1>
+
  <refsect1 role="changelog">
   &reftitle.changelog;
   <informaltable>
@@ -63,6 +71,12 @@
      </row>
     </thead>
     <tbody>
+     <row>
+      <entry>8.4.0</entry>
+      <entry>
+       现在如果 <parameter>quality</parameter> 无效，抛出 <classname>ValueError</classname>。
+      </entry>
+     </row>
      &gd.changelog.image-param;
     </tbody>
    </tgroup>
@@ -85,9 +99,6 @@ imagestring($im, 1, 5, 5,  'WebP with PHP', $text_color);
 
 // 保存图像
 imagewebp($im, 'php.webp');
-
-// 释放内存
-imagedestroy($im);
 ?>
 ]]>
     </programlisting>

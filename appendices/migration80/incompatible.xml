@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 7f4d351cb527938a04343c06a8fd4353b456c5d3 Maintainer: avenger Status: partial -->
+<!-- EN-Revision: b94d63fc0884d83ba43433ab33cc4810d955bf6d Maintainer: avenger Status: ready -->
 <!-- CREDITS: mowangjuanzi -->
 <sect1 xml:id="migration80.incompatible" xmlns:xlink="http://www.w3.org/1999/xlink">
  <title>不向后兼容的变更</title>
@@ -19,9 +19,9 @@
      <tgroup cols="3">
       <thead>
        <row>
-        <entry>Comparison</entry>
-        <entry>Before</entry>
-        <entry>After</entry>
+        <entry>比较</entry>
+        <entry>之前</entry>
+        <entry>之后</entry>
        </row>
       </thead>
       <tbody>
@@ -73,7 +73,7 @@
     </listitem>
     <listitem>
      <para>
-     断言（Assertion）失败现在默认抛出异常。如果想要改回之前的行为，可以在 INI 设置中设置
+      断言（Assertion）失败现在默认抛出异常。如果想要改回之前的行为，可以在 INI 设置中设置
       <code>assert.exception=0</code> 。
      </para>
     </listitem>
@@ -85,14 +85,13 @@
     </listitem>
     <listitem>
      <para>
-      与类名相同的方法名将不再被当做构造方法。应该使用<link linkend="object.construct">__construct()</link>
+      与类名相同的方法名将不再被当做构造方法。应该使用 <link linkend="object.construct">__construct()</link>
       来取代它。
      </para>
     </listitem>
     <listitem>
      <para>
-      不再允许通过静态调用的方式去调用非静态方法。因此<function>is_callable</function>在检查一个类名与非静态方法
-      时将返回失败（应当检查一个类的实例）。
+      不再允许通过静态调用的方式去调用非静态方法。因此 <function>is_callable</function> 在检查一个类名与非静态方法时将返回失败（应当检查一个类的实例）。
      </para>
     </listitem>
     <listitem>
@@ -281,6 +280,9 @@ function test(int $arg = null) {}
        <member>
         传递错误的参数数量到非可变参数内置函数将引发 <classname>ArgumentCountError</classname>。
        </member>
+       <member>
+        传递无效的可数的类型到 <function>count</function> 将抛出 <classname>TypeError</classname>。
+       </member>
       </simplelist>
      </para>
      <para>
@@ -319,7 +321,7 @@ function test(int $arg = null) {}
     </listitem>
     <listitem>
      <para>
-      编译时 fatal error“Only variables can be passed by reference”已延迟到运行时，并转换为“Argument cannot be passed by reference”<classname>Error</classname>异常。
+      编译时 fatal error“Only variables can be passed by reference”已延迟到运行时，并转换为“Argument cannot be passed by reference”<classname>Error</classname> 异常。
      </para>
     </listitem>
     <listitem>
@@ -466,72 +468,60 @@ $array["key"];
     </listitem>
     <listitem>
      <para>
-      If an object constructor <function>exit</function>s, the object destructor will no longer be
-      called. This matches the behavior when the constructor throws.
+      如果对象的构造方法 <function>exit</function>，那么将不再调用对象的析构方法，这与构造方法抛出异常时的行为相匹配。
      </para>
     </listitem>
     <listitem>
      <para>
-      Namespaced names can no longer contain whitespace: While <code>Foo\Bar</code> will be recognized
-      as a namespaced name, <code>Foo \ Bar</code> will not. Conversely, reserved keywords are now
-      permitted as namespace segments, which may also change the interpretation of code:
-      <code>new\x</code> is now the same as <code>constant('new\x')</code>, not
-      <code>new \x()</code>.
+      命名空间名不能再包含空格：<code>Foo\Bar</code> 将识别为命名空间名称，而 <code>Foo \ Bar</code>
+      则不能。相反，保留关键字现在允许作为命名空间片段，这可能也会改变代码的解释：<code>new\x</code> 现在与
+      <code>constant('new\x')</code> 相同，而不是 <code>new \x()</code>。
       <!-- RFC: https://wiki.php.net/rfc/namespaced_names_as_token -->
      </para>
     </listitem>
     <listitem>
      <para>
-      Nested ternaries now require explicit parentheses.
+      嵌套的三元表达式现在需要的括号。
       <!-- RFC: https://wiki.php.net/rfc/ternary_associativity -->
      </para>
     </listitem>
     <listitem>
      <para>
-      <function>debug_backtrace</function> and <methodname>Exception::getTrace</methodname> will no
-      longer provide references to arguments. It will not be possible to change function arguments
-      through the backtrace.
+      <function>debug_backtrace</function> 和 <methodname>Exception::getTrace</methodname> 将不再提供对参数的引用。通过回溯将不可能更改函数参数。
      </para>
     </listitem>
     <listitem>
      <para>
-      Numeric string handling has been altered to be more intuitive and less error-prone. Trailing
-      whitespace is now allowed in numeric strings for consistency with how leading whitespace is
-      treated. This mostly affects:
+      数字字符串的处理方式已经更改，以便更直观和更少出错。现在允许在数字字符串中使用尾随空格，以便与起始空格的处理方式保持一致。这主要影响：
      </para>
      <para>
       <simplelist>
-       <member>The <function>is_numeric</function> function</member>
-       <member>String-to-string comparisons</member>
-       <member>Type declarations</member>
-       <member>Increment and decrement operations</member>
+       <member><function>is_numeric</function> 函数</member>
+       <member>字符串间的比较</member>
+       <member>类型声明</member>
+       <member>递增/减操作</member>
       </simplelist>
      </para>
      <para>
-      The concept of a "leading-numeric string" has been mostly dropped; the cases where this remains
-      exist in order to ease migration. Strings which emitted an <constant>E_NOTICE</constant> "A non
-      well-formed numeric value encountered" will now emit an <constant>E_WARNING</constant> "A
-      non-numeric value encountered" and all strings which emitted an <constant>E_WARNING</constant> "A
-      non-numeric value encountered" will now throw a
-      <classname>TypeError</classname>. This mostly affects:
+      “前置数字字符串”的概念已删除大部分；仍然存在的目的是为了简化迁移。发出 <constant>E_NOTICE</constant>“A non well-formed numeric value
+      encountered”的字符串现在将发出 <constant>E_WARNING</constant>“A non-numeric value encountered”，并且所有发出
+      <constant>E_WARNING</constant>“A non-numeric value encountered”的字符串现在将抛出 <classname>TypeError</classname>。这主要会影响：
      </para>
      <para>
       <simplelist>
-       <member>Arithmetic operations</member>
-       <member>Bitwise operations</member>
+       <member>算术运算</member>
+       <member>位运算</member>
       </simplelist>
      </para>
      <para>
-      This <constant>E_WARNING</constant> to <classname>TypeError</classname> change also affects the
-      <constant>E_WARNING</constant> "Illegal string offset 'string'" for illegal string offsets. The
-      behavior of explicit casts to int/float from strings has not been changed.
+      <constant>E_WARNING</constant> 到 <classname>TypeError</classname> 的变更也影响了 <constant>E_WARNING</constant>“Illegal string
+      offset 'string'”的非法字符串偏移。从字符串到 int/float 的明确强制转换的行为没有改变。
       <!-- RFC: https://wiki.php.net/rfc/saner-numeric-strings -->
      </para>
     </listitem>
     <listitem>
      <para>
-      Magic Methods will now have their arguments and return types checked if they have them declared.
-      The signatures should match the following list:
+      如果魔术方法声明了参数和返回类型，那么它们现在将会检查这些。签名应该与以下列表匹配：
      </para>
      <para>
       <simplelist>
@@ -555,16 +545,13 @@ $array["key"];
     </listitem>
     <listitem>
      <para>
-      <function>call_user_func_array</function> array keys will now be interpreted as parameter names,
-      instead of being silently ignored.
+      <function>call_user_func_array</function> 数组的键现在将解释为参数名，而不是默默忽略。
      </para>
     </listitem>
     <listitem>
      <para>
-      Declaring a function called <literal>assert()</literal> inside a namespace is
-      no longer allowed, and issues <constant>E_COMPILE_ERROR</constant>.
-      The <function>assert</function> function is subject to special handling by the engine,
-      which may lead to inconsistent behavior when defining a namespaced function with the same name.
+      不再允许在命名空间内声明名为 <literal>assert()</literal> 的函数，并发出 <constant>E_COMPILE_ERROR</constant>。<function>assert</function>
+      函数受引擎的特殊处理，当定义具有相同名称的命名空间函数时，可能会导致不一致的行为。
      </para>
     </listitem>
    </itemizedlist>
@@ -572,156 +559,130 @@ $array["key"];
  </sect2>
 
  <sect2 xml:id="migration80.incompatible.resource2object">
-  <title>Resource to Object Migration</title>
+  <title>迁移资源到对象</title>
 
   <para>
-   Several &resource;s have been migrated to &object;s.
-   Return value checks using <function>is_resource</function> should be replaced with checks for &false;.
+   一些 &resource; 已经迁移到了 &object;。返回值检测从使用 <function>is_resource</function> 替换为是否是 &false;。
   </para>
   <itemizedlist>
     <listitem>
      <para>
-      <function>curl_init</function> will now return a <classname>CurlHandle</classname> object rather
-      than a &resource;. The <function>curl_close</function> function no longer has an effect,
-      instead the <classname>CurlHandle</classname> instance is automatically destroyed if it is no
-      longer referenced.
+      <function>curl_init</function> 现在将返回 <classname>CurlHandle</classname> 对象而不是 &resource;。<function>curl_close</function>
+      函数不再有作用，相反，如果不再引用，<classname>CurlHandle</classname> 实例将自动销毁。
      </para>
     </listitem>
     <listitem>
      <para>
-      <function>curl_multi_init</function> will now return a <classname>CurlMultiHandle</classname>
-      object rather than a &resource;. The <function>curl_multi_close</function> function no
-      longer has an effect, instead the <classname>CurlMultiHandle</classname> instance is
-      automatically destroyed if it is no longer referenced.
+      <function>curl_multi_init</function> 现在将返回 <classname>CurlMultiHandle</classname> 对象而不是 &resource;。<function>curl_multi_close</function>
+      函数不再有作用，相反，如果不再引用，<classname>CurlMultiHandle</classname> 实例将自动销毁。
      </para>
     </listitem>
     <listitem>
      <para>
-      <function>curl_share_init</function> will now return a <classname>CurlShareHandle</classname>
-      object rather than a &resource;. The <function>curl_share_close</function> function no
-      longer has an effect, instead the <classname>CurlShareHandle</classname> instance is
-      automatically destroyed if it is no longer referenced.
+      <function>curl_share_init</function> 现在将返回 <classname>CurlShareHandle</classname> 对象而不是 &resource;。<function>curl_share_close</function>
+      函数不再有作用，相反，如果不再引用，<classname>CurlShareHandle</classname> 实例将自动销毁。
      </para>
     </listitem>
    <listitem>
     <para>
-     <function>enchant_broker_init</function> will now return an <classname>EnchantBroker</classname>
-     object rather than a &resource;.
+     <function>enchant_broker_init</function> 现在将返回 <classname>EnchantBroker</classname> 对象而不是 &resource;。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>enchant_broker_request_dict</function> and
-     <function>enchant_broker_request_pwl_dict</function> will now return an
-     <classname>EnchantDictionary</classname> object rather than a &resource;.
+     <function>enchant_broker_request_dict</function> 和
+     <function>enchant_broker_request_pwl_dict</function> 现在将返回
+     <classname>EnchantDictionary</classname> 对象而不是 &resource;。
     </para>
    </listitem>
    <listitem>
     <para>
-     The GD extension now uses <classname>GdImage</classname> objects as the underlying data structure
-     for images, rather than &resource;s.
-     The <function>imagedestroy</function> function no longer has an effect; instead the
-     <classname>GdImage</classname> instance is automatically destroyed if it is no longer referenced.
+     GD 扩展现在使用 <classname>GdImage</classname> 对象作为图像的底层数据结构，而不是 &resource;。<function>imagedestroy</function>
+     函数不再有作用，相反，如果不再引用，<classname>GdImage</classname> 实例将自动销毁。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>openssl_x509_read</function> and <function>openssl_csr_sign</function> will now return
-     an <classname>OpenSSLCertificate</classname> object rather than a &resource;.
-     The <function>openssl_x509_free</function> function is deprecated and no longer has an effect,
-     instead the <classname>OpenSSLCertificate</classname> instance is automatically destroyed if it
-     is no longer referenced.
+     <function>openssl_x509_read</function> 和 <function>openssl_csr_sign</function> 现在将返回 <classname>OpenSSLCertificate</classname>
+     对象而不是 &resource;。弃用 <function>openssl_x509_free</function> 函数且不再起作用，相反，如果不再引用，<classname>OpenSSLCertificate</classname>
+     实例将自动销毁。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>openssl_csr_new</function> will now return an
-     <classname>OpenSSLCertificateSigningRequest</classname> object rather than a &resource;.
+     <function>openssl_csr_new</function> 现在将返回
+     <classname>OpenSSLCertificateSigningRequest</classname> 对象而不是 &resource;。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>openssl_pkey_new</function> will now return an
-     <classname>OpenSSLAsymmetricKey</classname> object rather than a &resource;.
-     The <function>openssl_pkey_free</function> function is deprecated and no longer has an effect,
-     instead the <classname>OpenSSLAsymmetricKey</classname> instance is automatically destroyed if it
-     is no longer referenced.
+     <function>openssl_pkey_new</function> 现在将返回 <classname>OpenSSLAsymmetricKey</classname> 对象而不是 &resource;。弃用
+     <function>openssl_pkey_free</function> 函数且不再起作用，相反，如果不再引用，<classname>OpenSSLAsymmetricKey</classname>
+     实例将自动销毁。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>shmop_open</function> 现在将返回 <classname>Shmop</classname> 对象而不是
-     &resource;。<function>shmop_close</function> 函数将不再有效，已弃用；如果不在引用 
-     <classname>Shmop</classname> 实例，其将会自动销毁。
+     <function>shmop_open</function> 现在将返回 <classname>Shmop</classname> 对象而不是 &resource;。弃用
+     <function>shmop_close</function> 函数且不再起作用，相反，如果不再引用，<classname>Shmop</classname> 实例将自动销毁。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>socket_create</function>, <function>socket_create_listen</function>,
-     <function>socket_accept</function>, <function>socket_import_stream</function>,
-     <function>socket_addrinfo_connect</function>, <function>socket_addrinfo_bind</function>, and
-     <function>socket_wsaprotocol_info_import</function> will now return a
-     <classname>Socket</classname> object rather than a &resource;.
-     <function>socket_addrinfo_lookup</function> will now return an array of
-     <classname>AddressInfo</classname> objects rather than &resource;s.
+     <function>socket_create</function>、<function>socket_create_listen</function>、<function>socket_accept</function>、<function>socket_import_stream</function>、<function>socket_addrinfo_connect</function>、<function>socket_addrinfo_bind</function>
+     和 <function>socket_wsaprotocol_info_import</function> 现在将返回 <classname>Socket</classname> 对象而不是
+     &resource;。<function>socket_addrinfo_lookup</function> 现在将返回 <classname>AddressInfo</classname> 对象组成的数组，而不是 &resource;。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>msg_get_queue</function> will now return an <classname>SysvMessageQueue</classname>
-     object rather than a &resource;.
+     <function>msg_get_queue</function> 现在将返回 <classname>SysvMessageQueue</classname>
+     对象而不是 &resource;。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>sem_get</function> will now return an <classname>SysvSemaphore</classname> object
-     rather than a &resource;.
+     <function>sem_get</function> 现在将返回 <classname>SysvSemaphore</classname>
+     对象而不是 &resource;。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>shm_attach</function> will now return an <classname>SysvSharedMemory</classname> object
-     rather than a &resource;.
+     <function>shm_attach</function> 现在将返回 <classname>SysvSharedMemory</classname>
+     对象而不是 &resource;。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>xml_parser_create</function> and <function>xml_parser_create_ns</function> will now
-     return an <classname>XMLParser</classname> object rather than a &resource;. The
-     <function>xml_parser_free</function> function no longer has an effect, instead the XmlParser
-     instance is automatically destroyed if it is no longer referenced.
+     <function>xml_parser_create</function> 和 <function>xml_parser_create_ns</function> 现在将返回 <classname>XMLParser</classname>
+     对象而不是 &resource;。<function>xml_parser_free</function> 函数不再有作用，相反，如果不再引用，<classname>XmlParser</classname> 实例将自动销毁。
     </para>
    </listitem>
    <listitem>
     <para>
-     The <link linkend="book.xmlwriter">XMLWriter</link> functions now accept and return, respectively,
-     <classname>XMLWriter</classname> objects instead of &resource;s.
+     <link linkend="book.xmlwriter">XMLWriter</link> 函数现在分别接受和返回 <classname>XMLWriter</classname> 对象而不是 &resource;。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>inflate_init</function> will now return an <classname>InflateContext</classname> object
-     rather than a &resource;.
+     <function>inflate_init</function> 现在将返回 <classname>InflateContext</classname> 对象而不是 &resource;。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>deflate_init</function> will now return a <classname>DeflateContext</classname> object
-     rather than a &resource;.
+     <function>deflate_init</function> 现在将返回 <classname>DeflateContext</classname> 对象而不是 &resource;。
     </para>
    </listitem>
   </itemizedlist>
  </sect2>
 
  <sect2 xml:id="migration80.incompatible.com">
-  <title>COM and .Net (Windows)</title>
+  <title>COM 和 .Net (Windows)</title>
 
   <para>
-   The ability to import case-insensitive constants from type libraries has been removed.
-   The second argument to <function>com_load_typelib</function> may no longer be false;
-   <link linkend="ini.com.autoregister-casesensitive">com.autoregister_casesensitive</link>
-   may no longer be disabled; case-insensitive markers in
-   <link linkend="ini.com.typelib-file">com.typelib_file</link> are ignored.
+   移除从类型库导入不区分大小写常量的功能。<function>com_load_typelib</function> 的第二个参数不再是 false；不再禁用 <link
+   linkend="ini.com.autoregister-casesensitive">com.autoregister_casesensitive</link>；忽略 <link
+   linkend="ini.com.typelib-file">com.typelib_file</link> 中的不区分大小写标记。
   </para>
  </sect2>
 
@@ -729,18 +690,15 @@ $array["key"];
   <title>CURL</title>
 
   <para>
-   <constant>CURLOPT_POSTFIELDS</constant> no longer accepts objects as arrays. To
-   interpret an object as an array, perform an explicit <code>(array)</code> cast. The
-   same applies to other options accepting arrays as well.
+   <constant>CURLOPT_POSTFIELDS</constant> 不再接受对象作为数组。要将对象解释为数组，手动执行 <code>(array)</code> 转换。这同样适用于接受数组的其它选项。
   </para>
  </sect2>
 
  <sect2 xml:id="migration80.incompatible.datetime">
-  <title>Date and Time</title>
+  <title>日期和时间</title>
 
   <para>
-   <function>mktime</function> and <function>gmmktime</function> now require at least one
-   argument. <function>time</function> can be used to get the current timestamp.
+   <function>mktime</function> 和 <function>gmmktime</function> 现在强制需要至少一个参数。<function>time</function> 可以用来获取当前时间戳。
   </para>
  </sect2>
 
@@ -748,9 +706,7 @@ $array["key"];
   <title>DOM</title>
 
   <para>
-   Unimplemented classes from the DOM extension that had no behavior and contained test
-   data have been removed. These classes have also been removed in the latest version of
-   the DOM standard:
+   已移除 DOM 扩展中无行为和包含测试数据的的未实现类。这些类也已在最新版本的 DOM 标准中移除：
   </para>
   <para>
    <simplelist>
@@ -767,7 +723,7 @@ $array["key"];
    </simplelist>
   </para>
   <para>
-   DOM 扩展中没有实现行为的方法已被删除：
+   已移除 DOM 扩展中没有实现行为的方法：
   </para>
   <para>
    <simplelist>
@@ -792,8 +748,8 @@ $array["key"];
   <itemizedlist>
    <listitem>
     <para>
-     <function>enchant_broker_list_dicts</function>, <function>enchant_broker_describe</function> and
-     <function>enchant_dict_suggest</function> will now return an empty array instead of &null;.
+     <function>enchant_broker_list_dicts</function>、<function>enchant_broker_describe</function> 和
+     <function>enchant_dict_suggest</function> 现在将返回空数组而不是 &null;。
     </para>
    </listitem>
   </itemizedlist>
@@ -803,8 +759,7 @@ $array["key"];
   <title>Exif</title>
 
   <para>
-   <function>read_exif_data</function> has been removed; <function>exif_read_data</function>
-   should be used instead.
+   已移除 <function>read_exif_data</function>；应该使用 <function>exif_read_data</function> 替代。
   </para>
  </sect2>
 
@@ -814,17 +769,15 @@ $array["key"];
   <itemizedlist>
    <listitem>
     <para>
-     The <constant>FILTER_FLAG_SCHEME_REQUIRED</constant> and
-     <constant>FILTER_FLAG_HOST_REQUIRED</constant> flags for the
-     <constant>FILTER_VALIDATE_URL</constant> filter have been removed. The <literal>scheme</literal>
-     and <literal>host</literal> are (and have been) always required.
+     已移除 <constant>FILTER_VALIDATE_URL</constant> 过滤中的 <constant>FILTER_FLAG_SCHEME_REQUIRED</constant> 和
+     <constant>FILTER_FLAG_HOST_REQUIRED</constant> flag。<literal>scheme</literal>
+     和 <literal>host</literal> 始终（并且一直）必需。
     </para>
    </listitem>
    <listitem>
     <para>
-     The <constant>INPUT_REQUEST</constant> and <constant>INPUT_SESSION</constant> source for
-     <function>filter_input</function> etc. have been removed. These were never implemented and their
-     use always generated a warning.
+     <function>filter_input</function> 等函数的 <constant>INPUT_REQUEST</constant> 和 <constant>INPUT_SESSION</constant>
+     源码已经移除。这些从未实现过，并且使用它们将始终生成警告。
     </para>
    </listitem>
   </itemizedlist>
@@ -848,13 +801,13 @@ $array["key"];
    </listitem>
    <listitem>
     <para>
-     The default <parameter>mode</parameter> parameter of <function>imagecropauto</function> no longer
-     accepts <literal>-1</literal>. <constant>IMG_CROP_DEFAULT</constant> should be used instead.
+     <function>imagecropauto</function> 的 <parameter>mode</parameter> 参数默认不再接受
+     <literal>-1</literal>。而是应该使用 <constant>IMG_CROP_DEFAULT</constant>。
     </para>
    </listitem>
    <listitem>
     <para>
-     On Windows, <filename>php_gd2.dll</filename> has been renamed to <filename>php_gd.dll</filename>.
+     Windows 上，<filename>php_gd2.dll</filename> 已经重命名为 <filename>php_gd.dll</filename>。
     </para>
    </listitem>
   </itemizedlist>
@@ -864,8 +817,8 @@ $array["key"];
   <title>GMP</title>
 
   <para>
-   <function>gmp_random</function> has been removed. One of <function>gmp_random_range</function> or
-   <function>gmp_random_bits</function> should be used instead.
+   已经移除 <function>gmp_random</function>。应该使用 <function>gmp_random_range</function> 或
+   <function>gmp_random_bits</function>。
   </para>
  </sect2>
 
@@ -873,8 +826,7 @@ $array["key"];
   <title>Iconv</title>
 
   <para>
-   iconv implementations which do not properly set <varname>errno</varname> in case of errors are no
-   longer supported.
+   不再支持在发生错误时没有正确设置  <varname>errno</varname> 的 iconv 实现。
   </para>
  </sect2>
 
@@ -884,26 +836,24 @@ $array["key"];
   <itemizedlist>
    <listitem>
     <para>
-     The unused <parameter>default_host</parameter> argument of <function>imap_headerinfo</function>
-     has been removed.
+     <function>imap_headerinfo</function> 已移除未使用的 <parameter>default_host</parameter> 参数。
     </para>
    </listitem>
    <listitem>
     <para>
-     The <function>imap_header</function> function which is an alias of
-     <function>imap_headerinfo</function> has been removed.
+     已移除 <function>imap_headerinfo</function> 的别名函数 <function>imap_header</function>。
     </para>
    </listitem>
   </itemizedlist>
  </sect2>
 
  <sect2 xml:id="migration80.incompatible.intl">
-  <title>Internationalization Functions</title>
+  <title>国际化函数</title>
 
   <itemizedlist>
    <listitem>
     <para>
-     The deprecated constant <constant>INTL_IDNA_VARIANT_2003</constant> has been removed.
+     已移除弃用常量 <constant>INTL_IDNA_VARIANT_2003</constant>。
      <!-- RFC: https://wiki.php.net/rfc/deprecate-and-remove-intl_idna_variant_2003 -->
     </para>
    </listitem>
@@ -940,23 +890,20 @@ $array["key"];
   <itemizedlist>
    <listitem>
     <para>
-     The <link linkend="ini.mbstring.func-overload">mbstring.func_overload</link> directive has been
-     removed. The related <constant>MB_OVERLOAD_MAIL</constant>,
-     <constant>MB_OVERLOAD_STRING</constant>, and <constant>MB_OVERLOAD_REGEX</constant> constants
-     have also been removed. Finally, the <literal>"func_overload"</literal> and
-     <literal>"func_overload_list"</literal> entries in <function>mb_get_info</function> have been
-     removed.
+     已移除 <link linkend="ini.mbstring.func-overload">mbstring.func_overload</link> 指令。与其相关的
+     <constant>MB_OVERLOAD_MAIL</constant>、<constant>MB_OVERLOAD_STRING</constant> 和 <constant>MB_OVERLOAD_REGEX</constant>
+     常量也已移除。最后，<function>mb_get_info</function> 中的 <literal>"func_overload"</literal> 和
+     <literal>"func_overload_list"</literal> 条目也已移除。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>mb_parse_str</function> can no longer be used without specifying a result array.
+     使用 <function>mb_parse_str</function> 时必须指定结果数组。
     </para>
    </listitem>
    <listitem>
     <para>
-     A number of deprecated mbregex aliases have been removed. See the following
-     list for which functions should be used instead:
+     一些弃用的的 mbregex 别名已移除。请参阅下面的列表，以了解应该使用哪些函数：
     </para>
     <para>
      <simplelist>
@@ -979,53 +926,42 @@ $array["key"];
    </listitem>
    <listitem>
     <para>
-     The <literal>e</literal> modifier for <function>mb_ereg_replace</function> has been removed.
-     <function>mb_ereg_replace_callback</function> should be used instead.
+     <function>mb_ereg_replace</function> 已移除 <literal>e</literal> 修饰符。应该使用 <function>mb_ereg_replace_callback</function> 代替。
     </para>
    </listitem>
    <listitem>
     <para>
-     A non-string pattern argument to <function>mb_ereg_replace</function> will now be interpreted as
-     a string instead of an ASCII codepoint. The previous behavior may be restored with an explicit
-     call to <function>chr</function>.
+     <function>mb_ereg_replace</function> 的非字符串模式参数现在将解释为字符串而不是 ASCII 码点。可以通过调用 <function>chr</function> 来恢复以前的行为。
     </para>
    </listitem>
    <listitem>
     <para>
-     The <parameter>needle</parameter> argument for <function>mb_strpos</function>,
-     <function>mb_strrpos</function>, <function>mb_stripos</function>,
-     <function>mb_strripos</function>, <function>mb_strstr</function>,
-     <function>mb_stristr</function>, <function>mb_strrchr</function> and
-     <function>mb_strrichr</function> can now be empty.
+     <function>mb_strpos</function>、<function>mb_strrpos</function>、<function>mb_stripos</function>、<function>mb_strripos</function>、<function>mb_strstr</function>、<function>mb_stristr</function>、<function>mb_strrchr</function>
+     和 <function>mb_strrichr</function> 的 <parameter>needle</parameter> 参数现在可以为空。
     </para>
    </listitem>
    <listitem>
     <para>
-     The <parameter>is_hex</parameter> parameter, which was not used internally, has been removed from
-     <function>mb_decode_numericentity</function>.
+     已移除 <function>mb_decode_numericentity</function> 内部不使用的 <parameter>is_hex</parameter> 参数。
     </para>
    </listitem>
    <listitem>
     <para>
-     The legacy behavior of passing the encoding as the third argument instead of an offset for the
-     <function>mb_strrpos</function> function has been removed; an explicit <literal>0</literal>
-     offset with the encoding should be provided as the fourth argument instead.
+     <function>mb_strrpos</function> 函数的第三个参数传递编码而不是偏移量的遗留行为已经移除；应该将带编码的 <literal>0</literal>
+     偏移量作为第四个参数提供。
     </para>
    </listitem>
    <listitem>
     <para>
-     The <literal>ISO_8859-*</literal> character encoding aliases have been replaced by
-     <literal>ISO8859-*</literal> aliases for better interoperability with the iconv extension. The
-     mbregex ISO 8859 aliases with underscores (<literal>ISO_8859_*</literal> and
-     <literal>ISO8859_*</literal>) have also been removed.
+     <literal>ISO_8859-*</literal> 字符编码的别名已替换为 <literal>ISO8859-*</literal> 别名，以便与 iconv 扩展实现更好的互操作性。带下划线的 mbregex ISO 8859
+     别名（<literal>ISO_8859_*</literal> 和 <literal>ISO8859_*</literal>）也已移除。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>mb_ereg</function> and <function>mb_eregi</function> will now return boolean &true; on
-     a successful match. Previously they returned integer <literal>1</literal> if
-     <parameter>matches</parameter> was not passed, or <code>max(1, strlen($matches[0]))</code> if
-     <parameter>matches</parameter> was passed.
+     <function>mb_ereg</function> 和 <function>mb_eregi</function> 现在将在匹配成功时返回布尔值 &true;。之前，如果未传递
+     <parameter>matches</parameter>，则返回整数 <literal>1</literal>；如果传递了 <parameter>matches</parameter>，则返回
+     <code>max(1, strlen($matches[0]))</code>。
     </para>
    </listitem>
   </itemizedlist>
@@ -1037,20 +973,18 @@ $array["key"];
   <itemizedlist>
    <listitem>
     <para>
-     The <classname>OCI-Lob</classname> class is now called <classname>OCILob</classname>, and the
-     <classname>OCI-Collection</classname> class is now called <classname>OCICollection</classname>
-     for name compliance enforced by PHP 8 arginfo type annotation tooling.
+     <classname>OCI-Lob</classname> 类现在叫做 <classname>OCILob</classname>，<classname>OCI-Collection</classname> 类现在叫做
+     <classname>OCICollection</classname>，以实现 PHP 8 arginfo 类型注释工具强制执行的名称合规。
     </para>
    </listitem>
    <listitem>
     <para>
-     Several alias functions have been marked as deprecated.
+     多个别名函数已标记为已弃用。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>oci_internal_debug</function> and its alias <function>ociinternaldebug</function> have
-     been removed.
+     <function>oci_internal_debug</function> 及其 <function>ociinternaldebug</function> 已移除。
     </para>
    </listitem>
   </itemizedlist>
@@ -1062,13 +996,12 @@ $array["key"];
   <itemizedlist>
    <listitem>
     <para>
-     <function>odbc_connect</function> no longer reuses connections.
+     <function>odbc_connect</function> 不再重用连接。
     </para>
    </listitem>
    <listitem>
     <para>
-     The unused <parameter>flags</parameter> parameter of <function>odbc_exec</function> has been
-     removed.
+     <function>odbc_exec</function> 未使用的 <parameter>flags</parameter> 参数已移除。
     </para>
    </listitem>
   </itemizedlist>
@@ -1080,37 +1013,36 @@ $array["key"];
   <itemizedlist>
    <listitem>
     <para>
-     <function>openssl_seal</function> and <function>openssl_open</function> now require
-     <parameter>method</parameter> to be passed, as the previous default of <literal>"RC4"</literal>
-     is considered insecure.
+     <function>openssl_seal</function> 和 <function>openssl_open</function> 现在需要传递 <parameter>method</parameter>，现在认为之前的
+     <literal>"RC4"</literal> 默认值不安全。
     </para>
    </listitem>
   </itemizedlist>
  </sect2>
 
  <sect2 xml:id="migration80.incompatible.pcre">
-  <title>Regular Expressions (Perl-Compatible)</title>
+  <title>正则表达式（Perl 兼容）</title>
 
   <para>
-   When passing invalid escape sequences they are no longer interpreted as literals. This behavior
-   previously required the <literal>X</literal> modifier – which is now ignored.
+   当传递无效的转义序列时，将不再解释为文字。此行为之前需要 <literal>X</literal> 修饰符——现在已忽略。
   </para>
  </sect2>
 
  <sect2 xml:id="migration80.incompatible.pdo">
-  <title>PHP Data Objects</title>
+  <title>PHP 数据对象</title>
 
   <itemizedlist>
    <listitem>
     <para>
-     The default error handling mode has been changed from "silent" to "exceptions". See
-     <link linkend="pdo.error-handling">Errors and error handling</link> for details.
+     默认错误处理模式已经从“silent”变更为“exceptions”。参阅<link
+     linkend="pdo.error-handling">错误和错误处理</link>获取详情。
+
      <!-- RFC: https://wiki.php.net/rfc/pdo_default_errmode -->
     </para>
    </listitem>
    <listitem>
     <para>
-     The signatures of some PDO methods have changed:
+     一些 PDO 方法的签名已更改：
     </para>
     <para>
      <simplelist>
@@ -1126,9 +1058,8 @@ $array["key"];
   <title>PDO ODBC</title>
 
   <para>
-   The &php.ini; directive
-   <link linkend="ini.pdo-odbc.db2-instance-name">pdo_odbc.db2_instance_name</link> has been
-   removed.
+   &php.ini; 指令
+   <link linkend="ini.pdo-odbc.db2-instance-name">pdo_odbc.db2_instance_name</link> 已移除。
   </para>
  </sect2>
 
@@ -1136,10 +1067,9 @@ $array["key"];
   <title>PDO MySQL</title>
 
   <para>
-   <methodname>PDO::inTransaction</methodname> now reports the actual transaction state of
-   the connection, rather than an approximation maintained by PDO. If a query that is
-   subject to "implicit commit" is executed, <methodname>PDO::inTransaction</methodname>
-   will subsequently return &false;, as a transaction is no longer active.
+   <methodname>PDO::inTransaction</methodname> 现在报告连接的实际事务状态，而不是 PDO
+   维护的近似状态。如果执行的是“隐式事务”查询，<methodname>PDO::inTransaction</methodname> 将会随后返回
+   &false;，因为事务不再活动状态。
   </para>
  </sect2>
 
@@ -1149,21 +1079,18 @@ $array["key"];
   <itemizedlist>
    <listitem>
     <para>
-     The deprecated <function>pg_connect</function> syntax using multiple parameters instead of a
-     connection string is no longer supported.
+     弃用的 <function>pg_connect</function> 使用多个参数的语法不再支持，而是使用连接字符串。
     </para>
    </listitem>
    <listitem>
     <para>
-     The deprecated <function>pg_lo_import</function> and <function>pg_lo_export</function> signature
-     that passes the connection as the last argument is no longer supported. The connection should be
-     passed as first argument instead.
+     弃用的 <function>pg_lo_import</function> 和 <function>pg_lo_export</function> 将 connection
+     作为最后一个参数传递的签名不再支持。应该将 connection 作为第一个参数传递。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>pg_fetch_all</function> will now return an empty array instead of &false; for result
-     sets with zero rows.
+     <function>pg_fetch_all</function> 对于 0 条记录的结果集，现在将返回空数组而不是 &false;。
     </para>
    </listitem>
   </itemizedlist>
@@ -1173,8 +1100,7 @@ $array["key"];
   <title>Phar</title>
 
   <para>
-   Metadata associated with a phar will no longer be automatically unserialized, to fix potential
-   security vulnerabilities due to object instantiation, autoloading, etc.
+   与 phar 关联的元数据将不再自动反序列化，以修复由于对象实例化、自动加载等导致的潜在安全漏洞。
    <!-- RFC: https://wiki.php.net/rfc/phar_stop_autoloading_metadata -->
   </para>
  </sect2>
@@ -1185,7 +1111,7 @@ $array["key"];
   <itemizedlist>
    <listitem>
     <para>
-     The method signatures
+     方法签名
     </para>
     <para>
      <simplelist>
@@ -1195,7 +1121,7 @@ $array["key"];
      </simplelist>
     </para>
     <para>
-     have been changed to:
+     已变更为：
     </para>
     <para>
      <simplelist>
@@ -1205,8 +1131,7 @@ $array["key"];
      </simplelist>
     </para>
     <para>
-     Code that must be compatible with both PHP 7 and PHP 8 can use the following
-     signatures to be compatible with both versions:
+     必须同时兼容 PHP 7 和 PHP 8 的代码可以使用以下签名来兼容这两个版本：
     </para>
     <para>
      <simplelist>
@@ -1218,32 +1143,25 @@ $array["key"];
    </listitem>
    <listitem>
     <para>
-     The <methodname>ReflectionType::__toString</methodname> method will now return a complete debug
-     representation of the type, and is no longer deprecated. In particular the result will include a
-     nullability indicator for nullable types. The format of the return value is not stable and may
-     change between PHP versions.
+     ReflectionType::__toString() 方法现在将返回该类型的完整调试表示，并且不再弃用。特别是，结果将包括可空类型的可空性指示符。返回值的格式不稳定，并且可能在不同 PHP 版本之间发生变化。
     </para>
    </listitem>
    <listitem>
     <para>
-     Reflection export() methods have been removed.
-     Instead reflection objects can be cast to string.
+     Reflection export() 方法已经移除。相反，反射对象可以转换为字符串。
     </para>
    </listitem>
    <listitem>
     <para>
-     <methodname>ReflectionMethod::isConstructor</methodname> and
-     <methodname>ReflectionMethod::isDestructor</methodname> now also return &true; for
-     <link linkend="object.construct">__construct()</link> and
-     <link linkend="object.destruct">__destruct()</link> methods of interfaces.
-     Previously, this would only be true for methods of classes and traits.
+     <methodname>ReflectionMethod::isConstructor</methodname> 和 <methodname>ReflectionMethod::isDestructor</methodname>
+     现在也为接口的 <link linkend="object.construct">__construct()</link> 和 <link linkend="object.destruct">__destruct()</link>
+     方法返回 &true;。之前只用于类方法和 trait。
     </para>
    </listitem>
    <listitem>
     <para>
-     <methodname>ReflectionType::isBuiltin</methodname> method has been moved to
-     <classname>ReflectionNamedType</classname>. <classname>ReflectionUnionType</classname> does not
-     have it.
+     <methodname>ReflectionType::isBuiltin</methodname> 方法已移至
+     <classname>ReflectionNamedType</classname>。<classname>ReflectionUnionType</classname> 没有。
     </para>
    </listitem>
   </itemizedlist>
@@ -1255,21 +1173,20 @@ $array["key"];
   <itemizedlist>
    <listitem>
     <para>
-     The deprecated <constant>AI_IDN_ALLOW_UNASSIGNED</constant> and
-     <constant>AI_IDN_USE_STD3_ASCII_RULES</constant> <parameter>flags</parameter> for
-     <function>socket_addrinfo_lookup</function> have been removed.
+     <function>socket_addrinfo_lookup</function> 弃用的 <constant>AI_IDN_ALLOW_UNASSIGNED</constant> 和
+     <constant>AI_IDN_USE_STD3_ASCII_RULES</constant> <parameter>flags</parameter> 已移除。
     </para>
    </listitem>
   </itemizedlist>
  </sect2>
 
  <sect2 xml:id="migration80.incompatible.spl">
-  <title>Standard PHP Library (SPL)</title>
+  <title>PHP 标准库（SPL）</title>
 
   <itemizedlist>
    <listitem>
     <para>
-     <methodname>SplFileObject::fgetss</methodname> has been removed.
+     <methodname>SplFileObject::fgetss</methodname> 已移除。
     </para>
    </listitem>
    <listitem>
@@ -1280,122 +1197,95 @@ $array["key"];
    </listitem>
    <listitem>
     <para>
-     <methodname>SplHeap::compare</methodname> now specifies a method signature. Inheriting classes
-     implementing this method will now have to use a compatible method signature.
+     <methodname>SplHeap::compare</methodname> 现在指定方法签名。实现此方法的继承类现在必须使用兼容的方法签名。
     </para>
    </listitem>
    <listitem>
     <para>
-     <methodname>SplDoublyLinkedList::push</methodname>,
-     <methodname>SplDoublyLinkedList::unshift</methodname> and
-     <methodname>SplQueue::enqueue</methodname> now return <type>void</type> instead of &true;.
+     <methodname>SplDoublyLinkedList::push</methodname>、<methodname>SplDoublyLinkedList::unshift</methodname> 和
+     <methodname>SplQueue::enqueue</methodname> 现在返回 <type>void</type> 而不是 &true;。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>spl_autoload_register</function> will now always throw a
-     <classname>TypeError</classname> on invalid arguments, therefore the second argument
-     <parameter>do_throw</parameter> is ignored and a notice will be emitted if it is set to &false;.
+     <function>spl_autoload_register</function> 现在将始终对无效参数抛出 <classname>TypeError</classname>，因此将会忽略第二个参数
+     <parameter>do_throw</parameter>，并且如果将其设置为 &false;，则会发出 notice。
     </para>
    </listitem>
    <listitem>
     <para>
-     <classname>SplFixedArray</classname> is now an <interfacename>IteratorAggregate</interfacename>
-     and not an <interfacename>Iterator</interfacename>.
-     <methodname>SplFixedArray::rewind</methodname>, <methodname>SplFixedArray::current</methodname>,
-     <methodname>SplFixedArray::key</methodname>, <methodname>SplFixedArray::next</methodname>, and
-     <methodname>SplFixedArray::valid</methodname> have been removed. In their place,
-     <methodname>SplFixedArray::getIterator</methodname> has been added. Any code which uses explicit
-     iteration over SplFixedArray must now obtain an
-     <interfacename>Iterator</interfacename> through
-     <methodname>SplFixedArray::getIterator</methodname>. This means that
-     <classname>SplFixedArray</classname> is now safe to use in nested loops.
+     <classname>SplFixedArray</classname> 现在是 <interfacename>IteratorAggregate</interfacename> 而不是
+     <interfacename>Iterator</interfacename>。<methodname>SplFixedArray::rewind</methodname>、<methodname>SplFixedArray::current</methodname>、<methodname>SplFixedArray::key</methodname>、<methodname>SplFixedArray::next</methodname>
+     和 <methodname>SplFixedArray::valid</methodname> 已移除。在其位置上新增了 <methodname>SplFixedArray::getIterator</methodname>。现在任何在
+     SplFixedArray 上迭代的代码都必须通过 <methodname>SplFixedArray::getIterator</methodname> 获取
+     <interfacename>Iterator</interfacename>。这意味着 <classname>SplFixedArray</classname> 现在可以安全地在嵌套循环中使用。
     </para>
    </listitem>
   </itemizedlist>
  </sect2>
 
  <sect2 xml:id="migration80.incompatible.standard">
-  <title>Standard Library</title>
+  <title>标准库</title>
 
   <itemizedlist>
    <listitem>
     <para>
-     <function>assert</function> will no longer evaluate string arguments, instead they will be
-     treated like any other argument. <code>assert($a == $b)</code> should be used instead of
-     <code>assert('$a == $b')</code>. The <link
-     linkend="ini.assert.quiet-eval">assert.quiet_eval</link> ini directive and the
-     <constant>ASSERT_QUIET_EVAL</constant> constant have also been removed, as they would no longer
-     have any effect.
+     <function>assert</function> 将不再执行字符串参数，而是像其他参数一样对待它们。应该使用 <code>assert($a == $b)</code> 而不是 <code>assert('$a == $b')</code>。<link
+     linkend="ini.assert.quiet-eval">assert.quiet_eval</link> ini 指令和 <constant>ASSERT_QUIET_EVAL</constant> 常量也已移除，因为不再有任何效果。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>parse_str</function> can no longer be used without specifying a result array.
+     如果不指定 result 数组，则无法再使用 <function>parse_str</function>。
     </para>
    </listitem>
    <listitem>
     <para>
-     The <link linkend="filters.string.strip_tags">string.strip_tags</link> filter has been removed.
+     <link linkend="filters.string.strip_tags">string.strip_tags</link> 过滤器已移除。
     </para>
    </listitem>
    <listitem>
     <para>
-     The <parameter>needle</parameter> argument of <function>strpos</function>,
-     <function>strrpos</function>, <function>stripos</function>, <function>strripos</function>,
-     <function>strstr</function>, <function>strchr</function>, <function>strrchr</function>, and
-     <function>stristr</function> will now always be interpreted as a string. Previously non-string
-     needles were interpreted as an ASCII code point. An explicit call to <function>chr</function> can
-     be used to restore the previous behavior.
+     <function>strpos</function>、<function>strrpos</function>、<function>stripos</function>、<function>strripos</function>、<function>strstr</function>、<function>strchr</function>、<function>strrchr</function>
+     和 <function>stristr</function> 的 <parameter>needle</parameter> 参数将始终解释为字符串。非字符串的 needle 之前将解释为 ASCII 码点。现在手动调用 <function>chr</function> 可用于恢复以前的行为。
     </para>
    </listitem>
    <listitem>
     <para>
-     The <parameter>needle</parameter> argument for <function>strpos</function>,
-     <function>strrpos</function>, <function>stripos</function>, <function>strripos</function>,
-     <function>strstr</function>, <function>stristr</function> and <function>strrchr</function> can
-     now be empty.
+     <function>strpos</function>、<function>strrpos</function>、<function>stripos</function>、<function>strripos</function>、<function>strstr</function>、<function>stristr</function>
+     和 <function>strrchr</function> 的 <parameter>needle</parameter> 参数现在可为空。
     </para>
    </listitem>
    <listitem>
     <para>
-     The <parameter>length</parameter> argument for <function>substr</function>,
-     <function>substr_count</function>, <function>substr_compare</function>, and
-     <function>iconv_substr</function> can now be &null;. &null; values will behave as if no length
-     argument was provided and will therefore return the remainder of the string instead of an empty
-     string.
+     <function>substr</function>、<function>substr_count</function>、<function>substr_compare</function> 和 <function>iconv_substr</function> 的
+     <parameter>length</parameter> 参数现在可为 &null;。&null; 值的行为就像是没有提供 length 参数，因此会返回字符串的剩余部分而不是空字符串。
     </para>
    </listitem>
    <listitem>
     <para>
-     The <parameter>length</parameter> argument for <function>array_splice</function> can now be
-     &null;. &null; values will behave identically to omitting the argument, thus removing everything
-     from the <parameter>offset</parameter> to the end of the array.
+     <function>array_splice</function> 的 <parameter>length</parameter> 参数现在可为 &null;。&null; 值的行为跟忽略参数时相同，从而移除从偏移量到数组末尾的所有内容。
     </para>
    </listitem>
    <listitem>
     <para>
-     The <parameter>args</parameter> argument of <function>vsprintf</function>,
-     <function>vfprintf</function>, and <function>vprintf</function> must now be an array. Previously
-     any type was accepted.
+     <function>vsprintf</function>、<function>vfprintf</function> 和 <function>vprintf</function> 的 <parameter>args</parameter> 参数现在必须是数组。之前接受任何类型。
     </para>
    </listitem>
    <listitem>
     <para>
-     The <literal>'salt'</literal> option of <function>password_hash</function> is no longer
-     supported. If the <literal>'salt'</literal> option is used a warning is generated, the provided
-     salt is ignored, and a generated salt is used instead.
+     <function>password_hash</function> 不再支持 <literal>'salt'</literal> 选项。如果使用 <literal>'salt'</literal> 选项则会生成 warning，提供的 salt
+     将会忽略，并使用生成的 slat 代替。
     </para>
    </listitem>
    <listitem>
     <para>
-     The <function>quotemeta</function> function will now return an empty string if an empty string
-     was passed. Previously &false; was returned.
+     如果传递空字符串， <function>quotemeta</function> 函数现在将返回空字符串。之前返回 &false;。
     </para>
    </listitem>
    <listitem>
     <para>
-     The following functions have been removed:
+     下列函数将移除：
     </para>
     <para>
      <simplelist>
@@ -1412,18 +1302,17 @@ $array["key"];
    </listitem>
    <listitem>
     <para>
-     <constant>FILTER_SANITIZE_MAGIC_QUOTES</constant> has been removed.
+     <constant>FILTER_SANITIZE_MAGIC_QUOTES</constant> 已移除。
     </para>
    </listitem>
    <listitem>
     <para>
-     Calling <function>implode</function> with parameters in a reverse order <code>($pieces,
-     $glue)</code> is no longer supported.
+     不再支持以相反的参数顺序 <code>($pieces, $glue)</code> 调用 <function>implode</function>。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>parse_url</function> will now distinguish absent and empty queries and fragments:
+     <function>parse_url</function> 现在将区分不存在或空的查询和片段：
     </para>
     <para>
      <simplelist>
@@ -1432,68 +1321,55 @@ $array["key"];
       <member><code>http://example.com/foo# → query = null, fragment = ""</code></member>
       <member><code>http://example.com/foo?# → query = "",   fragment = ""</code></member>
      </simplelist>
-      Previously all cases resulted in query and fragment being &null;.
+      以前所有情况都会导致查询和片段为 &null;。
     </para>
    </listitem>
    <listitem>
     <para>
-     <function>var_dump</function> and <function>debug_zval_dump</function> will now print
-     floating-point numbers using <link linkend="ini.serialize-precision">serialize_precision</link>
-     rather than <link linkend="ini.precision">precision</link>. In a default configuration, this
-     means that floating-point numbers are now printed with full accuracy by these debugging
-     functions.
+     <function>var_dump</function> 和  <function>debug_zval_dump</function> 现在将使用 <link linkend="ini.serialize-precision">serialize_precision</link>
+     而不是 <link linkend="ini.precision">precision</link> 来打印浮点数。在默认配置中，这意味着这些调试函数现在可以完全准确地打印浮点数。
     </para>
    </listitem>
    <listitem>
     <para>
-     If the array returned by <link linkend="object.sleep">__sleep()</link> contains non-existing
-     properties, these are now silently ignored. Previously, such properties would have been
-     serialized as if they had the value &null;.
+     如果 <link linkend="object.sleep">__sleep()</link> 返回的数组包含不存在的属性，这些属性现在会默认忽略。之前会序列化这些属性，就好像它们的值为 &null; 一样。
     </para>
    </listitem>
    <listitem>
     <para>
-     The default locale on startup is now always <literal>"C"</literal>. No locales are inherited from
-     the environment by default. Previously, <constant>LC_ALL</constant> was set to
-     <literal>"C"</literal>, while <constant>LC_CTYPE</constant> was inherited from the environment.
-     However, some functions did not respect the inherited locale without an explicit
-     <function>setlocale</function> call. An explicit <function>setlocale</function> call is now
-     always required if a locale component should be changed from the default.
+     启动时的默认区域设置现在始终为 <literal>"C"</literal>。默认情况下，不会从环境中继承任何区域设置。之前，<constant>LC_ALL</constant> 设置为 <literal>"C"</literal>，而
+     <constant>LC_CTYPE</constant> 是从环境中继承。但是，如果不手动调用 <function>setlocale</function>，某些函数将不尊重继承的语言环境。如果应更改默认区域设置组件，现在始终需要手动调用
+     <function>setlocale</function>。
     </para>
    </listitem>
    <listitem>
     <para>
-     The deprecated DES fallback in <function>crypt</function> has been removed. If an unknown salt
-     format is passed to <function>crypt</function>, the function will fail with <literal>*0</literal>
-     instead of falling back to a weak DES hash now.
+     已移除 <function>crypt</function> 中已弃用的 DES 回退。如果将未知的 salt 格式传递给
+     <function>crypt</function>，该函数将失败并返回 <literal>*0</literal>，而不是立即回退到弱 DES 散列。
     </para>
    </listitem>
    <listitem>
     <para>
-     Specifying out of range rounds for SHA256/SHA512 <function>crypt</function> will now fail with
-     <literal>*0</literal> instead of clamping to the closest limit. This matches glibc behavior.
+     <function>crypt</function> 现在指定超出 SHA256/SHA512 范围的 rounds 时将失败，返回
+     <literal>*0</literal>，而不是修改为最接近的限制。这与 glibc 的行为相匹配。
     </para>
    </listitem>
    <listitem>
     <para>
-     The result of sorting functions may have changed, if the array contains elements that compare as
-     equal.
+     如果数组包含比较后相等的元素，则排序函数的结果可能会发生改变。
     </para>
    </listitem>
    <listitem>
     <para>
-     Any functions accepting callbacks that are not explicitly specified to accept parameters by
-     reference will now warn if a callback with reference parameters is used. Examples include
-     <function>array_filter</function> and <function>array_reduce</function>. This was already the
-     case for most, but not all, functions previously.
+     如果使用带有引用参数的回调，则任何没有手动指定参数是引用的时候，接受该回调的函数都会发出 warn。示例包括 <function>array_filter</function>
+     和 <function>array_reduce</function>。以前大多数（但不是全部）函数都是这种情况。
     </para>
    </listitem>
    <listitem>
     <para>
-     The HTTP stream wrapper as used by functions like <function>file_get_contents</function>
-     now advertises HTTP/1.1 rather than HTTP/1.0 by default. This does not change the behavior of the
-     client, but may cause servers to respond differently. To retain the old behavior, set the
-     <literal>'protocol_version'</literal> stream context option, e.g.
+     <function>file_get_contents</function> 等函数使用的 HTTP stream 封装协议现在默认使用 HTTP/1.1 而不是
+     HTTP/1.0。这不会改变客户端的行为，但可能会导致服务器做出不同的响应。要保留旧行为，请设置
+     <literal>'protocol_version'</literal> stream 上下文选项，例如
     </para>
     <para>
      <programlisting role="php">
@@ -1508,24 +1384,20 @@ echo file_get_contents('http://example.org', false, $ctx);
    </listitem>
    <listitem>
     <para>
-     Calling <function>crypt</function> without an explicit salt is no longer supported. If you would
-     like to produce a strong hash with an auto-generated salt, use
-     <function>password_hash</function> instead.
+     不再支持在没有指定 salt 时调用 <function>crypt</function>。如果想使用自动生成的 salt 产出强散列，改用 <function>password_hash</function>。
     </para>
    </listitem>
    <listitem>
     <para>
-    <function>substr</function>, <function>mb_substr</function>, <function>iconv_substr</function> and
-    <function>grapheme_substr</function> now consistently clamp out-of-bounds offsets to the string
-    boundary. Previously, &false; was returned instead of the empty string in some cases.
+    <function>substr</function>、<function>mb_substr</function>、<function>iconv_substr</function> 和
+    <function>grapheme_substr</function> 现在始终控制超出范围的 offset 控制到字符串的边界。在某些情况下，之前会返回
+    &false; 而不是空字符串。
     </para>
    </listitem>
    <listitem>
     <para>
-     On Windows, the program execution functions (<function>proc_open</function>, <function>exec</function>,
-     <function>popen</function> etc.) using the shell, now consistently execute <command>%comspec% /s
-     /c "$commandline"</command>, which has the same effect as executing
-     <command>$commandline</command> (without additional quotes).
+     在 Windows 上，使用 shell 的程序执行函数（<function>proc_open</function>、<function>exec</function>、<function>popen</function>）现在执行
+     <command>%comspec% /s /c "$commandline"</command>，始终与执行 <command>$commandline</command> 效果相同 （没有额外的引号）。
     </para>
    </listitem>
   </itemizedlist>
@@ -1568,17 +1440,16 @@ echo file_get_contents('http://example.org', false, $ctx);
   <itemizedlist>
    <listitem>
     <para>
-     <literal>T_COMMENT</literal> 记号将不再包含尾随的换行符。换行符将成为以下 <literal>T_WHITESPACE</literal>
-     记号的一部分。需要注意的是，<literal>T_COMMENT</literal> 后面并不总是跟空格，也可能跟着
-     <literal>T_CLOSE_TAG</literal> 或者文件结尾。
+     <constant>T_COMMENT</constant> 记号将不再包含尾随的换行符。换行符将成为以下 <constant>T_WHITESPACE</constant>
+     记号的一部分。需要注意的是，<constant>T_COMMENT</constant> 后面并不总是跟空格，也可能跟着
+     <constant>T_CLOSE_TAG</constant> 或者文件结尾。
     </para>
    </listitem>
    <listitem>
     <para>
-     命名空间名称现在使用 <literal>T_NAME_QUALIFIED</literal>（<code>Foo\Bar</code>）、<literal>T_NAME_FULLY_QUALIFIED</literal>（<code>\Foo\Bar</code>）
-     和 <literal>T_NAME_RELATIVE</literal>（<code>namespace\Foo\Bar</code>）记号表示。
-     <literal>T_NS_SEPARATOR</literal> is only used for standalone namespace separators, and only
-     syntactially valid in conjunction with group use declarations.
+     namespace 名称现在使用 <constant>T_NAME_QUALIFIED</constant>（<code>Foo\Bar</code>）、<constant>T_NAME_FULLY_QUALIFIED</constant>（<code>\Foo\Bar</code>）
+     和 <constant>T_NAME_RELATIVE</constant>（<code>namespace\Foo\Bar</code>）记号表示。<constant>T_NS_SEPARATOR</constant> 仅用于独立 namespace
+     分隔符，仅与 group use 声明结合的有效语法。
      <!-- RFC: https://wiki.php.net/rfc/namespaced_names_as_token -->
     </para>
    </listitem>
@@ -1589,7 +1460,7 @@ echo file_get_contents('http://example.org', false, $ctx);
   <title>XMLReader</title>
 
   <para>
-   <methodname>XMLReader::open</methodname> 和 <methodname>XMLReader::xml</methodname>
+   <methodname>XMLReader::open</methodname> 和 <methodname>XMLReader::XML</methodname>
    现在是静态方法。也可以作为实例方法调用，但如果继承类需要覆盖这些方法，要声明为 static。
   </para>
  </sect2>

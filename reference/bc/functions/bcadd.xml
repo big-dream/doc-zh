@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 23f5599c8cc2713e7a4fdc29d8cceab66c341c48 Maintainer: jakquan Status: ready -->
-<!-- Reviewed: no -->
-
+<!-- EN-Revision: 3295741565f760edd22e305bd10e37f243e9e194 Maintainer: jakquan Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
 <refentry xml:id="function.bcadd" xmlns="http://docbook.org/ns/docbook">
  <refnamediv>
   <refname>bcadd</refname>
@@ -42,7 +41,16 @@
       </para>
      </listitem>
     </varlistentry>
-    &bc.scale.description;
+    <varlistentry xml:id="function.bcadd..parameters.scale">
+     <term><parameter>scale</parameter></term>
+     <listitem>
+      <simpara>
+       此参数用于设置结果小数点后的位数。
+       如果为 &null;，则默认为使用 <function>bcscale</function> 设置的默认精度，
+       或者回退到 <link linkend="ini.bcmath.scale"><literal>bcmath.scale</literal></link> INI 指令的值。
+      </simpara>
+     </listitem>
+    </varlistentry>
    </variablelist>
   </para>
  </refsect1>
@@ -51,6 +59,21 @@
   &reftitle.returnvalues;
   <para>
    以字符串返回两个操作数求和之后的结果。
+  </para>
+ </refsect1>
+
+ <refsect1 role="errors">
+  &reftitle.errors;
+  <para>
+   此函数在下列情况下抛出 <exceptionname>ValueError</exceptionname>：
+   <simplelist>
+    <member>
+     <parameter>num1</parameter> 或 <parameter>num2</parameter> 不是格式正确的 BCMath 数字字符串。
+    </member>
+    <member>
+     <parameter>scale</parameter> 超出有效范围。
+    </member>
+   </simplelist>
   </para>
  </refsect1>
 
@@ -75,7 +98,7 @@
    </tgroup>
   </informaltable>
  </refsect1>
- 
+
  <refsect1 role="examples">
   &reftitle.examples;
   <example>
@@ -95,12 +118,13 @@ echo bcadd($a, $b, 4);  // 6.2340
    </programlisting>
   </example>
  </refsect1>
- 
+
  <refsect1 role="seealso">
   &reftitle.seealso;
   <para>
    <simplelist>
     <member><function>bcsub</function></member>
+    <member><methodname>BcMath\Number::add</methodname></member>
    </simplelist>
   </para>
  </refsect1>

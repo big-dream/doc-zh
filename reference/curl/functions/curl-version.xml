@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 08a941584f00b659f595dfc6d108a73b2e6849a6 Maintainer: daijie Status: ready -->
-<!-- CREDITS: mowangjuanzi -->
+<!-- EN-Revision: fd45557ea6f38295f024de7e605c8a13dbf95f51 Maintainer: daijie Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
 <refentry xml:id="function.curl-version" xmlns="http://docbook.org/ns/docbook">
  <refnamediv>
   <refname>curl_version</refname>
@@ -67,11 +67,17 @@
       </row>
       <row>
        <entry>features</entry>
-       <entry>一个<literal>CURL_VERSION_XXX</literal>常量的位掩码</entry>
+       <entry>一个 <constant>CURL_VERSION_<replaceable>*</replaceable></constant> 常量的位掩码</entry>
       </row>
       <row>
        <entry>protocols</entry>
        <entry>数组，包含 cURL 支持的协议名称</entry>
+      </row>
+      <row>
+       <entry>feature_list</entry>
+       <entry>
+        所有已知 cURL 功能的关联数组，以及它们是否支持（&true;）或不支持（&false;）
+       </entry>
       </row>
      </tbody>
     </tgroup>
@@ -90,6 +96,12 @@
      </row>
     </thead>
     <tbody>
+     <row>
+      <entry>8.4.0</entry>
+      <entry>
+       新增 <literal>features_list</literal>。
+      </entry>
+     </row>
      <row>
       <entry>8.0.0</entry>
       <entry>

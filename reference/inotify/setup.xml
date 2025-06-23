@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: af4410a7e15898c3dbe83d6ea38246745ed9c6fb Maintainer: songmeifeng Status: ready -->
+<!-- EN-Revision: 204578526607cf2e49e02782d45a93b6c1f9018b Maintainer: songmeifeng Status: ready -->
+<!-- CREDITS: Luffy -->
 <chapter xml:id="inotify.setup" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
  &reftitle.setup;
-
- <!-- {{{ Requirements -->
- <section xml:id="inotify.requirements">
-  &reftitle.required;
-  <para>
-   此扩展需要 Linux 2.6.13 或更新的版本，以及最新的 libC 库。
-  </para>
- </section>
- <!-- }}} -->
 
  <!-- {{{ Installation -->
  <section xml:id="inotify.install">
@@ -23,13 +15,6 @@
    &pecl.info;
    <link xlink:href="&url.pecl.package;inotify">&url.pecl.package;inotify</link>.
   </para>
- </section>
- <!-- }}} -->
-
- <!-- {{{ Configuration -->
- <section xml:id="inotify.configuration">
-  &reftitle.runtime;
-  &no.config;
  </section>
  <!-- }}} -->
 

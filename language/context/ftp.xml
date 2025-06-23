@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 86e6094e86b84a51d00ab217ac50ce8dde33d82a Maintainer: Jader Status: ready -->
-<!-- Reviewed: no -->
-
-<refentry xml:id="context.ftp" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" role="noversion">
+<!-- EN-Revision: 099db652feea008bbb83805f90b8717966357f7c Maintainer: Jader Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
+<refentry xml:id="context.ftp" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" annotations="verify_info:false" role="stream_context_option">
  <refnamediv>
   <refname>FTP 上下文选项</refname>
   <refpurpose>FTP 上下文选项列表</refpurpose>
  </refnamediv>
- 
+
  <refsect1 role="description">
   &reftitle.description;
   <para>
@@ -68,7 +67,7 @@
   <note>
    <title>底层套接字流上下文选项</title>
    <simpara>
-    <link linkend="transports.inet">底层传输</link> 可能支持其他上下文选项
+    <link linkend="transports.inet">底层传输</link> 可能支持其他上下文选项。
     对于 <literal>ftp://</literal> 流，请参阅 <literal>tcp://</literal> 传输的上下文选项。
     对于 <literal>ftps://</literal> 流，请参阅 <literal>ssl://</literal> 传输的上下文选项。
    </simpara>
@@ -87,7 +86,7 @@
  </refsect1>
 
 </refentry>
- 
+
 <!-- Keep this comment at the end of the file
 Local variables:
 mode: sgml

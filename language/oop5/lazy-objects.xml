@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Revision$ -->
+<!-- EN-Revision: 617cc59b5902de0cadd32883b72b113bf62cf1b6 Maintainer: Luffy Status: partial -->
+<!-- CREDITS: mowangjuanzi -->
+<sect1 xml:id="language.oop5.lazy-objects" xmlns="http://docbook.org/ns/docbook">
+ <title>延迟对象</title>
+
+ <simpara>
+  延迟对象是指其初始化推迟到状态被观察或修改时才进行的对象。一些用例示例包括依赖项注入组件（仅在需要时提供完全初始化的延迟服务）、<acronym>ORM</acronym>（提供仅在访问时才从数据库获取数据的延迟实体）或
+  JSON 解析器（延迟解析直到访问元素）。
+ </simpara>
+
+ <simpara>
+  支持两种延迟对象策略：幽灵对象（Ghost Object）和虚拟代理（Virtual Proxies），以下称为&quot;延迟幽灵&quot;和&quot;延迟代理&quot;。
+  在这两种策略中，延迟对象都附加到初始化程序或工厂，当第一次观察或修改其状态时会自动调用。从抽象的角度来看，延迟幽灵对象与非延迟幽灵对象没有区别：都可以在不知道自己是延迟的情况下使用，从而允许将其传递给不知道延迟的代码并由其使用。延迟代理同样是透明的，但在使用它们的标识（identity）时必须小心，因为代理和其真实实例具有不同的标识。
+ </simpara>
+
+ <note>
+  <title>版本信息</title>
+  <simpara>
+   延迟对象是在 PHP 8.4 中引入的。
+  </simpara>
+ </note>
+
+ <sect2 xml:id="language.oop5.lazy-objects.creation">
+  <title>创建延迟对象</title>
+
+  <simpara>
+   可以创建任何用户定义类或 <classname>stdClass</classname> 类的延迟实例（不支持其他内部类），或重置这些类的实例以使其成为延迟实例。创建延迟对象的入口点是
+   <methodname>ReflectionClass::newLazyGhost</methodname> 和 <methodname>ReflectionClass::newLazyProxy</methodname> 方法。
+  </simpara>
+
+  <simpara>
+   这两种方法都接受函数，在对象需要初始化时调用该函数。该函数的预期行为因所使用的策略而异，如每种方法的参考文档中所述。
+  </simpara>
+
+  <example>
+   <title>创建延迟幽灵</title>
+   <programlisting role="php">
+<![CDATA[
+<?php
+class Example
+{
+    public function __construct(public int $prop)
+    {
+        echo __METHOD__, "\n";
+    }
+}
+
+$reflector = new ReflectionClass(Example::class);
+$lazyObject = $reflector->newLazyGhost(function (Example $object) {
+    // 在这里初始化对象
+    $object->__construct(1);
+});
+
+var_dump($lazyObject);
+var_dump(get_class($lazyObject));
+
+// 触发初始化
+var_dump($lazyObject->prop);
+?>
+]]>
+   </programlisting>
+   &example.outputs;
+   <screen>
+<![CDATA[
+lazy ghost object(Example)#3 (0) {
+["prop"]=>
+uninitialized(int)
+}
+string(7) "Example"
+Example::__construct
+int(1)
+]]>
+   </screen>
+  </example>
+
+  <example>
+   <title>创建延迟代理</title>
+   <programlisting role="php">
+<![CDATA[
+<?php
+class Example
+{
+    public function __construct(public int $prop)
+    {
+        echo __METHOD__, "\n";
+    }
+}
+
+$reflector = new ReflectionClass(Example::class);
+$lazyObject = $reflector->newLazyProxy(function (Example $object) {
+    // 创建并返回真实实例
+    return new Example(1);
+});
+
+var_dump($lazyObject);
+var_dump(get_class($lazyObject));
+
+// 触发器初始化
+var_dump($lazyObject->prop);
+?>
+]]>
+   </programlisting>
+   &example.outputs;
+   <screen>
+<![CDATA[
+lazy proxy object(Example)#3 (0) {
+  ["prop"]=>
+  uninitialized(int)
+}
+string(7) "Example"
+Example::__construct
+int(1)
+]]>
+   </screen>
+  </example>
+
+  <simpara>
+   对延迟对象属性的任何访问都会触发其初始化（包括通过 <classname>ReflectionProperty</classname>
+   访问）。但是，某些属性可能是预先知道的，并且在访问时不应触发初始化：
+  </simpara>
+
+  <example>
+   <title>立即初始化属性</title>
+   <programlisting role="php">
+<![CDATA[
+<?php
+class BlogPost
+{
+    public function __construct(
+        public int $id,
+        public string $title,
+        public string $content,
+    ) { }
+}
+
+$reflector = new ReflectionClass(BlogPost::class);
+
+$post = $reflector->newLazyGhost(function ($post) {
+    $data = fetch_from_store($post->id);
+    $post->__construct($data['id'], $data['title'], $data['content']);
+});
+
+// 如果没有这行，下面调用 ReflectionProperty::setValue() 时将触发初始化
+$reflector->getProperty('id')->skipLazyInitialization($post);
+$reflector->getProperty('id')->setValue($post, 123);
+
+// 或者直接使用它：
+$reflector->getProperty('id')->setRawValueWithoutLazyInitialization($post, 123);
+
+// 无需触发初始化即可访问 id 属性
+var_dump($post->id);
+?>
+]]>
+   </programlisting>
+  </example>
+
+  <simpara>
+   <methodname>ReflectionProperty::skipLazyInitialization</methodname> 和 <methodname>ReflectionProperty::setRawValueWithoutLazyInitialization</methodname>
+   方法提供了在访问属性时绕过延迟初始化的方法。
+  </simpara>
+ </sect2>
+
+ <sect2 xml:id="language.oop5.lazy-objects.patterns">
+  <title>关于延迟对象策略</title>
+
+  <simpara>
+   <emphasis>延迟幽灵</emphasis>，就地初始化的对象，并且一旦初始化，就跟从未延迟化的对象没有区别。当需要控制对象的实例化和初始化时，此策略是合适的，如果是其中任何一个由另一方管理，则不适合。
+  </simpara>
+
+  <simpara>
+   <emphasis>延迟代理</emphasis>一旦初始化，便充当真实实例的代理：对已初始化延迟代理的任何操作都将转发给真实实例。真实实例的创建可以委托给另一方，这使得此策略在延迟幽灵不适合的情况下非常有用。尽管延迟代理几乎与延迟幽灵一样透明，但在使用其身份时需要谨慎，因为代理和真实实例具有不同的身份。
+  </simpara>
+ </sect2>
+
+ <sect2 xml:id="language.oop5.lazy-objects.lifecycle">
+  <title>延迟对象的生命周期</title>
+
+  <simpara>
+   对象可以使用 <methodname>ReflectionClass::newLazyGhost</methodname> 或
+   <methodname>ReflectionClass::newLazyProxy</methodname> 在实例化时设置为延迟，或者使用
+   <methodname>ReflectionClass::resetAsLazyGhost</methodname> 或
+   <methodname>ReflectionClass::resetAsLazyProxy</methodname> 在实例化后设置为延迟。之后可以通过下列操作之一初始化延迟对象：
+  </simpara>
+
+  <simplelist>
+   <member>
+    以触发自动初始化的方式与对象进行交互。参阅<link linkend="language.oop5.lazy-objects.initialization-triggers">初始化触发器</link>。
+   </member>
+   <member>
+    使用 <methodname>ReflectionProperty::skipLazyInitialization</methodname> 或
+    <methodname>ReflectionProperty::setRawValueWithoutLazyInitialization</methodname>
+    将其所有属性标注为非延迟。
+   </member>
+   <member>
+    明确调用 <methodname>ReflectionClass::initializeLazyObject</methodname>
+    或 <methodname>ReflectionClass::markLazyObjectAsInitialized</methodname>。
+   </member>
+  </simplelist>
+
+  <simpara>
+   由于延迟对象在所有属性均标记为非惰性时才会初始化，因此如果没有属性可以标记为延迟，则上述方法不会将对象标记为延迟。
+  </simpara>
+ </sect2>
+
+ <sect2 xml:id="language.oop5.lazy-objects.initialization-triggers">
+  <title>初始化触发器</title>
+
+  <simpara>
+   延迟对象设计为对其使用者完全透明，因此观察或修改对象状态的常规操作将在执行操作之前自动触发初始化。这包括但不限于以下操作：
+  </simpara>
+
+  <simplelist>
+   <member>
+    读取或写入属性。
+   </member>
+   <member>
+    测试属性是否已设置或已清除。
+   </member>
+   <member>
+    通过 <methodname>ReflectionProperty::getValue</methodname>、<methodname>ReflectionProperty::getRawValue</methodname>、<methodname>ReflectionProperty::setValue</methodname>,
+    或 <methodname>ReflectionProperty::setRawValue</methodname> 访问或修改属性。
+   </member>
+   <member>
+    使用 <methodname>ReflectionObject::getProperties</methodname>、<methodname>ReflectionObject::getProperty</methodname>、<function>get_object_vars</function>
+    列出属性。
+   </member>
+   <member>
+    使用 <link linkend="control-structures.foreach">foreach</link> 迭代未实现 <interfacename>Iterator</interfacename> 或
+    <interfacename>IteratorAggregate</interfacename> 的对象属性。
+   </member>
+   <member>
+    使用 <function>serialize</function>、<function>json_encode</function> 等序列化对象。
+   </member>
+   <member>
+    <link linkend="language.oop5.lazy-objects.cloning">克隆</link>对象。
+   </member>
+  </simplelist>
+
+  <simpara>
+   方法调用不访问对象状态的话不会触发初始化。同样，如果这些方法或函数不访问对象的状态，则调用魔术方法或挂钩函数与对象的交互也不会触发初始化。
+  </simpara>
+
+  <sect3>
+   <title>非触发操作</title>
+
+   <simpara>
+    以下特定方法或低级操作允许访问或修改延迟对象而无需触发初始化：
+   </simpara>
+
+   <simplelist>
+    <member>
+     使用 <methodname>ReflectionProperty::skipLazyInitialization</methodname> 或
+     <methodname>ReflectionProperty::setRawValueWithoutLazyInitialization</methodname>
+     将属性标注为非延迟。
+    </member>
+    <member>
+     使用 <function>get_mangled_object_vars</function> 或将<link
+     linkend="language.types.array.casting">对象转换为数组</link>来检索属性的内部表示。
+    </member>
+    <member>
+     当设置了 <constant>ReflectionClass::SKIP_INITIALIZATION_ON_SERIALIZE</constant> 时使用
+     <function>serialize</function>，除非使用 <link linkend="object.serialize">__serialize()</link>
+     或 <link linkend="object.sleep">__sleep()</link> 触发初始化。
+    </member>
+    <member>
+     调用 <methodname>ReflectionObject::__toString</methodname>。
+    </member>
+    <member>
+     使用 <function>var_dump</function> 或 <function>debug_zval_dump</function>，除非使用
+     <link linkend="object.debuginfo">__debugInfo()</link> 触发初始化。
+    </member>
+   </simplelist>
+  </sect3>
+ </sect2>
+
+ <sect2 xml:id="language.oop5.lazy-objects.initialization-sequence">
+  <title>初始化序列</title>
+
+  <simpara>
+   本节概述了根据所使用的执行策略触发初始化时的操作顺序。
+  </simpara>
+
+  <sect3>
+   <title>幽灵对象</title>
+   <simplelist>
+    <member>
+     对象标记为非延迟。
+    </member>
+    <member>
+     没有使用 <methodname>ReflectionProperty::skipLazyInitialization</methodname> 或
+     <methodname>ReflectionProperty::setRawValueWithoutLazyInitialization</methodname>
+     初始化的属性将设置为他们的默认值（如果有）。在此阶段，该对象类似于使用
+     <methodname>ReflectionClass::newInstanceWithoutConstructor</methodname>
+     创建的对象，但排除已初始化的属性。
+    </member>
+    <member>
+     然后，将对象作为第一个参数调用其初始化函数。该函数需要（但不是必须）初始化对象状态，并且必须返回
+     &null; 或没有值。此时对象不再是延迟，因此该函数可以直接访问其属性。
+    </member>
+   </simplelist>
+   <simpara>
+    初始化后，该对象与从未延迟过的对象没有区别。
+   </simpara>
+  </sect3>
+
+  <sect3>
+   <title>代理对象</title>
+   <simplelist>
+    <member>
+     对象标记为非延迟。
+    </member>
+    <member>
+     Unlike ghost objects, the properties of the object are not modified at
+     this stage.
+    </member>
+    <member>
+     The factory function is called with the object as its first parameter and
+     must return a non-lazy instance of a compatible class (see
+     <methodname>ReflectionClass::newLazyProxy</methodname>).
+    </member>
+    <member>
+     The returned instance is referred to as the <emphasis>real
+     instance</emphasis> and is attached to the proxy.
+    </member>
+    <member>
+     The proxy's property values are discarded as though
+     <function>unset</function> was called.
+    </member>
+   </simplelist>
+   <simpara>
+    After initialization, accessing any property on the proxy will
+    yield the same result as accessing the corresponding property on
+    the real instance; all property accesses on the proxy are forwarded
+    to the real instance, including declared, dynamic, non-existing, or
+    properties marked with
+    <methodname>ReflectionProperty::skipLazyInitialization</methodname> or
+    <methodname>ReflectionProperty::setRawValueWithoutLazyInitialization</methodname>.
+   </simpara>
+   <simpara>
+    The proxy object itself is <emphasis>not</emphasis> replaced or substituted
+    for the real instance.
+   </simpara>
+   <simpara>
+    While the factory receives the proxy as its first parameter, it is
+    not expected to modify it (modifications are allowed but will be lost
+    during the final initialization step). However, the proxy can be used
+    for decisions based on the values of initialized properties, the class,
+    the object itself, or its identity. For instance, the initializer might
+    use an initialized property's value when creating the real instance.
+   </simpara>
+  </sect3>
+
+  <sect3>
+   <title>通用行为</title>
+
+   <simpara>
+    The scope and <varname>$this</varname> context of the initializer or factory
+    function remains unchanged, and usual visibility constraints apply.
+   </simpara>
+
+   <simpara>
+    After successful initialization, the initializer or factory function
+    is no longer referenced by the object and may be released if it has no
+    other references.
+   </simpara>
+
+   <simpara>
+    If the initializer throws an exception, the object state is reverted to its
+    pre-initialization state and the object is marked as lazy again. In other
+    words, all effects on the object itself are reverted. Other side effects,
+    such as effects on other objects, are not reverted. This prevents
+    exposing a partially initialized instance in case of failure.
+   </simpara>
+  </sect3>
+ </sect2>
+
+ <sect2 xml:id="language.oop5.lazy-objects.cloning">
+  <title>克隆</title>
+
+  <simpara>
+   <link linkend="language.oop5.cloning">克隆</link>延迟对象会在创建克隆之前触发其初始化，从而产生已初始化的对象。
+  </simpara>
+
+  <simpara>
+   对于代理对象，代理及其真实实例都会克隆，并返回代理的克隆。<link linkend="object.clone"><literal>__clone</literal></link>
+   方法会在真实实例上调用，而不是在代理上调用。克隆的代理和真实实例在初始化时会保持连接，因此对代理克隆的访问将转发到克隆的真实实例。
+  </simpara>
+
+  <simpara>
+   此行为可确保克隆对象和原始对象保持不同的状态。克隆后对原始对象或其初始化程序状态的更改不会影响克隆。克隆代理及其真实实例（而不是仅返回真实实例的克隆），可确保克隆操作始终返回同一类的对象。
+  </simpara>
+ </sect2>
+
+ <sect2 xml:id="language.oop5.lazy-objects.destructors">
+  <title>析构方法</title>
+
+  <simpara>
+   对于延迟幽灵，只有对象初始化后才会调用析构方法。对于延迟代理，只有存在真实实例时才会调用析构方法。
+  </simpara>
+
+  <simpara>
+   <methodname>ReflectionClass::resetAsLazyGhost</methodname> 和
+   <methodname>ReflectionClass::resetAsLazyProxy</methodname> 方法可能会调用已重置对象的析构方法。
+  </simpara>
+ </sect2>
+</sect1>

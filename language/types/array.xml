@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: cdc9d28d334bbc08386fecf8aade66080004a9dd Maintainer: HonestQiao Status: ready -->
+<!-- EN-Revision: e587d0655e426f97b3fcb431453da5030e743b23 Maintainer: HonestQiao Status: ready -->
 <!-- CREDITS: Geogory, dallas, jwj, mowangjuanzi, Luffy -->
 <sect1 xml:id="language.types.array">
  <title>Array 数组</title>
@@ -56,16 +56,18 @@ array(
     <programlisting role="php">
 <![CDATA[
 <?php
-$array = array(
+$array1 = array(
     "foo" => "bar",
     "bar" => "foo",
 );
 
 // 使用短数组语法
-$array = [
+$array2 = [
     "foo" => "bar",
     "bar" => "foo",
 ];
+
+var_dump($array1, $array2);
 ?>
 ]]>
     </programlisting>
@@ -114,7 +116,7 @@ $array = [
      </listitem>
     </itemizedlist>
    </para>
-   
+
    <para>
     如果在数组定义时多个元素都使用相同键名，那么只有最后一个会被使用，其它的元素都会被覆盖。
    </para>
@@ -153,7 +155,7 @@ array(1) {
     PHP 数组可以同时含有 <type>int</type> 和 <type>string</type> 类型的键名，因为
     PHP 实际并不区分索引数组和关联数组。
    </para>
-   
+
    <example>
     <title>混合 <type>int</type> 和 <type>string</type> 键名</title>
     <programlisting role="php">
@@ -185,12 +187,12 @@ array(4) {
 ]]>
     </screen>
    </example>
-   
+
    <para>
     <replaceable>key</replaceable> 为可选项。如果未指定，PHP
     将自动使用之前用过的最大 <type>int</type> 键名加上 1 作为新的键名。
    </para>
-   
+
    <example>
     <title>没有键名的索引数组</title>
     <programlisting role="php">
@@ -217,11 +219,11 @@ array(4) {
 ]]>
     </screen>
    </example>
-   
+
    <para>
     还可以只对某些单元指定键名而对其它的空置：
    </para>
-   
+
    <example>
     <title>仅对部分单元指定键名</title>
     <programlisting role="php">
@@ -307,6 +309,55 @@ array(7) {
 ]]>
     </screen>
    </example>
+
+   <example>
+    <title>负数索引示例</title>
+    <simpara>
+     当分配负整数 key <literal>n</literal> 时，PHP 会将下一个 key 分配给 <literal>n+1</literal>。
+    </simpara>
+    <programlisting role="php">
+     <![CDATA[
+<?php
+$array = [];
+
+$array[-5] = 1;
+$array[] = 2;
+
+var_dump($array);
+?>
+]]>
+    </programlisting>
+    &example.outputs;
+    <screen>
+     <![CDATA[
+array(2) {
+  [-5]=>
+  int(1)
+  [-4]=>
+  int(2)
+}
+]]>
+    </screen>
+
+    <warning>
+     <simpara>
+      PHP 8.3.0 之前，分配负整数 key <literal>n</literal> 会将下一个 key 分配给
+      <literal>0</literal>，因此前面的示例将输出：
+     </simpara>
+     <informalexample>
+      <screen>
+<![CDATA[
+array(2) {
+  [-5]=>
+  int(1)
+  [0]=>
+  int(2)
+}
+]]>
+      </screen>
+     </informalexample>
+ </warning>
+   </example>
   </sect3>
   
   <sect3 xml:id="language.types.array.syntax.accessing">
@@ -315,7 +366,7 @@ array(7) {
    <para>
     数组单元可以通过 <literal>array[key]</literal> 语法来访问。
    </para>
-   
+
    <example>
     <title>访问数组单元</title>
     <programlisting role="php">
@@ -346,7 +397,7 @@ string(3) "foo"
 ]]>
     </screen>
    </example>
-   
+
    <note>
     <para>
      在 PHP 8.0.0 之前，方括号和花括号可以互换使用来访问数组单元（例如
@@ -365,11 +416,13 @@ function getArray() {
 }
 
 $secondElement = getArray()[1];
+
+var_dump($secondElement);
 ?>
 ]]>
     </programlisting>
    </example>
-   
+
    <note>
     <para>
      试图访问一个未定义的数组键名与访问任何未定义变量一样：会导致
@@ -399,13 +452,13 @@ $secondElement = getArray()[1];
     这是通过在方括号内指定键名来给 <type>array</type>
     赋值实现的。也可以省略键名，在这种情况下给变量名加上一对空的方括号（<literal>[]</literal>）。
    </para>
-   
+
    <synopsis>
 $arr[<replaceable>key</replaceable>] = <replaceable>value</replaceable>;
 $arr[] = <replaceable>value</replaceable>;
 // <replaceable>key</replaceable> 可以是 <type>int</type> 或 <type>string</type>
 // <replaceable>value</replaceable> 可以是任意类型的值</synopsis>
-   
+
    <para>
     如果 <varname>$arr</varname> 不存在或者设置为 &null; 或者 &false;，将会新建它，这也是另一种创建
     <type>array</type> 的方法。不过并不鼓励这样做，因为如果
@@ -430,7 +483,8 @@ $arr[] = <replaceable>value</replaceable>;
     <function>unset</function> 函数。
    </para>
 
-   <informalexample>
+   <example>
+    <title>Using Square Brackets with Arrays</title>
     <programlisting role="php">
 <![CDATA[
 <?php
@@ -441,14 +495,14 @@ $arr[] = 56;    // 这与 $arr[13] = 56 相同;
 
 $arr["x"] = 42; // 添加一个新元素
                 // 键名使用 "x"
-                
+
 unset($arr[5]); // 从数组中删除元素
 
 unset($arr);    // 删除整个数组
 ?>
-]]> 
+]]>
     </programlisting>
-   </informalexample>
+   </example>
 
    <note>
     <para>
@@ -487,7 +541,7 @@ $array = array_values($array);
 $array[] = 7;
 print_r($array);
 ?>
-]]> 
+]]>
      </programlisting>
      &example.outputs;
      <screen>
@@ -528,7 +582,8 @@ Array
     语言结构解包数组。这些结构可用于将数组解包为不同的变量。
    </para>
 
-   <informalexample>
+   <example>
+    <title>Array Destructuring</title>
     <programlisting role="php">
 <![CDATA[
 <?php
@@ -536,19 +591,20 @@ $source_array = ['foo', 'bar', 'baz'];
 
 [$foo, $bar, $baz] = $source_array;
 
-echo $foo;    // 打印 "foo"
-echo $bar;    // 打印 "bar"
-echo $baz;    // 打印 "baz"
+echo $foo, PHP_EOL;    // 打印 "foo"
+echo $bar, PHP_EOL;    // 打印 "bar"
+echo $baz, PHP_EOL;    // 打印 "baz"
 ?>
 ]]>
     </programlisting>
-   </informalexample>
+   </example>
 
    <para>
     数组解包可用于 &foreach; 在迭代多维数组时对其进行解包。
    </para>
 
-   <informalexample>
+   <example>
+    <title>Array Destructuring in Foreach</title>
     <programlisting role="php">
 <![CDATA[
 <?php
@@ -558,18 +614,19 @@ $source_array = [
 ];
 
 foreach ($source_array as [$id, $name]) {
-    // 这里是 $id 和 $name 的逻辑
+    echo "{$id}: '{$name}'\n";
 }
 ?>
 ]]>
     </programlisting>
-   </informalexample>
+   </example>
 
    <para>
     如果变量未提供，数组元素将会被忽略。数组解包始终从索引 <literal>0</literal> 开始。
    </para>
 
-   <informalexample>
+   <example>
+    <title>Ignoring Elements</title>
     <programlisting role="php">
 <![CDATA[
 <?php
@@ -582,13 +639,14 @@ echo $baz;    // 打印 "baz"
 ?>
 ]]>
     </programlisting>
-   </informalexample>
+   </example>
 
    <para>
     自 PHP 7.1.0 起，也可以解包关联数组。这在数字索引数组中更容易选择正确的元素，因为可以显式指定索引。
    </para>
 
-   <informalexample>
+   <example>
+    <title>Destructuring Associative Arrays</title>
     <programlisting role="php">
 <![CDATA[
 <?php
@@ -597,24 +655,25 @@ $source_array = ['foo' => 1, 'bar' => 2, 'baz' => 3];
 // 将索引 'baz' 处的元素分配给变量 $three
 ['baz' => $three] = $source_array;
 
-echo $three;    // 打印 3
+echo $three, PHP_EOL;    // 打印 3
 
 $source_array = ['foo', 'bar', 'baz'];
 
 // 将索引 2 处的元素分配给变量 $baz
 [2 => $baz] = $source_array;
 
-echo $baz;    // 打印 "baz"
+echo $baz, PHP_EOL;    // 打印 "baz"
 ?>
 ]]>
     </programlisting>
-   </informalexample>
+   </example>
 
    <para>
     数组解包可以方便的用于两个变量交换。
    </para>
 
-   <informalexample>
+   <example>
+    <title>Swapping Two Variable</title>
     <programlisting role="php">
 <![CDATA[
 <?php
@@ -623,12 +682,12 @@ $b = 2;
 
 [$b, $a] = [$a, $b];
 
-echo $a;    // 打印 2
-echo $b;    // 打印 1
+echo $a, PHP_EOL;    // 打印 2
+echo $b, PHP_EOL;    // 打印 1
 ?>
 ]]>
     </programlisting>
-   </informalexample>
+   </example>
 
    <note>
     <para>
@@ -645,7 +704,7 @@ echo $b;    // 打印 1
   </sect3>
 
  </sect2><!-- end syntax -->
- 
+
  <sect2 xml:id="language.types.array.useful-funcs">
   <title>实用函数</title>
 
@@ -659,33 +718,37 @@ echo $b;    // 打印 1
     <type>array</type> 中的某个键。但要注意数组将<emphasis>不会</emphasis>重建索引。如果需要删除后重建索引，可以用
     <function>array_values</function> 函数重建 <type>array</type> 索引。
    </para>
-   
-   <informalexample>
+
+   <example>
+    <title>Unsetting Intermediate Elements</title>
     <programlisting role="php">
 <![CDATA[
 <?php
 $a = array(1 => 'one', 2 => 'two', 3 => 'three');
-unset($a[2]);
+
 /* 该数组将被定义为
    $a = array(1 => 'one', 3 => 'three');
    而不是
    $a = array(1 => 'one', 2 =>'three');
 */
+unset($a[2]);
+var_dump($a);
 
 $b = array_values($a);
-// 现在 $b 是 array(0 => 'one', 1 =>'three')
+// Now $b is array(0 => 'one', 1 =>'three')
+var_dump($b);
 ?>
 ]]>
     </programlisting>
-   </informalexample>
-  </note> 
+   </example>
+  </note>
 
   <para>
    &foreach; 控制结构是专门用于
    <type>array</type> 的。它提供了一个简单的方法来遍历 <type>array</type>。
   </para>
  </sect2>
- 
+
  <sect2 xml:id="language.types.array.donts">
   <title>数组做什么和不做什么</title>
 
@@ -709,7 +772,7 @@ echo $foo[bar];
 ]]>
     </programlisting>
    </informalexample>
-   
+
    <para>
     这样是错的，但可以正常运行。那么为什么错了呢？原因是此代码中有一个未定义的常量（
     <literal>bar</literal> ）而不是 <type>string</type>（<literal>'bar'</literal>－注意引号）。而
@@ -728,24 +791,26 @@ echo $foo[bar];
     </simpara>
    </warning>
 
-   <note>
-    <simpara>
-     这并不意味着<emphasis>总是</emphasis>给键名加上引号。用不着给键名为
-     <link linkend="language.constants">常量</link> 或
-     <link linkend="language.variables">变量</link> 的加上引号，否则会使 PHP
-     不能解析它们。
-    </simpara>
+   <simpara>
+    这并不意味着<emphasis>总是</emphasis>给键名加上引号。用不着给键名为
+    <link linkend="language.constants">常量</link> 或
+    <link linkend="language.variables">变量</link> 的加上引号，否则会使 PHP
+    不能解析它们。
+   </simpara>
 
-    <informalexample>
-     <programlisting role="php">
+   <example>
+    <title>Key Quoting</title>
+    <programlisting role="php">
 <![CDATA[
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('html_errors', false);
+
 // 简单数组:
 $array = array(1, 2);
 $count = count($array);
+
 for ($i = 0; $i < $count; $i++) {
     echo "\n检查 $i: \n";
     echo "坏的: " . $array['$i'] . "\n";
@@ -756,7 +821,7 @@ for ($i = 0; $i < $count; $i++) {
 ?>
 ]]>
      </programlisting>
-    </informalexample>
+    </example>
     &example.outputs;
     <screen>
 <![CDATA[
@@ -775,15 +840,15 @@ Notice: Undefined index:  $i in /path/to/script.html on line 9
 Notice: Undefined index:  $i in /path/to/script.html on line 11
 坏的:
 好的: 2
-]]>        
-    </screen>
-   </note>
+]]>
+   </screen>
 
    <para>
     演示此行为的更多例子：
    </para>
 
-   <informalexample>
+   <example>
+    <title>More Examples</title>
     <programlisting role="php">
 <![CDATA[
 <?php
@@ -792,41 +857,52 @@ error_reporting(E_ALL);
 
 $arr = array('fruit' => 'apple', 'veggie' => 'carrot');
 
-// 正确的
-print $arr['fruit'];  // apple
-print $arr['veggie']; // carrot
+// Correct
+echo $arr['fruit'], PHP_EOL;  // apple
+echo $arr['veggie'], PHP_EOL; // carrot
 
-// 不正确的。  这可以工作，但也会抛出一个 E_NOTICE 级别的 PHP 错误，因为
-// 未定义名为 apple 的常量
-// 
-// Notice: Use of undefined constant fruit - assumed 'fruit' in...
-print $arr[fruit];    // apple
+// Incorrect. This works but also throws a PHP Error because
+// of an undefined constant named fruit
+//
+// Error: Undefined constant "fruit"
+try {
+    echo $arr[fruit];    // apple
+} catch (Error $e) {
+    echo get_class($e), ': ', $e->getMessage(), PHP_EOL;
+}
 
-// 这定义了一个常量来演示正在发生的事情。  值 'veggie'
-// 被分配给一个名为 fruit 的常量。
+// This defines a constant to demonstrate what's going on.  The value 'veggie'
+// is assigned to a constant named fruit.
 define('fruit', 'veggie');
 
-// 注意这里的区别
-print $arr['fruit'];  // apple
-print $arr[fruit];    // carrot
+// Notice the difference now
+echo $arr['fruit'], PHP_EOL;  // apple
+echo $arr[fruit], PHP_EOL;    // carrot
 
-// 以下是可以的，因为它在字符串中。
-// 不会在字符串中查找常量，因此此处不会出现 E_NOTICE
-print "Hello $arr[fruit]";      // Hello apple
+// The following is okay, as it's inside a string. Constants are not looked for
+// within strings, so no E_NOTICE occurs here
+echo "Hello $arr[fruit]", PHP_EOL;      // Hello apple
 
-// 有一个例外：字符串中花括号围绕的数组中常量可以被解释
-//
-print "Hello {$arr[fruit]}";    // Hello carrot
-print "Hello {$arr['fruit']}";  // Hello apple
+// With one exception: braces surrounding arrays within strings allows constants
+// to be interpreted
+echo "Hello {$arr[fruit]}", PHP_EOL;    // Hello carrot
+echo "Hello {$arr['fruit']}", PHP_EOL;  // Hello apple
 
+// Concatenation is another option
+echo "Hello " . $arr['fruit'], PHP_EOL; // Hello apple
+?>
+]]>
+    </programlisting>
+   </example>
+
+   <informalexample>
+    <programlisting role="php">
+<![CDATA[
 // 这将不起作用，并会导致解析错误，例如：
 // Parse error: parse error, expecting T_STRING' or T_VARIABLE' or T_NUM_STRING'
 // 这当然也适用于在字符串中使用超全局变量
 print "Hello $arr['fruit']";
 print "Hello $_GET['foo']";
-
-// 串联是另一种选择
-print "Hello " . $arr['fruit']; // Hello apple
 ?>
 ]]>
     </programlisting>
@@ -855,7 +931,7 @@ echo $arr[somefunc($bar)];
 ]]>
     </programlisting>
    </informalexample>
-   
+
    <para>
     这是一个用函数返回值作为数组索引的例子。PHP 也可以用已知常量，可能之前已经见过：
    </para>
@@ -871,12 +947,12 @@ $error_descriptions[E_NOTICE]  = "This is just an informal notice";
 ]]>
     </programlisting>
    </informalexample>
-   
+
    <para>
     注意 <literal>E_ERROR</literal> 也是个合法的标识符，就和第一个例子中的
     <literal>bar</literal> 一样。但是上一个例子实际上和如下写法是一样的：
    </para>
-  
+
    <informalexample>
     <programlisting role="php">
 <![CDATA[
@@ -888,7 +964,7 @@ $error_descriptions[8] = "This is just an informal notice";
 ]]>
     </programlisting>
    </informalexample>
-   
+
    <para>
     因为 <literal>E_ERROR</literal> 等于 <literal>1</literal>，等等。
    </para>
@@ -919,15 +995,15 @@ $error_descriptions[8] = "This is just an informal notice";
 
  <sect2 xml:id="language.types.array.casting">
   <title>转换为数组</title>
-  
+
   <para>
    对于任意 <type>int</type>，<type>float</type>，
    <type>string</type>，<type>bool</type> 和 <type>resource</type> 类型，如果将一个值转换为
    <type>array</type>，将得到一个仅有一个元素的数组，其下标为
-   0，该元素即为此标量的值。换句话说，<literal>(array)$scalarValue</literal> 与
+   0，该元素即为此标量的值。换句话说，<code>(array) $scalarValue</code> 与
    <literal>array($scalarValue)</literal> 完全一样。
   </para>
-  
+
   <para>
    如果将 <type>object</type> 类型转换为
    <type>array</type>，则结果为一个数组，其单元为该对象的属性。键名将为成员变量名，不过有几点例外：整数属性不可访问；
@@ -935,7 +1011,8 @@ $error_descriptions[8] = "This is just an informal notice";
    未初始化的<link linkend="language.oop5.properties.typed-properties">类型属性</link>将会被丢弃。
   </para>
 
-  <informalexample>
+  <example>
+   <title>Converting to an Array</title>
    <programlisting role="php">
     <![CDATA[
 <?php
@@ -965,13 +1042,14 @@ array (
 )
 ]]>
    </screen>
-  </informalexample>
+  </example>
 
   <para>
    这些 <literal>NUL</literal> 会导致一些意想不到的行为：
   </para>
 
-  <informalexample>
+  <example>
+   <title>Casting an Object to an Array</title>
    <programlisting role="php">
 <![CDATA[
 <?php
@@ -1002,12 +1080,12 @@ array(3) {
 }
 ]]>
    </screen>
-  </informalexample>
+  </example>
 
   <para>
    上例会有两个键名为 'AA'，不过其中一个实际上是 '\0A\0A'。
   </para>
-  
+
   <para>
    将 &null; 转换为 <type>array</type> 会得到一个空的数组。
   </para>
@@ -1041,15 +1119,17 @@ array(3) {
 // 使用简短的数组语法。
 // 亦可用于 array() 语法
 $arr1 = [1, 2, 3];
-$arr2 = [...$arr1]; //[1, 2, 3]
-$arr3 = [0, ...$arr1]; //[0, 1, 2, 3]
-$arr4 = [...$arr1, ...$arr2, 111]; //[1, 2, 3, 1, 2, 3, 111]
-$arr5 = [...$arr1, ...$arr1]; //[1, 2, 3, 1, 2, 3]
+$arr2 = [...$arr1]; // [1, 2, 3]
+$arr3 = [0, ...$arr1]; // [0, 1, 2, 3]
+$arr4 = [...$arr1, ...$arr2, 111]; // [1, 2, 3, 1, 2, 3, 111]
+$arr5 = [...$arr1, ...$arr1]; // [1, 2, 3, 1, 2, 3]
 
 function getArr() {
   return ['a', 'b'];
 }
-$arr6 = [...getArr(), 'c' => 'd']; //['a', 'b', 'c' => 'd']
+$arr6 = [...getArr(), 'c' => 'd']; // ['a', 'b', 'c' => 'd']
+
+var_dump($arr1, $arr2, $arr3, $arr4, $arr5, $arr6);
 ?>
 ]]>
     </programlisting>
@@ -1122,7 +1202,8 @@ $arr6 = [...$arr4, ...$arr5]; // works. [1, 2, 3, 4, 5]
    PHP 中的数组类型有非常多的用途。以下是一些示例：
   </para>
 
-  <informalexample>
+  <example>
+   <title>Array Versatility</title>
    <programlisting role="php">
 <![CDATA[
 <?php
@@ -1135,6 +1216,8 @@ $a = array( 'color' => 'red',
           );
 
 $b = array('a', 'b', 'c');
+
+var_dump($a, $b);
 
 // . . .完全等同于:
 $a = array();
@@ -1150,13 +1233,13 @@ $b[] = 'b';
 $b[] = 'c';
 
 // 执行上述代码后，数组 $a 将是
-// array('color' => 'red', 'taste' => 'sweet', 'shape' => 'round', 
+// array('color' => 'red', 'taste' => 'sweet', 'shape' => 'round',
 // 'name' => 'apple', 0 => 4)， 数组 $b 将是
 // array(0 => 'a', 1 => 'b', 2 => 'c'), 或简单的 array('a', 'b', 'c').
 ?>
 ]]>
    </programlisting>
-  </informalexample>
+  </example>
 
   <example>
    <title>使用 array()</title>
@@ -1169,28 +1252,32 @@ $map = array( 'version'    => 4,
               'lang'       => 'english',
               'short_tags' => true
             );
-            
-// 严格的数字键
+var_dump($map);
+
+// strictly numerical keys
+// this is the same as array(0 => 7, 1 => 8, ...)
 $array = array( 7,
                 8,
                 0,
                 156,
                 -10
               );
-// 这相当于 array(0 => 7, 1 => 8, ...)
+var_dump($array);
 
 $switching = array(         10, // key = 0
                     5    =>  6,
-                    3    =>  7, 
+                    3    =>  7,
                     'a'  =>  4,
                             11, // key = 6 (整数索引的最大值为 5)
                     '8'  =>  2, // key = 8 (整数！)
                     '02' => 77, // key = '02'
                     0    => 12  // 值 10 被 12 覆盖
                   );
-                  
+var_dump($switching);
+
 // 空数组
-$empty = array();         
+$empty = array();
+var_dump($empty);
 ?>
 ]]>
 <!-- TODO example of
@@ -1225,7 +1312,7 @@ Do you like yellow?
 ]]>
    </screen>
   </example>
-  
+
   <para>
    可以通过引用传递 <type>array</type> 的值来直接更改数组的值。
   </para>
@@ -1235,8 +1322,10 @@ Do you like yellow?
    <programlisting role="php">
 <![CDATA[
 <?php
+$colors = array('red', 'blue', 'green', 'yellow');
+
 foreach ($colors as &$color) {
-    $color = strtoupper($color);
+    $color = mb_strtoupper($color);
 }
 unset($color); /* 确保后面对
 $color 的写入不会修改最后一个数组元素 */
@@ -1268,7 +1357,7 @@ Array
    <programlisting role="php">
 <![CDATA[
 <?php
-$firstquarter  = array(1 => 'January', 'February', 'March');
+$firstquarter = array(1 => 'January', 'February', 'March');
 print_r($firstquarter);
 ?>
 ]]>
@@ -1276,13 +1365,13 @@ print_r($firstquarter);
    &example.outputs;
    <screen>
 <![CDATA[
-Array 
+Array
 (
-    [1] => 'January'
-    [2] => 'February'
-    [3] => 'March'
+    [1] => January
+    [2] => February
+    [3] => March
 )
-]]>   
+]]>
    </screen>
   </example>
 
@@ -1296,7 +1385,9 @@ $handle = opendir('.');
 while (false !== ($file = readdir($handle))) {
     $files[] = $file;
 }
-closedir($handle); 
+closedir($handle);
+
+var_dump($files);
 ?>
 ]]>
    </programlisting>
@@ -1311,7 +1402,7 @@ closedir($handle);
 
   <example>
    <title>数组排序</title>
-   <programlisting role="php">
+   <programlisting role="php" annotations="non-interactive">
 <![CDATA[
 <?php
 sort($files);
@@ -1347,6 +1438,7 @@ $fruits = array ( "fruits"  => array ( "a" => "orange",
                                             "third"
                                      )
                 );
+var_dump($fruits);
 
 // 处理上面数组中的值的一些例子
 echo $fruits["holes"][5];    // 打印 "second"
@@ -1354,7 +1446,8 @@ echo $fruits["fruits"]["a"]; // 打印 "orange"
 unset($fruits["holes"][0]);  // 删除 "first"
 
 // 创建一个新的多维数组
-$juices["apple"]["green"] = "good"; 
+$juices["apple"]["green"] = "good";
+var_dump($juices);
 ?>
 ]]>
    </programlisting>
@@ -1366,7 +1459,8 @@ $juices["apple"]["green"] = "good";
    <type>array</type>。
   </para>
 
-  <informalexample>
+  <example>
+   <title>Array Copying</title>
    <programlisting role="php">
 <![CDATA[
 <?php
@@ -1374,13 +1468,15 @@ $arr1 = array(2, 3);
 $arr2 = $arr1;
 $arr2[] = 4; // $arr2 已更改，
              // $arr1 仍然是 array(2, 3)
-             
+
 $arr3 = &$arr1;
 $arr3[] = 4; // 现在 $arr1 和 $arr3 是一样的
+
+var_dump($arr1, $arr2, $arr3);
 ?>
 ]]>
    </programlisting>
-  </informalexample>
+  </example>
 
  </sect2>
 </sect1>

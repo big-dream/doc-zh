@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: d0532e45fb2b6766c7fc73c7ccfc30a9720f8888 Maintainer: HonestQiao Status: ready -->
-<!-- CREDITS: mowangjuanzi -->
+<!-- EN-Revision: f8d1e172bd6d11986f0dfeb11756b90c039a39bc Maintainer: HonestQiao Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
 <refentry xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" xml:id="function.getimagesize">
  <refnamediv>
   <refname>getimagesize</refname>
@@ -98,8 +98,15 @@
     可能无法正确确定图像大小。<function>getimagesize</function> 此时会返回的宽高为 0。
    </para>
   </note>
+  <note>
+   <simpara>
+    <function>getimagesize</function> 是独立于任何图像元数据的。
+    例如，如果 Exif <literal>Orientation</literal> 标志设置为将图像旋转 90 或 270 度的值，
+    索引 0 和 1 被交换，即包含高度和宽度。
+   </simpara>
+  </note>
   <para>
-   索引 2 是表示图像类型的某个 <link linkend="image.constants">IMAGETYPE_XXX 常量</link>。
+   索引 2 是表示图像类型的某个 <constant>IMAGETYPE_<replaceable>*</replaceable></constant> 常量。
   </para>
   <para>
    Index 3 is a text string with the correct 

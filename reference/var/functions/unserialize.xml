@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: ce3a2d381693ccbc10cc4a808c3eb853f3c85c9e Maintainer: HonestQiao Status: ready -->
-<!-- CREDITS: mowangjuanzi -->
+<!-- EN-Revision: d816a0fad6c458d9515f697cc89e26ca9d8069f5 Maintainer: HonestQiao Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
 <refentry xml:id="function.unserialize" xmlns="http://docbook.org/ns/docbook">
  <refnamediv>
   <refname>unserialize</refname>
@@ -9,7 +9,7 @@
    从已存储的表示中创建 PHP 的值
   </refpurpose>
  </refnamediv>
- 
+
  <refsect1 role="description">
   &reftitle.description;
   <methodsynopsis>
@@ -51,11 +51,13 @@
       </para>
       <para>
        <note>
-        <title>unserialize_callback_func 指令</title>
+        <title>
+         <link linkend="ini.unserialize-callback-func">unserialize_callback_func</link>
+          指令
+        </title>
         <para>
-         如果在反序列化时需要实例化未定义类，则可以设置回调函数以供调用（以免得到的是不完整的 <type>object</type> 
-         “__PHP_Incomplete_Class”）。可通过 &php.ini;、<function>ini_set</function> 或 &htaccess; 定义 <link
-         linkend="ini.unserialize-callback-func">unserialize_callback_func</link>。每次实例化未定义类时它都会被调用。若要禁止这个特性，只需置空此设定。
+         在反序列化未定义类时会调用 <link linkend="ini.unserialize-callback-func">unserialize_callback_func</link>
+         指令中指定的回调。如果没有指定回调，将对象实例化为 <classname>__PHP_Incomplete_Class</classname>。
         </para>
        </note>
       </para>
@@ -80,7 +82,7 @@
         <tbody>
          <row>
           <entry><literal>allowed_classes</literal></entry>
-          <entry><type>mixed</type></entry>
+          <entry><type class="union"><type>array</type><type>bool</type></type></entry>
           <entry>
            <simpara>
             应该接受的类名数组，&false; 表示不接受任何类，或者 &true; 表示接受所有类。如果定义此选项且
@@ -118,15 +120,20 @@
    或 <type>object</type>。
   </para>
   <para>
-   如果传递的字符串不可反序列化，则返回 &false;，并产生 <constant>E_NOTICE</constant>。
+   如果传递的字符串不可反序列化，则返回 &false;，并产生 <constant>E_WARNING</constant>。
   </para>
  </refsect1>
 
  <refsect1 role="errors">
   &reftitle.errors;
-  <para>
+  <simpara>
    对象可能会在反序列化处理程序中抛出 <classname>Throwable</classname>。
-  </para>
+  </simpara>
+  <simpara>
+   自 PHP 8.4.0 起，如果 <parameter>options</parameter> 的 <literal>allowed_classes</literal>
+   元素不是类名 <type>array</type>，则 <function>unserialize</function> 会抛出 <exceptionname>TypeError</exceptionname>
+   和 <exceptionname>ValueError</exceptionname>。
+  </simpara>
  </refsect1>
 
  <refsect1 role="changelog">
@@ -141,6 +148,33 @@
       </row>
      </thead>
      <tbody>
+      <row>
+       <entry>8.4.0</entry>
+       <entry>
+        如果 <parameter>options</parameter> 的 <literal>allowed_classes</literal>
+        元素不是类名 <type>array</type>，现在会抛出 <exceptionname>TypeError</exceptionname>
+        和 <exceptionname>ValueError</exceptionname>。
+       </entry>
+      </row>
+      <row>
+       <entry>8.3.0</entry>
+       <entry>
+        当输入字符串有未使用的数据时，现在会发出 <constant>E_WARNING</constant>。
+       </entry>
+      </row>
+      <row>
+       <entry>8.3.0</entry>
+       <entry>
+        当传递的字符串有未消耗的数据时，现在会发出 <constant>E_WARNING</constant>。
+       </entry>
+      </row>
+      <row>
+       <entry>8.3.0</entry>
+       <entry>
+        当传递的字符串不可序列化时，现在抛出 <constant>E_WARNING</constant>；
+        之前是抛出 <classname>E_NOTICE</classname>。
+       </entry>
+      </row>
       <row>
        <entry>7.4.0</entry>
        <entry>
@@ -165,8 +199,8 @@
   &reftitle.examples;
   <para>
    <example>
-    <title><function>unserialize</function> 例子</title>
-    <programlisting role="php">
+    <title><function>unserialize</function> 示例</title>
+    <programlisting role="php" annotations="non-interactive">
 <![CDATA[
 <?php
 // 这里，我们使用 unserialize() 装载来自数据库的 $session_data 数组中的会话数据。
@@ -193,18 +227,22 @@ if (!odbc_execute($stmt, $sqldata) || !odbc_fetch_into($stmt, $tmp)) {
   </para>
   <para>
    <example>
-    <title>unserialize_callback_func 例子</title>
+    <title>unserialize_callback_func 示例</title>
     <programlisting role="php">
 <![CDATA[
 <?php
 $serialized_object='O:1:"a":1:{s:5:"value";s:3:"100";}';
 
-ini_set('unserialize_callback_func', 'mycallback'); // 设置您的回调函数
+ini_set('unserialize_callback_func', 'mycallback'); // 设置回调函数
 
-function mycallback($classname) 
+function mycallback($classname)
 {
    // 只需包含含有类定义的文件
    // $classname 指出需要的是哪一个类
+   var_dump($classname);
+}
+
+unserialize($serialized_object);
 }
 ?>
 ]]>

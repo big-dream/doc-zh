@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: ccc438a27bae31d71fe2ca7dc095360db5bc1af6 Maintainer: nio Status: ready -->
-<!-- CREDITS: mowangjuanzi -->
+<!-- EN-Revision: d816a0fad6c458d9515f697cc89e26ca9d8069f5 Maintainer: nio Status: ready -->
+<!-- CREDITS: mowangjuanzi, Luffy -->
 <refentry xml:id="function.print-r" xmlns="http://docbook.org/ns/docbook">
  <refnamediv>
   <refname>print_r</refname>
@@ -13,7 +13,7 @@
  <refsect1 role="description">
   &reftitle.description;
   <methodsynopsis>
-   <type class="union"><type>string</type><type>bool</type></type><methodname>print_r</methodname>
+   <type class="union"><type>string</type><type>true</type></type><methodname>print_r</methodname>
    <methodparam><type>mixed</type><parameter>value</parameter></methodparam>
    <methodparam choice="opt"><type>bool</type><parameter>return</parameter><initializer>&false;</initializer></methodparam>
   </methodsynopsis>
@@ -62,17 +62,41 @@
   </para>
  </refsect1>
 
+ <refsect1 role="changelog">
+  &reftitle.changelog;
+  <para>
+   <informaltable>
+    <tgroup cols="2">
+     <thead>
+      <row>
+       <entry>&Version;</entry>
+       <entry>&Description;</entry>
+      </row>
+     </thead>
+     <tbody>
+      <row>
+       <entry>8.4.0</entry>
+       <entry>
+        返回类型从 <type class="union"><type>string</type><type>bool</type></type> 变为 <type class="union"><type>string</type><type>true</type></type>。
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </informaltable>
+  </para>
+ </refsect1>
+
  <refsect1 role="examples">
   &reftitle.examples;
   <para>
    <example>
-    <title><function>print_r</function> 例子</title>
+    <title><function>print_r</function> 示例</title>
     <programlisting role="php">
 <![CDATA[
 <pre>
 <?php
 $a = array ('a' => 'apple', 'b' => 'banana', 'c' => array ('x', 'y', 'z'));
-print_r ($a);
+print_r($a);
 ?>
 </pre>
 ]]>
@@ -105,6 +129,8 @@ Array
 <?php
 $b = array ('m' => 'monkey', 'foo' => 'bar', 'x' => array ('x', 'y', 'z'));
 $results = print_r($b, true); // $results 包含了 print_r 的输出
+
+print_r($results);
 ?>
 ]]>
     </programlisting>

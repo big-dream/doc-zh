@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Revision$ -->
-<!-- EN-Revision: 5bc8ebe3c1e0bb133e058f1b8eb34a721149e893 Maintainer: Carbyn Wu Status: ready -->
+<!-- EN-Revision: 42402941bba0208a919e03e1320ca4732330eafa Maintainer: Carbyn Wu Status: ready -->
 <!-- CREDITS: her-cat, Luffy, mowangjuanzi -->
 <appendix xml:id="sockets.constants" xmlns="http://docbook.org/ns/docbook">
  &reftitle.constants;
@@ -13,7 +13,7 @@
    </term>
    <listitem>
     <simpara>
-     
+     Unix 域文件系统路径名的套接字地址族。
     </simpara>
    </listitem>
   </varlistentry>
@@ -24,7 +24,7 @@
    </term>
    <listitem>
     <simpara>
-     
+     Internet 域的 IPv4 套接字地址族。
     </simpara>
    </listitem>
   </varlistentry>
@@ -35,7 +35,18 @@
    </term>
    <listitem>
     <simpara>
-     只有在编译时加入 IPv6 支持的时候才有效。
+     Internet 域的 IPv6 套接字地址族。仅在编译时启用 IPv6 支持时可用。
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.af-divert">
+   <term>
+    <constant>AF_DIVERT</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 FreeBSD）
     </simpara>
    </listitem>
   </varlistentry>
@@ -46,7 +57,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -57,7 +68,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -68,7 +79,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -79,7 +90,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -90,7 +101,51 @@
    </term>
    <listitem>
     <simpara>
-     
+
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.sock-conn-dgram">
+   <term>
+    <constant>SOCK_CONN_DGRAM</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     设置套接字为面向连接的数据报。自 PHP 8.4.0 起可用。（仅 NetBSD）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.sock-dccp">
+   <term>
+    <constant>SOCK_DCCP</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     设置套接字为数据报拥塞控制协议。自 PHP 8.4.0 起可用。（仅 NetBSD）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.sock-nonblock">
+   <term>
+    <constant>SOCK_NONBLOCK</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     设置套接字的非阻塞状态 flag。自 PHP 8.4.0 起可用。
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.sock-cloexec">
+   <term>
+    <constant>SOCK_CLOEXEC</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     设置套接字的执行时关闭（close-on-exec）状态 flag。自 PHP 8.4.0 起可用。
     </simpara>
    </listitem>
   </varlistentry>
@@ -101,7 +156,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -112,7 +167,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -123,7 +178,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -134,7 +189,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -145,7 +200,7 @@
    </term>
    <listitem>
     <simpara>
-     在 Windows 平台上无效。
+     在 Windows 平台上无效
     </simpara>
    </listitem>
   </varlistentry>
@@ -156,7 +211,7 @@
    </term>
    <listitem>
     <simpara>
-     在 Windows 平台上无效。
+     在 Windows 平台上无效
     </simpara>
    </listitem>
   </varlistentry>
@@ -167,7 +222,7 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
@@ -178,7 +233,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -189,7 +244,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -212,7 +267,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -223,7 +278,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -234,7 +289,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -245,7 +300,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -256,7 +311,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -267,7 +322,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -278,7 +333,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -289,7 +344,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -300,7 +355,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -311,7 +366,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -322,7 +377,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -333,7 +388,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -344,7 +399,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -355,7 +410,7 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
@@ -377,7 +432,7 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
@@ -388,7 +443,7 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
@@ -399,7 +454,7 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
@@ -410,18 +465,18 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.tcp-nosentlowat">
+  <varlistentry xml:id="constant.tcp-notsent-lowat">
    <term>
     <constant>TCP_NOTSENT_LOWAT</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
@@ -432,7 +487,7 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.1.0 开始可用。
+     自 PHP 8.1.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
@@ -443,7 +498,7 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.1.0 开始可用。
+     自 PHP 8.1.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
@@ -454,7 +509,7 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     从 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
@@ -465,7 +520,7 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.1.0 开始可用。
+     自 PHP 8.1.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
@@ -476,7 +531,7 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.1.0 开始可用。
+     自 PHP 8.1.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
@@ -487,18 +542,18 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.1.0 开始可用。
+     自 PHP 8.1.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.so-incomingcpu">
+  <varlistentry xml:id="constant.so-incoming-cpu">
    <term>
     <constant>SO_INCOMING_CPU</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
@@ -509,18 +564,18 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.so-bpfextensions">
+  <varlistentry xml:id="constant.so-bpf-extensions">
    <term>
     <constant>SO_BPF_EXTENSIONS</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
@@ -531,7 +586,84 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-attach-reuseport-cbpf">
+   <term>
+    <constant>SO_ATTACH_REUSEPORT_CBPF</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 Linux）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-detach-bpf">
+   <term>
+    <constant>SO_DETACH_BPF</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 Linux）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-detach-filter">
+   <term>
+    <constant>SO_DETACH_FILTER</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 Linux）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-rerror">
+   <term>
+    <constant>SO_RERROR</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 NetBSD）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-zeroize">
+   <term>
+    <constant>SO_ZEROIZE</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 OpenBSD）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-splice">
+   <term>
+    <constant>SO_SPLICE</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 OpenBSD）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-reuseport-lb">
+   <term>
+    <constant>SO_REUSEPORT_LB</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 FreeBSD）
     </simpara>
    </listitem>
   </varlistentry>
@@ -542,7 +674,40 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.sol-udplite">
+   <term>
+    <constant>SOL_UDPLITE</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.udplite-recv-cscov">
+   <term>
+    <constant>UDPLITE_RECV_CSCOV</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.udplite-send-cscov">
+   <term>
+    <constant>UDPLITE_SEND_CSCOV</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
@@ -553,7 +718,7 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.1.0 开始可用。
+     自 PHP 8.1.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
@@ -564,7 +729,139 @@
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.tcp-quickack">
+   <term>
+    <constant>TCP_QUICKACK</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 Linux）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.tcp-repair">
+   <term>
+    <constant>TCP_REPAIR</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 Linux）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.tcp-syncnt">
+   <term>
+    <constant>TCP_SYNCNT</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     设置 TCP 在中止连接尝试之前应发送的 SYN 重新传输次数。自 PHP 8.4.0 起可用（仅 Linux）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-dontfrag">
+   <term>
+    <constant>IP_DONTFRAG</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 FreeBSD）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-mtu-discover">
+   <term>
+    <constant>IP_MTU_DISCOVER</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 Linux）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-pmtudisc-do">
+   <term>
+    <constant>IP_PMTUDISC_DO</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 Linux）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-pmtudisc-dont">
+   <term>
+    <constant>IP_PMTUDISC_DONT</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 Linux）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-pmtudisc-want">
+   <term>
+    <constant>IP_PMTUDISC_WANT</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 Linux）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-pmtudisc-probe">
+   <term>
+    <constant>IP_PMTUDISC_PROBE</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 Linux）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-pmtudisc-interface">
+   <term>
+    <constant>IP_PMTUDISC_INTERFACE</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 Linux）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-pmtudisc-omit">
+   <term>
+    <constant>IP_PMTUDISC_OMIT</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 Linux）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-bind-address-no-port">
+   <term>
+    <constant>IP_BIND_ADDRESS_NO_PORT</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     自 PHP 8.3.0 起可用（仅 Linux）
     </simpara>
    </listitem>
   </varlistentry>
@@ -575,7 +872,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -586,7 +883,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -597,7 +894,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -608,7 +905,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -619,14 +916,14 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
  </variablelist>
 
  <simpara>
-  以下常量在 Windows 和类 UNIX 平台上被定义。每个常量只有在平台上有该常量值的时候才会被定义。
+  以下常量在 Windows 和类 UNIX 平台下定义。每个常量仅在其平台上可用时定义。
  </simpara>
 
  <variablelist>
@@ -1038,19 +1335,19 @@
    </listitem>
   </varlistentry>
  </variablelist>
- 
+
  <simpara>
   以下常量只能在 Windows 中定义。
  </simpara>
 
  <variablelist>
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
   <varlistentry xml:id="constant.socket-enoprotoopt">
    <term>
     <constant>SOCKET_ENOPROTOOPT</constant>
@@ -1058,15 +1355,15 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
-  
-  
-  
-  
-  
+
+
+
+
+
   <varlistentry xml:id="constant.socket-eaddrinuse">
    <term>
     <constant>SOCKET_EADDRINUSE</constant>
@@ -1074,20 +1371,20 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
+
   <varlistentry xml:id="constant.socket-etoomyrefs">
    <term>
     <constant>SOCKET_ETOOMYREFS</constant>
@@ -1095,17 +1392,17 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
   <varlistentry xml:id="constant.socket-eproclim">
    <term>
     <constant>SOCKET_EPROCLIM</constant>
@@ -1113,11 +1410,11 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
-  
+
   <varlistentry xml:id="constant.socket-eduot">
    <term>
     <constant>SOCKET_EDUOT</constant>
@@ -1125,7 +1422,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -1136,11 +1433,11 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
-  
+
   <varlistentry xml:id="constant.socket-ediscon">
    <term>
     <constant>SOCKET_EDISCON</constant>
@@ -1148,7 +1445,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -1159,7 +1456,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -1170,7 +1467,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -1181,7 +1478,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -1192,7 +1489,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -1203,7 +1500,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -1214,7 +1511,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -1225,7 +1522,7 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
@@ -1236,14 +1533,14 @@
    </term>
    <listitem>
     <simpara>
-     
+
     </simpara>
    </listitem>
   </varlistentry>
  </variablelist>
 
  <simpara>
-  以下常量仅适用于类 UNIX。每个常量只有在该平台上此值可用时被定义。
+  以下常量仅在类 UNIX 平台上可用。每个常量仅在其平台上可用时定义。
  </simpara>
 
  <variablelist>
@@ -1478,7 +1775,7 @@
     </simpara>
    </listitem>
   </varlistentry>
-  
+
   <varlistentry xml:id="constant.socket-enolck">
    <term>
     <constant>SOCKET_ENOLCK</constant>
@@ -1501,9 +1798,9 @@
     </simpara>
    </listitem>
   </varlistentry>
-  
-  
-  
+
+
+
   <varlistentry xml:id="constant.socket-enomsg">
    <term>
     <constant>SOCKET_ENOMSG</constant>
@@ -1522,7 +1819,7 @@
    </term>
    <listitem>
     <simpara>
-     标识符被删除。
+     标识符已删除。
     </simpara>
    </listitem>
   </varlistentry>
@@ -1588,7 +1885,7 @@
    </term>
    <listitem>
     <simpara>
-     协议驱动没有安装。
+     协议驱动没有安装（attached）。
     </simpara>
    </listitem>
   </varlistentry>
@@ -1654,7 +1951,7 @@
    </term>
    <listitem>
     <simpara>
-     无阳极。
+     无阳极（anode）。
     </simpara>
    </listitem>
   </varlistentry>
@@ -1735,7 +2032,7 @@
     </simpara>
    </listitem>
   </varlistentry>
-  
+
   <varlistentry xml:id="constant.socket-enolink">
    <term>
     <constant>SOCKET_ENOLINK</constant>
@@ -1809,7 +2106,7 @@
    </term>
    <listitem>
     <simpara>
-     不是一个数据消息。
+     不是数据消息。
     </simpara>
    </listitem>
   </varlistentry>
@@ -1868,11 +2165,11 @@
     </simpara>
    </listitem>
   </varlistentry>
-  
-  
-  
-  
-  
+
+
+
+
+
   <varlistentry xml:id="constant.socket-eprotoopt">
    <term>
     <constant>SOCKET_EPROTOOPT</constant>
@@ -1884,11 +2181,11 @@
     </simpara>
    </listitem>
   </varlistentry>
-  
-  
-  
-  
-  
+
+
+
+
+
   <varlistentry xml:id="constant.socket-addrinuse">
    <term>
     <constant>SOCKET_ADDRINUSE</constant>
@@ -1900,16 +2197,16 @@
     </simpara>
    </listitem>
   </varlistentry>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
+
   <varlistentry xml:id="constant.socket-etoomanyrefs">
    <term>
     <constant>SOCKET_ETOOMANYREFS</constant>
@@ -1921,12 +2218,12 @@
     </simpara>
    </listitem>
   </varlistentry>
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
   <varlistentry xml:id="constant.socket-eisnam">
    <term>
     <constant>SOCKET_EISNAM</constant>
@@ -1934,7 +2231,7 @@
    </term>
    <listitem>
     <simpara>
-     是一个已命名类型的文件。
+     是已命名类型的文件。
     </simpara>
    </listitem>
   </varlistentry>
@@ -1982,7 +2279,7 @@
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-scmrights">
+  <varlistentry xml:id="constant.scm-rights">
    <term>
     <constant>SCM_RIGHTS</constant>
     (<type>int</type>)
@@ -1993,7 +2290,7 @@
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-credentials">
+  <varlistentry xml:id="constant.scm-credentials">
    <term>
     <constant>SCM_CREDENTIALS</constant>
     (<type>int</type>)
@@ -2004,245 +2301,855 @@
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-creds">
+  <varlistentry xml:id="constant.scm-creds">
    <term>
     <constant>SCM_CREDS</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-creds2">
+  <varlistentry xml:id="constant.scm-creds2">
    <term>
     <constant>SCM_CREDS2</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-localcreds">
+  <varlistentry xml:id="constant.local-creds">
    <term>
     <constant>LOCAL_CREDS</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-localcredspersistent">
+  <varlistentry xml:id="constant.local-creds-persistent">
    <term>
     <constant>LOCAL_CREDS_PERSISTENT</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadoff">
+  <varlistentry xml:id="constant.skf-ad-off">
    <term>
     <constant>SKF_AD_OFF</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadprotocol">
+  <varlistentry xml:id="constant.skf-ad-protocol">
    <term>
     <constant>SKF_AD_PROTOCOL</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadpkttype">
+  <varlistentry xml:id="constant.skf-ad-pkttype">
    <term>
     <constant>SKF_AD_PKTTYPE</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadifindex">
+  <varlistentry xml:id="constant.skf-ad-ifindex">
    <term>
     <constant>SKF_AD_IFINDEX</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadnlattr">
+  <varlistentry xml:id="constant.skf-ad-nlattr">
    <term>
     <constant>SKF_AD_NLATTR</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadnlattrnest">
+  <varlistentry xml:id="constant.skf-ad-nlattr-nest">
    <term>
     <constant>SKF_AD_NLATTR_NEST</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadmark">
+  <varlistentry xml:id="constant.skf-ad-mark">
    <term>
     <constant>SKF_AD_MARK</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadqueue">
+  <varlistentry xml:id="constant.skf-ad-queue">
    <term>
     <constant>SKF_AD_QUEUE</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadhatype">
+  <varlistentry xml:id="constant.skf-ad-hatype">
    <term>
     <constant>SKF_AD_HATYPE</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadrxhash">
+  <varlistentry xml:id="constant.skf-ad-rxhash">
    <term>
     <constant>SKF_AD_RXHASH</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadcpu">
+  <varlistentry xml:id="constant.skf-ad-cpu">
    <term>
     <constant>SKF_AD_CPU</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadaluxorx">
+  <varlistentry xml:id="constant.skf-ad-alu-xor-x">
    <term>
     <constant>SKF_AD_ALU_XOR_X</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadvlantag">
+  <varlistentry xml:id="constant.skf-ad-vlan-tag">
    <term>
     <constant>SKF_AD_VLAN_TAG</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadvlantagpresent">
+  <varlistentry xml:id="constant.skf-ad-vlan-tag-present">
    <term>
     <constant>SKF_AD_VLAN_TAG_PRESENT</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadpayoffset">
+  <varlistentry xml:id="constant.skf-ad-pay-offset">
    <term>
     <constant>SKF_AD_PAY_OFFSET</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadrandom">
+  <varlistentry xml:id="constant.skf-ad-random">
    <term>
     <constant>SKF_AD_RANDOM</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadvlantpid">
+  <varlistentry xml:id="constant.skf-ad-vlan-tpid">
    <term>
     <constant>SKF_AD_VLAN_TPID</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
     </simpara>
    </listitem>
   </varlistentry>
-  <varlistentry xml:id="constant.socket-skfadmax">
+  <varlistentry xml:id="constant.skf-ad-max">
    <term>
     <constant>SKF_AD_MAX</constant>
     (<type>int</type>)
    </term>
    <listitem>
     <simpara>
-     从 PHP 8.2.0 起可用。
+     自 PHP 8.2.0 起可用
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ai-addrconfig">
+   <term>
+    <constant>AI_ADDRCONFIG</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ai-all">
+   <term>
+    <constant>AI_ALL</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ai-canonidn">
+   <term>
+    <constant>AI_CANONIDN</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ai-canonname">
+   <term>
+    <constant>AI_CANONNAME</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ai-idn">
+   <term>
+    <constant>AI_IDN</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ai-numerichost">
+   <term>
+    <constant>AI_NUMERICHOST</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ai-numericserv">
+   <term>
+    <constant>AI_NUMERICSERV</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ai-passive">
+   <term>
+    <constant>AI_PASSIVE</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ai-v4mapped">
+   <term>
+    <constant>AI_V4MAPPED</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.fil-attach">
+   <term>
+    <constant>FIL_ATTACH</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.fil-detach">
+   <term>
+    <constant>FIL_DETACH</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ipproto-ip">
+   <term>
+    <constant>IPPROTO_IP</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ipproto-ipv6">
+   <term>
+    <constant>IPPROTO_IPV6</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ipv6-hoplimit">
+   <term>
+    <constant>IPV6_HOPLIMIT</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ipv6-multicast-hops">
+   <term>
+    <constant>IPV6_MULTICAST_HOPS</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ipv6-multicast-if">
+   <term>
+    <constant>IPV6_MULTICAST_IF</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ipv6-multicast-loop">
+   <term>
+    <constant>IPV6_MULTICAST_LOOP</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ipv6-pktinfo">
+   <term>
+    <constant>IPV6_PKTINFO</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ipv6-recvhoplimit">
+   <term>
+    <constant>IPV6_RECVHOPLIMIT</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ipv6-recvpktinfo">
+   <term>
+    <constant>IPV6_RECVPKTINFO</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ipv6-recvtclass">
+   <term>
+    <constant>IPV6_RECVTCLASS</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ipv6-tclass">
+   <term>
+    <constant>IPV6_TCLASS</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ipv6-unicast-hops">
+   <term>
+    <constant>IPV6_UNICAST_HOPS</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ipv6-v6only">
+   <term>
+    <constant>IPV6_V6ONLY</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-multicast-if">
+   <term>
+    <constant>IP_MULTICAST_IF</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-multicast-loop">
+   <term>
+    <constant>IP_MULTICAST_LOOP</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-multicast-ttl">
+   <term>
+    <constant>IP_MULTICAST_TTL</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-portrange">
+   <term>
+    <constant>IP_PORTRANGE</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     设置用于选择本地端口号的端口范围。自 PHP 8.4.0 起可用。（仅 FreeBSD/NetBSD/OpenBSD）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-portrange-default">
+   <term>
+    <constant>IP_PORTRANGE_DEFAULT</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     使用默认端口值范围。自 PHP 8.4.0 起可用。（仅 FreeBSD/NetBSD/OpenBSD）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-portrange-high">
+   <term>
+    <constant>IP_PORTRANGE_HIGH</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     使用高范围的端口值。自 PHP 8.4.0 起可用。（仅 FreeBSD/NetBSD/OpenBSD）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.ip-portrange-low">
+   <term>
+    <constant>IP_PORTRANGE_LOW</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     使用低范围的端口值。自 PHP 8.4.0 起可用。（仅 FreeBSD/NetBSD/OpenBSD）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.mcast-block-source">
+   <term>
+    <constant>MCAST_BLOCK_SOURCE</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.mcast-join-group">
+   <term>
+    <constant>MCAST_JOIN_GROUP</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.mcast-join-source-group">
+   <term>
+    <constant>MCAST_JOIN_SOURCE_GROUP</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.mcast-leave-group">
+   <term>
+    <constant>MCAST_LEAVE_GROUP</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.mcast-leave-source-group">
+   <term>
+    <constant>MCAST_LEAVE_SOURCE_GROUP</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.mcast-unblock-source">
+   <term>
+    <constant>MCAST_UNBLOCK_SOURCE</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.msg-cmsg-cloexec">
+   <term>
+    <constant>MSG_CMSG_CLOEXEC</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.msg-confirm">
+   <term>
+    <constant>MSG_CONFIRM</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.msg-ctrunc">
+   <term>
+    <constant>MSG_CTRUNC</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.msg-dontwait">
+   <term>
+    <constant>MSG_DONTWAIT</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.msg-errqueue">
+   <term>
+    <constant>MSG_ERRQUEUE</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.msg-more">
+   <term>
+    <constant>MSG_MORE</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.msg-nosignal">
+   <term>
+    <constant>MSG_NOSIGNAL</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.msg-trunc">
+   <term>
+    <constant>MSG_TRUNC</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.msg-waitforone">
+   <term>
+    <constant>MSG_WAITFORONE</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.sol-local">
+   <term>
+    <constant>SOL_LOCAL</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.somaxconn">
+   <term>
+    <constant>SOMAXCONN</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-bindtodevice">
+   <term>
+    <constant>SO_BINDTODEVICE</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-family">
+   <term>
+    <constant>SO_FAMILY</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-label">
+   <term>
+    <constant>SO_LABEL</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-listenqlen">
+   <term>
+    <constant>SO_LISTENQLEN</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-listenqlimit">
+   <term>
+    <constant>SO_LISTENQLIMIT</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-passcred">
+   <term>
+    <constant>SO_PASSCRED</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-peerlabel">
+   <term>
+    <constant>SO_PEERLABEL</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-exclusiveaddruse">
+   <term>
+    <constant>SO_EXCLUSIVEADDRUSE</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     防止其他套接字强制绑定到相同的地址和端口。自 PHP 8.4.0 起可用。（仅 Windows）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-exclbind">
+   <term>
+    <constant>SO_EXCLBIND</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     启用/禁用套接字的独占绑定。自 PHP 8.4.0 起可用。（仅 Solaris）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-nosigpipe">
+   <term>
+    <constant>SO_NOSIGPIPE</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     控制套接字的 SIGPIPE 信号生成。自 PHP 8.4.0 起可用。（仅 MacOs 和 FreeBSD）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-linger-sec">
+   <term>
+    <constant>SO_LINGER_SEC</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     与 <constant>SO_LINGER</constant> 类似，但停留时间以秒为单位，而不是 MacOs
+     上的点击时间（time clicks）。自 PHP 8.4.0 起可用。（仅 MacOs）
+    </simpara>
+   </listitem>
+  </varlistentry>
+  <varlistentry xml:id="constant.so-bindtoifindex">
+   <term>
+    <constant>SO_BINDTOIFINDEX</constant>
+    (<type>int</type>)
+   </term>
+   <listitem>
+    <simpara>
+     通过索引将套接字绑定到特定网络接口。自 PHP 8.4.0 起可用。
     </simpara>
    </listitem>
   </varlistentry>
